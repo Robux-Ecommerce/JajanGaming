@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Rating JavaScript</title>
+    <meta name="csrf-token" content="test-token">
+    <script>
+        // Test JavaScript rating functionality
+        console.log('Testing Rating JavaScript...');
+        
+        // Test CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+        console.log('CSRF Token element:', csrfToken);
+        console.log('CSRF Token value:', csrfToken ? csrfToken.getAttribute('content') : 'NOT FOUND');
+        
+        // Test rating object
+        const ratings = {};
+        console.log('Initial ratings object:', ratings);
+        
+        // Test star click simulation
+        function simulateStarClick(productId, rating) {
+            console.log(`Simulating star click: Product ${productId}, Rating ${rating}`);
+            ratings[productId] = rating;
+            console.log('Updated ratings:', ratings);
+        }
+        
+        // Test form data creation
+        function testFormData() {
+            const formData = new FormData();
+            formData.append('order_id', '1');
+            
+            Object.keys(ratings).forEach(productId => {
+                formData.append(`rating_${productId}`, ratings[productId]);
+                console.log(`Added rating for product ${productId}: ${ratings[productId]}`);
+            });
+            
+            console.log('FormData entries:');
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+            
+            return formData;
+        }
+        
+        // Test fetch request
+        function testFetchRequest() {
+            const formData = testFormData();
+            
+            const requestOptions = {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            };
+            
+            console.log('Request options:', requestOptions);
+            
+            // Note: This will fail because we're not on the actual server
+            // But we can test the request structure
+            console.log('Fetch URL would be: /ratings');
+            console.log('Request would be sent with proper headers');
+        }
+        
+        // Run tests
+        console.log('=== Running JavaScript Tests ===');
+        
+        // Test 1: CSRF Token
+        console.log('Test 1: CSRF Token');
+        console.log('CSRF Token found:', !!csrfToken);
+        
+        // Test 2: Rating Object
+        console.log('Test 2: Rating Object');
+        simulateStarClick(2, 4);
+        simulateStarClick(3, 5);
+        
+        // Test 3: Form Data
+        console.log('Test 3: Form Data');
+        testFormData();
+        
+        // Test 4: Fetch Request
+        console.log('Test 4: Fetch Request');
+        testFetchRequest();
+        
+        console.log('=== JavaScript Tests Complete ===');
+    </script>
+</head>
+<body>
+    <h1>Rating JavaScript Test</h1>
+    <p>Check browser console for test results</p>
+</body>
+</html>
+
+
+
+
+
+
