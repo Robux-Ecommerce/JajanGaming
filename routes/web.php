@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
@@ -17,7 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/browse', [BrowseController::class, 'index'])->name('browse');
 Route::get('/product/{product}', [HomeController::class, 'showProduct'])->name('product.show');
+Route::get('/products/{product}', [HomeController::class, 'showProduct'])->name('products.show');
 
 // Seller Profile routes (public)
 Route::get('/sellers', [SellerProfileController::class, 'index'])->name('sellers.index');

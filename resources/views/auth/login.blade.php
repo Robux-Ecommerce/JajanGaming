@@ -4,89 +4,103 @@
 
 @section('content')
 <style>
-    .auth-container {
-        min-height: 100vh;
-        position: relative; /* allow normal document flow & scrolling */
-        overflow: visible;
+    body {
+        overflow-x: hidden;
     }
 
-    /* Full-page background layer behind header/content */
-    .auth-container::before {
-        content: '';
-        position: fixed;
-        inset: 0; /* top:0; right:0; bottom:0; left:0 */
-        background: linear-gradient(135deg, #0d6efd 0%, #20c997 100%);
-        z-index: -1; /* behind everything incl. header */
-    }
-
-    .auth-container::after {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: url('{{ asset("img/roblox.jpg") }}') center/cover;
-        opacity: 0.1;
-        z-index: -1;
-    }
-
-    .floating-shapes {
-        position: absolute;
+    .auth-split-container {
+        display: flex;
+        min-height: 85vh;
         width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: 1;
-    }
-
-    .shape {
-        position: absolute;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        animation: float 6s ease-in-out infinite;
-    }
-
-    .shape:nth-child(1) {
-        width: 80px;
-        height: 80px;
-        top: 20%;
-        left: 10%;
-        animation-delay: 0s;
-    }
-
-    .shape:nth-child(2) {
-        width: 120px;
-        height: 120px;
-        top: 60%;
-        right: 10%;
-        animation-delay: 2s;
-    }
-
-    .shape:nth-child(3) {
-        width: 60px;
-        height: 60px;
-        top: 40%;
-        left: 80%;
-        animation-delay: 4s;
-    }
-
-    @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(180deg); }
-    }
-
-    .auth-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
         position: relative;
-        z-index: 10;
-        animation: slideUp 0.8s ease-out;
+        max-width: 1100px;
+        margin: 0 auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        border-radius: 20px;
+        overflow: hidden;
+        animation: slideIn 0.6s ease-out;
     }
 
-    @keyframes slideUp {
+    @keyframes slideIn {
         from {
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(30px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Left Side - Form */
+    .auth-left {
+        flex: 0 0 32%;
+        background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #16213e 100%);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        z-index: 10;
+        border-radius: 20px 0 0 20px;
+        animation: fadeInLeft 0.8s ease-out 0.2s both;
+    }
+
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .auth-close-btn {
+        position: absolute;
+        top: 1.5rem;
+        left: 1.5rem;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+
+    .auth-close-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.4);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .auth-form-container {
+        max-width: 300px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .auth-title {
+        color: #ffffff;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 1.8rem;
+        animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
         }
         to {
             opacity: 1;
@@ -94,311 +108,301 @@
         }
     }
 
-    .auth-header {
-        background: linear-gradient(135deg, #0d6efd 0%, #20c997 100%);
-        color: white;
-        border-radius: 20px 20px 0 0;
-        padding: 2rem;
-        text-align: center;
+    .auth-input-group {
+        margin-bottom: 1rem;
         position: relative;
-        overflow: hidden;
+        animation: fadeInUp 0.8s ease-out both;
     }
 
-    .auth-header::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        animation: rotate 10s linear infinite;
+    .auth-input-group:nth-child(1) {
+        animation-delay: 0.5s;
     }
 
-    @keyframes rotate {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+    .auth-input-group:nth-child(2) {
+        animation-delay: 0.6s;
     }
 
-    .auth-header h2 {
-        margin: 0;
-        font-size: 2rem;
-        font-weight: 700;
-        position: relative;
-        z-index: 2;
+    .auth-input-group:nth-child(3) {
+        animation-delay: 0.7s;
     }
 
-    .auth-header p {
-        margin: 0.5rem 0 0 0;
-        opacity: 0.9;
-        position: relative;
-        z-index: 2;
-    }
-
-    .form-floating {
-        position: relative;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-floating input {
-        height: 60px;
-        border: 2px solid #e9ecef;
-        border-radius: 15px;
-        padding: 1rem 1.5rem;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        background: rgba(255, 255, 255, 0.8);
-        color: #212529 !important;
-    }
-
-    .form-floating input:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-        background: white;
-        color: #212529 !important;
-        transform: translateY(-2px);
-    }
-    
-    .form-floating input::placeholder {
-        color: #6c757d !important;
-    }
-
-    .form-floating label {
-        padding: 1rem 1.5rem;
-        color: #6c757d;
+    .auth-input-group label {
+        display: block;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.8rem;
+        margin-bottom: 0.35rem;
         font-weight: 500;
     }
 
-    .btn-login {
-        background: linear-gradient(135deg, #0d6efd 0%, #20c997 100%);
-        border: none;
-        border-radius: 15px;
-        padding: 15px 30px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: white;
+    .auth-input {
         width: 100%;
+        padding: 0.6rem 0.8rem;
+        background: rgba(108, 117, 165, 0.2);
+        border: 2px solid rgba(108, 117, 165, 0.3);
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 0.85rem;
         transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
     }
 
-    .btn-login::before {
-        content: '';
+    .auth-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .auth-input:focus {
+        outline: none;
+        background: rgba(108, 117, 165, 0.3);
+        border-color: #00d4aa;
+        box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+    }
+
+    .auth-input-icon {
         position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: color 0.3s ease;
+        font-size: 0.9rem;
     }
 
-    .btn-login:hover::before {
-        left: 100%;
+    .auth-input-icon:hover {
+        color: rgba(255, 255, 255, 0.8);
     }
 
-    .btn-login:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(13, 110, 253, 0.4);
-    }
-
-    .btn-login:active {
-        transform: translateY(0);
-    }
-
-    .remember-me {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1.5rem;
-    }
-
-    .form-check-input {
-        width: 20px;
-        height: 20px;
-        border-radius: 5px;
-        border: 2px solid #0d6efd;
-    }
-
-    .form-check-input:checked {
-        background-color: #0d6efd;
-        border-color: #0d6efd;
-    }
-
-    .forgot-password {
-        color: #0d6efd;
+    .auth-forgot-link {
+        display: block;
+        text-align: right;
+        color: #00d4aa;
+        font-size: 0.75rem;
         text-decoration: none;
-        font-weight: 500;
+        margin-top: 0.3rem;
         transition: color 0.3s ease;
     }
 
-    .forgot-password:hover {
-        color: #20c997;
+    .auth-forgot-link:hover {
+        color: #00a8cc;
     }
 
-    .register-link {
-        text-align: center;
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 1px solid #e9ecef;
-    }
-
-    .register-link a {
-        color: #0d6efd;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .register-link a:hover {
-        color: #20c997;
-        text-decoration: underline;
-    }
-
-    .social-login {
-        margin-top: 1.5rem;
-    }
-
-    .social-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .auth-submit-btn {
         width: 100%;
-        padding: 12px;
-        border: 2px solid #e9ecef;
-        border-radius: 10px;
-        background: white;
-        color: #6c757d;
-        text-decoration: none;
-        font-weight: 500;
+        padding: 0.65rem;
+        background: linear-gradient(135deg, #00d4aa 0%, #00a8cc 100%);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        cursor: pointer;
         transition: all 0.3s ease;
-        margin-bottom: 0.5rem;
+        box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+        animation: fadeInUp 0.8s ease-out 0.8s both;
     }
 
-    .social-btn:hover {
-        border-color: #0d6efd;
-        color: #0d6efd;
+    .auth-submit-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 6px 25px rgba(0, 212, 170, 0.5);
     }
 
-    @media (max-width: 768px) {
-        .auth-card {
-            margin: 1rem;
+    .auth-signup-text {
+        text-align: center;
+        margin-top: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.8rem;
+        animation: fadeInUp 0.8s ease-out 0.9s both;
+    }
+
+    .auth-signup-text a {
+        color: #ffffff;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .auth-signup-text a:hover {
+        color: #00d4aa;
+    }
+
+    /* Right Side - Image */
+    .auth-right {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        border-radius: 0 20px 20px 0;
+        animation: fadeInRight 0.8s ease-out 0.3s both;
+    }
+
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
         }
-        
-        .auth-header {
-            padding: 1.5rem;
+        to {
+            opacity: 1;
+            transform: translateX(0);
         }
-        
-        .auth-header h2 {
-            font-size: 1.5rem;
+    }
+
+    .auth-bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        animation: zoomIn 0.8s ease-out 0.5s both;
+    }
+
+    @keyframes zoomIn {
+        from {
+            transform: scale(1.1);
         }
-        
-        .form-floating input {
-            height: 50px;
-            padding: 0.8rem 1rem;
+        to {
+            transform: scale(1);
         }
-        
-        .btn-login {
-            padding: 12px 20px;
-            font-size: 1rem;
+    }
+
+    .auth-bg-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(10, 14, 39, 0.3) 0%, rgba(26, 26, 62, 0.5) 100%);
+    }
+
+    /* Error Messages */
+    .auth-error {
+        background: rgba(220, 53, 69, 0.2);
+        border: 1px solid rgba(220, 53, 69, 0.4);
+        border-radius: 8px;
+        padding: 0.75rem;
+        color: #ff6b6b;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .auth-split-container {
+            flex-direction: column;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .auth-left {
+            flex: 0 0 auto;
+            min-height: 100vh;
+            border-radius: 0;
+        }
+
+        .auth-right {
+            display: none;
         }
     }
 
     @media (max-width: 576px) {
-        .auth-container {
-            padding: 0.5rem;
+        .auth-left {
+            padding: 1.5rem 1rem;
         }
-        
-        .auth-card {
-            margin: 0.5rem;
+
+        .auth-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
         }
-        
-        .auth-header {
-            padding: 1rem;
-        }
-        
-        .auth-header h2 {
-            font-size: 1.3rem;
+
+        .auth-close-btn {
+            top: 1rem;
+            left: 1rem;
+            width: 32px;
+            height: 32px;
+            font-size: 0.85rem;
         }
     }
 </style>
 
-<div class="auth-container">
-    <div class="floating-shapes">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
-    
-    <div class="container" style="position: relative; z-index: 10;">
-        <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-md-6 col-lg-5 col-xl-4">
-                <div class="auth-card">
-                    <div class="auth-header">
-                        <h2><i class="fas fa-gamepad me-2"></i>Welcome Back!</h2>
-                        <p>Sign in to continue your gaming journey</p>
-                    </div>
-                    
-                    <div class="p-4">
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
-                            
-                            <div class="form-floating">
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                       id="email" name="email" value="{{ old('email') }}" 
-                                       placeholder="Enter your email" required>
-                                <label for="email"><i class="fas fa-envelope me-2"></i>Email Address</label>
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+<div class="auth-split-container">
+    <!-- Left Side - Form -->
+    <div class="auth-left">
+        <a href="{{ route('home') }}" class="auth-close-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
 
-                            <div class="form-floating">
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" 
-                                       id="password" name="password" placeholder="Enter your password" required>
-                                <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
-                                @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+        <div class="auth-form-container">
+            <h1 class="auth-title">Welcome Back</h1>
 
-                            <div class="remember-me">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                    <label class="form-check-label" for="remember">Remember me</label>
-                                </div>
-                                <a href="#" class="forgot-password">Forgot Password?</a>
-                            </div>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
 
-                            <button type="submit" class="btn btn-login">
-                                <i class="fas fa-sign-in-alt me-2"></i>Sign In
-                            </button>
-                        </form>
-
-                        <div class="social-login">
-                            <div class="text-center mb-3">
-                                <span class="text-muted">Or continue with</span>
-                            </div>
-                            <a href="#" class="social-btn">
-                                <i class="fab fa-google me-2"></i>Google
-                            </a>
-                            <a href="#" class="social-btn">
-                                <i class="fab fa-facebook me-2"></i>Facebook
-                            </a>
-                        </div>
-
-                        <div class="register-link">
-                            <p class="mb-0">Don't have an account? 
-                                <a href="{{ route('register') }}">Create Account</a>
-                            </p>
-                        </div>
-                    </div>
+                <div class="auth-input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" 
+                           id="email" 
+                           name="email" 
+                           class="auth-input @error('email') is-invalid @enderror" 
+                           value="{{ old('email') }}" 
+                           placeholder="Enter your email"
+                           required 
+                           autofocus>
+                    @error('email')
+                        <div class="auth-error">{{ $message }}</div>
+                    @enderror
                 </div>
-            </div>
+
+                <div class="auth-input-group">
+                    <label for="password">Password</label>
+                    <div style="position: relative;">
+                        <input type="password" 
+                               id="password" 
+                               name="password" 
+                               class="auth-input @error('password') is-invalid @enderror" 
+                               placeholder="Enter your password"
+                               required>
+                        <span class="auth-input-icon" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </span>
+                    </div>
+                    @error('password')
+                        <div class="auth-error">{{ $message }}</div>
+                    @enderror
+                    <a href="#" class="auth-forgot-link">Forgot your password?</a>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">
+                    Log in
+                </button>
+            </form>
+
+            <p class="auth-signup-text">
+                Don't have an account? <a href="{{ route('register') }}">Sign up</a>
+            </p>
         </div>
     </div>
+
+    <!-- Right Side - Image -->
+    <div class="auth-right">
+        <img src="{{ asset('img/gambar 3.jpg') }}" alt="Gaming Background" class="auth-bg-image">
+        <div class="auth-bg-overlay"></div>
+    </div>
 </div>
+
+<script>
+function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+    }
+}
+</script>
 @endsection

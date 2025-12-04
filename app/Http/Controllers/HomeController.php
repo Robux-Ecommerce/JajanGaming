@@ -52,8 +52,16 @@ class HomeController extends Controller
 
         $products = $query->with('seller')->paginate(12);
         $games = Product::distinct()->pluck('game_name');
+        
+        // Get top selling products (best sellers)
+        $topSellingProducts = Product::where('is_active', true)
+            ->where('game_name', 'Roblox')
+            ->with('seller')
+            ->orderBy('sales_count', 'desc')
+            ->take(4)
+            ->get();
 
-        return view('home', compact('products', 'games'));
+        return view('home', compact('products', 'games', 'topSellingProducts'));
     }
 
     public function showProduct(Product $product)
