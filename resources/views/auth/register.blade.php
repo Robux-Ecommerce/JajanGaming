@@ -157,14 +157,21 @@
         font-size: 1rem;
         transition: all 0.3s ease;
         background: rgba(255, 255, 255, 0.8);
+        color: #212529 !important;
     }
 
     .form-floating input:focus,
     .form-floating select:focus {
         border-color: #0d6efd;
+        color: #212529 !important;
         box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
         background: white;
         transform: translateY(-2px);
+    }
+    
+    .form-floating input::placeholder,
+    .form-floating select::placeholder {
+        color: #6c757d !important;
     }
 
     .form-floating label {

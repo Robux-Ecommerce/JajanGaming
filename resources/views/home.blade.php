@@ -12,38 +12,39 @@
         <div class="hero-slide"></div>
     </div>
     
-    <!-- Floating Particles -->
-    <div class="hero-particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
+    <!-- Dark Overlay for text contrast -->
+    <div class="dark-overlay"></div>
+    
+    <!-- Navigation Arrows -->
+    <button class="hero-nav hero-nav-prev" onclick="changeHeroSlide(-1)">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="hero-nav hero-nav-next" onclick="changeHeroSlide(1)">
+        <i class="fas fa-chevron-right"></i>
+    </button>
     
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
+        <div class="row align-items-center">
+            <!-- Left Content -->
+            <div class="col-lg-6 hero-content-left">
                 <h1 class="hero-title">
-                    <i class="fas fa-gamepad me-3"></i>Top Up Robux Roblox
+                    THE LAST OF US PART II
                 </h1>
-                <p class="hero-subtitle">
-                    Dapatkan Robux untuk Roblox dengan mudah dan aman. 
-                    Mulai dari 80 Robux hingga 8000 Robux dengan harga terbaik!
+                <p class="hero-description">
+                    Five years after the events of The Last of Us, Ellie embarks on another journey through a post-apocalyptic America on a mission of vengeance against a mysterious militia.
                 </p>
-                <div class="hero-buttons d-flex gap-3 mt-4 justify-content-center">
-                    <a href="#products" class="btn btn-light btn-lg px-4" style="pointer-events: auto; z-index: 10; position: relative;">
-                        <i class="fas fa-shopping-bag me-2"></i>Lihat Paket
+            </div>
+            
+            <!-- Right Content -->
+            <div class="col-lg-6 hero-content-right">
+                <div class="hero-price">$49.99</div>
+                <div class="hero-buttons d-flex flex-column gap-3">
+                    <a href="#products" class="btn btn-hero-buy">
+                        Buy Now
                     </a>
-                    @auth
-                        <a href="{{ route('wallet.index') }}" class="btn btn-outline-light btn-lg px-4" style="pointer-events: auto; z-index: 10; position: relative;">
-                            <i class="fas fa-wallet me-2"></i>DompetKu
-                        </a>
-                    @else
-                        <a href="{{ route('register') }}" class="btn btn-outline-light btn-lg px-4" style="pointer-events: auto; z-index: 10; position: relative;">
-                            <i class="fas fa-user-plus me-2"></i>Daftar Sekarang
-                        </a>
-                    @endauth
+                    <a href="#" class="btn btn-hero-wishlist">
+                        Add to Wishlist
+                    </a>
                 </div>
             </div>
         </div>
@@ -396,4 +397,27 @@ function decreaseQuantity(productId) {
         }, 150);
     }
 }
+
+// Hero Carousel Functions
+let currentHeroSlide = 0;
+const heroSlides = document.querySelectorAll('.hero-slide');
+const totalHeroSlides = heroSlides.length;
+
+function changeHeroSlide(direction) {
+    heroSlides[currentHeroSlide].classList.remove('active');
+    currentHeroSlide += direction;
+    
+    if (currentHeroSlide >= totalHeroSlides) {
+        currentHeroSlide = 0;
+    } else if (currentHeroSlide < 0) {
+        currentHeroSlide = totalHeroSlides - 1;
+    }
+    
+    heroSlides[currentHeroSlide].classList.add('active');
+}
+
+// Auto-play carousel
+setInterval(() => {
+    changeHeroSlide(1);
+}, 5000);
 </script>

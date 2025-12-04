@@ -148,13 +148,19 @@
         font-size: 1rem;
         transition: all 0.3s ease;
         background: rgba(255, 255, 255, 0.8);
+        color: #212529 !important;
     }
 
     .form-floating input:focus {
         border-color: #0d6efd;
         box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
         background: white;
+        color: #212529 !important;
         transform: translateY(-2px);
+    }
+    
+    .form-floating input::placeholder {
+        color: #6c757d !important;
     }
 
     .form-floating label {
