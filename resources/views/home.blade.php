@@ -138,134 +138,102 @@
 
     <div class="row">
         @forelse($products as $product)
-            <div class="col-md-6 col-lg-4 col-xl-3 mb-4">
-                 <div class="card h-100" style="cursor: pointer;" onclick="addToCart({{ $product->id }})">
-                    <div class="product-image">
-                        <img src="{{ asset('img/' . $product->image) }}" 
-                             class="img-fluid" alt="{{ $product->name }}">
+            <div class="col-12 col-md-6 mb-4">
+                <div class="card-landscape h-100" onclick="window.location='{{ route('products.show', $product) }}'">
+                    <div class="card-landscape-image">
+                        <img src="{{ asset('img/' . $product->image) }}" alt="{{ $product->name }}">
+                        <button class="favorite-btn-landscape"
+                            onclick="event.stopPropagation(); toggleFavorite(this, {{ $product->id }})">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        @if (request('category') == 'top_seller' || $product->sales_count > 100)
+                            <div class="discount-badge-landscape">
+                                -55%
+                            </div>
+                        @endif
                     </div>
-                    
-                    <div class="card-body d-flex flex-column">
-                        <!-- Product Name -->
-                        <div class="mb-2">
-                            <h5 class="card-title mb-1">{{ $product->name }}</h5>
-                        </div>
-                        
-                        <!-- Product Description -->
-                        <div class="mb-2">
-                            <p class="card-text text-muted small">{{ $product->description }}</p>
-                        </div>
-                        
-                        <!-- Game Category -->
-                        <div class="mb-2">
-                            <span class="badge bg-primary">{{ $product->game_type }}</span>
-                            @if(request('category') == 'popular' && $product->rating >= 4.5)
-                                <span class="badge bg-warning text-dark ms-1">
-                                    <i class="fas fa-fire me-1"></i>Popular
-                                </span>
-                            @endif
-                            @if(request('category') == 'top_seller')
-                                <span class="badge bg-success ms-1">
+
+                    <div class="card-landscape-content">
+                        <h5 class="card-landscape-title">{{ $product->name }}</h5>
+
+                        <p class="card-landscape-description">{{ Str::limit($product->description, 80) }}</p>
+
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            @if ($product->sales_count > 50)
+                                <span class="badge bg-success">
                                     <i class="fas fa-crown me-1"></i>Top Seller
                                 </span>
                             @endif
+                            <span class="badge bg-primary">{{ $product->game_type }}</span>
                         </div>
-                        
+
                         <!-- Seller Info -->
-                        <div class="mb-3">
+                        <div class="mb-2">
                             <div class="d-flex align-items-center">
                                 <div class="seller-avatar me-2">
-                                    @if($product->seller && $product->seller->id && $product->seller->profile_photo)
-                                        <img src="{{ asset('storage/' . $product->seller->profile_photo) }}" 
-                                             alt="{{ $product->seller_name }}" 
-                                             class="rounded-circle" 
-                                             style="width: 24px; height: 24px; object-fit: cover;">
+                                    @if ($product->seller && $product->seller->id && $product->seller->profile_photo)
+                                        <img src="{{ asset('storage/' . $product->seller->profile_photo) }}"
+                                            alt="{{ $product->seller_name }}" class="rounded-circle"
+                                            style="width: 24px; height: 24px; object-fit: cover;">
                                     @else
-                                        <div class="bg-light d-flex align-items-center justify-content-center rounded-circle" 
-                                             style="width: 24px; height: 24px;">
-                                            <i class="fas fa-user fa-xs text-muted"></i>
+                                        <div class="bg-secondary d-flex align-items-center justify-content-center rounded-circle"
+                                            style="width: 24px; height: 24px;">
+                                            <i class="fas fa-user fa-xs text-white"></i>
                                         </div>
                                     @endif
                                 </div>
                                 <div>
-                                    <small class="text-muted d-block">Seller:</small>
-                                    @if($product->seller && $product->seller->id)
-                                        <a href="{{ route('seller.profile', $product->seller->id) }}" 
-                                           class="fw-medium text-dark text-decoration-none seller-link">
-                                            {{ $product->seller_name }}
-                                            <i class="fas fa-external-link-alt ms-1" style="font-size: 0.7rem;"></i>
+                                    <small class="text-muted d-block" style="font-size: 0.7rem;">Seller:</small>
+                                    @if ($product->seller && $product->seller->id)
+                                        <a href="{{ route('seller.profile', $product->seller->id) }}"
+                                            class="seller-link-landscape text-decoration-none"
+                                            onclick="event.stopPropagation();" style="font-size: 0.85rem;">
+                                            <span class="text-white">{{ $product->seller_name }}</span>
+                                            <i class="fas fa-external-link-alt ms-1" style="font-size: 0.6rem;"></i>
                                         </a>
                                     @else
-                                        <span class="fw-medium text-dark">{{ $product->seller_name }}</span>
+                                        <span class="text-white"
+                                            style="font-size: 0.85rem;">{{ $product->seller_name }}</span>
                                     @endif
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Price -->
-                        <div class="mb-3">
-                            <span class="price-display">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
-                        </div>
-                        
-                        <!-- Rating -->
-                        <div class="mb-3">
+
+                        <!-- Rating and Sales -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="d-flex align-items-center">
                                 <div class="rating me-2">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        @if($i <= floor($product->rating))
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= floor($product->averageRating()))
                                             <i class="fas fa-star text-warning"></i>
-                                        @elseif($i - 0.5 <= $product->rating)
+                                        @elseif($i - 0.5 <= $product->averageRating())
                                             <i class="fas fa-star-half-alt text-warning"></i>
                                         @else
                                             <i class="far fa-star text-warning"></i>
                                         @endif
                                     @endfor
                                 </div>
-                                <small class="text-muted me-2">{{ number_format($product->averageRating(), 1) }}</small>
-                                <img src="{{ asset('img/download.jpg') }}" 
-                                     alt="Robux" 
-                                     class="robux-icon" 
-                                     style="width: 20px; height: 20px; object-fit: cover;">
+                                <small class="text-muted">{{ number_format($product->averageRating(), 1) }}</small>
                             </div>
+                            <small class="text-success">
+                                <i class="fas fa-shopping-cart me-1"></i>{{ number_format($product->sales_count) }}
+                                terjual
+                            </small>
                         </div>
-                        
-                        <!-- Sales Count -->
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-shopping-cart text-success me-2"></i>
-                                <small class="text-muted">Terjual:</small>
-                                <small class="fw-medium text-success ms-1">{{ number_format($product->sales_count) }}</small>
+
+                        <div class="card-landscape-footer">
+                            <div class="d-flex flex-column">
+                                @if (request('category') == 'top_seller' || $product->sales_count > 100)
+                                    <span class="original-price-landscape">Rp
+                                        {{ number_format($product->price * 2.22, 0, ',', '.') }}</span>
+                                @endif
+                                <span class="current-price-landscape">Rp
+                                    {{ number_format($product->price, 0, ',', '.') }}</span>
                             </div>
-                        </div>
-                        
-                        <!-- Add to Cart Button -->
-                        <div class="mt-auto">
-                            @auth
-                                <div class="d-flex gap-2 align-items-center">
-                                    <div class="quantity-selector">
-                                        <button type="button" class="quantity-btn" onclick="event.stopPropagation(); decreaseQuantity({{ $product->id }})">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="number" id="quantity-{{ $product->id }}" value="1" min="1" 
-                                               class="quantity-input" readonly
-                                               onclick="event.stopPropagation();">
-                                        <button type="button" class="quantity-btn" onclick="event.stopPropagation(); increaseQuantity({{ $product->id }})">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                    <small class="text-muted ms-2">Tersedia {{ $product->quantity }}</small>
-                                </div>
-                                <div class="mt-2">
-                                    <button type="button" class="btn btn-primary btn-sm w-100 add-to-cart-btn" 
-                                            onclick="event.stopPropagation(); addToCart({{ $product->id }});">
-                                        <i class="fas fa-cart-plus me-1"></i>Add to Cart
-                                    </button>
-                                </div>
-                            @else
-                                <a href="{{ route('login') }}" class="btn btn-outline-primary w-100" onclick="event.stopPropagation();">
-                                    <i class="fas fa-sign-in-alt me-2"></i>Login to Buy
-                                </a>
-                            @endauth
+                            <button class="btn-add-to-cart-landscape"
+                                onclick="event.stopPropagation(); addToCartLandscape({{ $product->id }})">
+                                Add to Cart
+                            </button>
                         </div>
                     </div>
                 </div>
