@@ -928,6 +928,7 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             position: relative;
+            min-height: 230px;
         }
 
         .card-landscape:hover {
@@ -939,8 +940,8 @@
 
         .card-landscape-image {
             position: relative;
-            width: 280px;
-            min-width: 280px;
+            width: 180px;
+            min-width: 180px;
             height: 100%;
             overflow: hidden;
         }
@@ -996,24 +997,26 @@
 
         .card-landscape-content {
             flex: 1;
-            padding: 1.5rem;
+            padding: 1rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: 0.4rem;
         }
 
         .card-landscape-title {
             color: #ffffff;
-            font-size: 1.25rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.35rem;
+            line-height: 1.3;
         }
 
         .card-landscape-description {
             color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            line-height: 1.4;
+            font-size: 0.75rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.35;
         }
 
         .card-landscape-footer {
@@ -1021,37 +1024,44 @@
             justify-content: space-between;
             align-items: center;
             margin-top: auto;
-            padding-top: 1rem;
+            padding-top: 0.65rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .original-price-landscape {
             color: rgba(255, 255, 255, 0.5);
             text-decoration: line-through;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             display: block;
+            margin-bottom: 0.2rem;
         }
 
         .current-price-landscape {
             color: #00d4aa;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             display: block;
+            line-height: 1;
         }
 
         .btn-add-to-cart-landscape {
             background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
             color: #1a1a2e;
             border: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 10px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-add-to-cart-landscape:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.05);
             box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
             background: linear-gradient(135deg, #00d4aa 0%, #00a8cc 100%);
             color: white;
@@ -1081,9 +1091,53 @@
                 padding: 1rem;
             }
 
+            .card-landscape-title {
+                font-size: 1rem;
+            }
+
+            .card-landscape-description {
+                font-size: 0.8rem;
+            }
+
             .btn-add-to-cart-landscape {
-                padding: 0.6rem 1.5rem;
-                font-size: 0.9rem;
+                width: 42px;
+                height: 42px;
+                font-size: 1rem;
+            }
+
+            .current-price-landscape {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card-landscape-content {
+                padding: 0.85rem;
+                gap: 0.35rem;
+            }
+
+            .card-landscape-title {
+                font-size: 0.95rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .card-landscape-description {
+                font-size: 0.75rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .current-price-landscape {
+                font-size: 1.2rem;
+            }
+
+            .btn-add-to-cart-landscape {
+                width: 40px;
+                height: 40px;
+                font-size: 0.95rem;
+            }
+
+            .card-landscape-image {
+                height: 180px;
             }
         }
 
@@ -1109,7 +1163,7 @@
 
         .upcoming-game-card {
             flex: 0 0 auto;
-            width: 340px;
+            width: 280px;
             background: rgba(42, 42, 62, 0.9);
             border-radius: 20px;
             overflow: hidden;
@@ -1127,7 +1181,7 @@
         .upcoming-game-image {
             position: relative;
             width: 100%;
-            height: 400px;
+            height: 320px;
             overflow: hidden;
         }
 
@@ -1222,15 +1276,20 @@
             background: linear-gradient(135deg, #00d4aa 0%, #00a8cc 100%);
             color: white;
             border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 10px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
             font-weight: 600;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-upcoming:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.05);
             box-shadow: 0 8px 25px rgba(0, 212, 170, 0.5);
             background: linear-gradient(135deg, #00a8cc 0%, #0090b8 100%);
         }
