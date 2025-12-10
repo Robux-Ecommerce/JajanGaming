@@ -4413,6 +4413,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('browse') }}">
+                                <i class="fas fa-search"></i>
+                                Browse
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('cart.index') }}">
                                 <i class="fas fa-shopping-cart"></i>
                                 Cart
@@ -4659,7 +4665,7 @@
                         <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}#products">Browse</a>
+                        <a class="nav-link" href="{{ route('browse') }}">Browse</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('sellers.index') }}">Sellers</a>
