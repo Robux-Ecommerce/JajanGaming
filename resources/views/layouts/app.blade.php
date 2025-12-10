@@ -898,6 +898,178 @@
             transform: translateY(-2px);
         }
 
+        /* Landscape Card Design */
+        .card-landscape {
+            background: rgba(42, 42, 62, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card-landscape:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 45px rgba(0, 212, 170, 0.3);
+            border-color: rgba(0, 212, 170, 0.5);
+            background: rgba(42, 42, 62, 0.85);
+        }
+
+        .card-landscape-image {
+            position: relative;
+            width: 280px;
+            min-width: 280px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .card-landscape-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .card-landscape:hover .card-landscape-image img {
+            transform: scale(1.1);
+        }
+
+        .favorite-btn-landscape {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ffffff;
+            z-index: 10;
+        }
+
+        .favorite-btn-landscape:hover {
+            background: rgba(0, 0, 0, 0.9);
+            border-color: #ff4757;
+            transform: scale(1.1);
+        }
+
+        .discount-badge-landscape {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            z-index: 10;
+        }
+
+        .card-landscape-content {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-landscape-title {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-landscape-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .card-landscape-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+
+        .original-price-landscape {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: line-through;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        .current-price-landscape {
+            color: #00d4aa;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .btn-add-to-cart-landscape {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            color: #1a1a2e;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-add-to-cart-landscape:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #00d4aa 0%, #00a8cc 100%);
+            color: white;
+        }
+
+        .seller-link-landscape {
+            color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .seller-link-landscape:hover {
+            color: #00d4aa !important;
+        }
+
+        @media (max-width: 768px) {
+            .card-landscape {
+                flex-direction: column;
+            }
+
+            .card-landscape-image {
+                width: 100%;
+                min-width: 100%;
+                height: 200px;
+            }
+
+            .card-landscape-content {
+                padding: 1rem;
+            }
+
+            .btn-add-to-cart-landscape {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
         .card[onclick] .rating .fas.fa-star {
             transition: all 0.3s ease;
         }
