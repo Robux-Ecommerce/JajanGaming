@@ -213,7 +213,12 @@ class AdminController extends Controller
 
         Product::create($data);
 
-        return redirect()->route('admin.products')
+        if (\Illuminate\Support\Facades\Route::has('admin.products')) {
+            return redirect()->route('admin.products')
+                ->with('success', 'Product created successfully!');
+        }
+
+        return redirect()->route('admin.dashboard')
             ->with('success', 'Product created successfully!');
     }
 
@@ -288,7 +293,12 @@ class AdminController extends Controller
 
         $product->update($data);
 
-        return redirect()->route('admin.products')
+        if (\Illuminate\Support\Facades\Route::has('admin.products')) {
+            return redirect()->route('admin.products')
+                ->with('success', 'Product updated successfully!');
+        }
+
+        return redirect()->route('admin.dashboard')
             ->with('success', 'Product updated successfully!');
     }
 
@@ -308,7 +318,12 @@ class AdminController extends Controller
 
         $product->delete();
 
-        return redirect()->route('admin.products')
+        if (\Illuminate\Support\Facades\Route::has('admin.products')) {
+            return redirect()->route('admin.products')
+                ->with('success', 'Product deleted successfully!');
+        }
+
+        return redirect()->route('admin.dashboard')
             ->with('success', 'Product deleted successfully!');
     }
 

@@ -123,6 +123,71 @@
         </div>
     </div>
 
+    <!-- Special Events Banner -->
+    <div class="container mt-4">
+        <div class="special-events-section">
+            <h2 class="special-events-title mb-4">
+                <i class="fas fa-star me-2"></i>Special Events
+            </h2>
+            <div class="special-banner">
+                <div class="special-banner-content">
+                    @if (isset($banner) && $banner)
+                        <div class="special-banner-text">
+                            <span class="special-banner-subtitle">{{ $banner->subtitle }}</span>
+                            <h1 class="special-banner-title">{{ $banner->title }}</h1>
+                            @if ($banner->start_date || $banner->end_date)
+                                <p class="special-banner-date">{{ optional($banner->start_date)->format('F j') }}
+                                    @if ($banner->start_date && $banner->end_date)
+                                        - {{ optional($banner->end_date)->format('F j') }}
+                                    @endif
+                                </p>
+                            @endif
+                            <p class="special-banner-description">{!! nl2br(e($banner->description)) !!}</p>
+                            @if ($banner->button_text)
+                                @php $isExternal = $banner->button_url && (Illuminate\Support\Str::startsWith($banner->button_url, ['http://','https://'])); @endphp
+                                <a href="{{ $banner->button_url ?? '#' }}" class="btn btn-special-banner"
+                                    @if ($isExternal) target="_blank" rel="noopener noreferrer" @endif>{{ $banner->button_text }}</a>
+                            @endif
+                        </div>
+                        <div class="special-banner-visual">
+                            @if ($banner->image)
+                                <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}"
+                                    style="max-width:100%; height:auto; border-radius: 12px;">
+                            @else
+                                <h1 class="special-visual-text">{{ $banner->subtitle }}</h1>
+                                <h2 class="special-visual-sale">{{ $banner->title }}</h2>
+                                @if ($banner->button_text)
+                                    <div class="special-visual-discount">{{ $banner->button_text }}</div>
+                                @endif
+                            @endif
+                        </div>
+                    @else
+                        <div class="special-banner-text">
+                            <span class="special-banner-subtitle">Summer</span>
+                            <h1 class="special-banner-title">Savings</h1>
+                            <p class="special-banner-date">August 7 - August 21</p>
+                            <p class="special-banner-description">
+                                Enjoy the summer!<br>
+                                Get big discounts on top up Robux!<br>
+                                Summer sale is now live!<br>
+                                Grab your favorites now - up to<br>
+                                70% OFF for a limited time
+                            </p>
+                            <button class="btn btn-special-banner">
+                                Browse Now
+                            </button>
+                        </div>
+                        <div class="special-banner-visual">
+                            <h1 class="special-visual-text">Summer</h1>
+                            <h2 class="special-visual-sale">SALE</h2>
+                            <div class="special-visual-discount">UP TO 70% DISCOUNT</div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Top Selling Products Section -->
     <div class="container mt-5 mb-5">
         <div class="row align-items-center mb-4">

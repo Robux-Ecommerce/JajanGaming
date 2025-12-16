@@ -61,11 +61,28 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
-        return view('home', compact('products', 'games', 'topSellingProducts'));
+        // Active banner for home
+        $banner = null;
+        if (\Illuminate\Support\Facades\Schema::hasTable('banners')) {
+            $banner = \App\Models\Banner::active()->orderBy('start_date', 'desc')->first();
+        }
+
+        return view('home', compact('products', 'games', 'topSellingProducts', 'banner'));
     }
 
     public function showProduct(Product $product)
     {
-        return view('products.show', compact('product'));
+        $userHasPurchased = false;
+
+        if (auth()->check()) {
+            $userId = auth()->id();
+            $userHasPurchased = \App\Models\Order::where('user_id', $userId)
+                ->where('status', 'completed')
+                ->whereHas('orderItems', function($q) use ($product) {
+                    $q->where('product_id', $product->id);
+                })->exists();
+        }
+
+        return view('products.show', compact('product', 'userHasPurchased'));
     }
 }

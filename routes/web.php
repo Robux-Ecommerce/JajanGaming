@@ -76,6 +76,9 @@ Route::middleware('auth')->group(function () {
     // Rating routes
     Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');
     Route::get('/ratings', [RatingController::class, 'index'])->name('ratings.index');
+
+    // Product review (from product page)
+    Route::post('/products/{product}/reviews', [RatingController::class, 'storeForProduct'])->name('product.reviews.store');
     
     // Debug route for testing rating
     Route::get('/debug-rating/{order}', function($orderId) {
@@ -120,9 +123,9 @@ Route::middleware('auth')->group(function () {
 // Admin/Seller routes
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    
-    // Products management
-    Route::get('/products', [AdminController::class, 'products'])->name('products');
+
+    // Banners / Special Events (admin only)
+    Route::resource('banners', \App\Http\Controllers\Admin\BannerController::class)->except(['show']);
     Route::get('/products/create', [AdminController::class, 'createProduct'])->name('products.create');
     Route::post('/products', [AdminController::class, 'storeProduct'])->name('products.store');
     Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('products.edit');

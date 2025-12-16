@@ -11,26 +11,58 @@
             </h2>
             <div class="special-banner">
                 <div class="special-banner-content">
-                    <div class="special-banner-text">
-                        <span class="special-banner-subtitle">Summer</span>
-                        <h1 class="special-banner-title">Savings</h1>
-                        <p class="special-banner-date">August 7 - August 21</p>
-                        <p class="special-banner-description">
-                            Enjoy the summer!<br>
-                            Get big discounts on top up Robux!<br>
-                            Summer sale is now live!<br>
-                            Grab your favorites now - up to<br>
-                            70% OFF for a limited time
-                        </p>
-                        <button class="btn btn-special-banner">
-                            Browse Now
-                        </button>
-                    </div>
-                    <div class="special-banner-visual">
-                        <h1 class="special-visual-text">Summer</h1>
-                        <h2 class="special-visual-sale">SALE</h2>
-                        <div class="special-visual-discount">UP TO 70% DISCOUNT</div>
-                    </div>
+                    @if (isset($banner) && $banner)
+                        <div class="special-banner-text">
+                            <span class="special-banner-subtitle">{{ $banner->subtitle }}</span>
+                            <h1 class="special-banner-title">{{ $banner->title }}</h1>
+                            @if ($banner->start_date || $banner->end_date)
+                                <p class="special-banner-date">{{ optional($banner->start_date)->format('F j') }}
+                                    @if ($banner->start_date && $banner->end_date)
+                                        - {{ optional($banner->end_date)->format('F j') }}
+                                    @endif
+                                </p>
+                            @endif
+                            <p class="special-banner-description">{!! nl2br(e($banner->description)) !!}</p>
+                            @if ($banner->button_text)
+                                @php $isExternal = $banner->button_url && (Illuminate\Support\Str::startsWith($banner->button_url, ['http://','https://'])); @endphp
+                                <a href="{{ $banner->button_url ?? '#' }}" class="btn btn-special-banner"
+                                    @if ($isExternal) target="_blank" rel="noopener noreferrer" @endif>{{ $banner->button_text }}</a>
+                            @endif
+                        </div>
+                        <div class="special-banner-visual">
+                            @if ($banner->image)
+                                <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}"
+                                    style="max-width:100%; height:auto; border-radius: 12px;">
+                            @else
+                                <h1 class="special-visual-text">{{ $banner->subtitle }}</h1>
+                                <h2 class="special-visual-sale">{{ $banner->title }}</h2>
+                                @if ($banner->button_text)
+                                    <div class="special-visual-discount">{{ $banner->button_text }}</div>
+                                @endif
+                            @endif
+                        </div>
+                    @else
+                        <div class="special-banner-text">
+                            <span class="special-banner-subtitle">Summer</span>
+                            <h1 class="special-banner-title">Savings</h1>
+                            <p class="special-banner-date">August 7 - August 21</p>
+                            <p class="special-banner-description">
+                                Enjoy the summer!<br>
+                                Get big discounts on top up Robux!<br>
+                                Summer sale is now live!<br>
+                                Grab your favorites now - up to<br>
+                                70% OFF for a limited time
+                            </p>
+                            <button class="btn btn-special-banner">
+                                Browse Now
+                            </button>
+                        </div>
+                        <div class="special-banner-visual">
+                            <h1 class="special-visual-text">Summer</h1>
+                            <h2 class="special-visual-sale">SALE</h2>
+                            <div class="special-visual-discount">UP TO 70% DISCOUNT</div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -219,121 +251,79 @@
             <div class="col-lg-9">
                 <div class="row">
                     @forelse($products as $product)
-                        <div class="col-12 col-md-6 col-xl-4 mb-4">
-                            <div class="browse-card" onclick="window.location='{{ route('products.show', $product) }}'">
-                                <div class="browse-card-image">
+                        <div class="col-12 col-lg-6 mb-4">
+                            <div class="browse-card-landscape"
+                                onclick="window.location='{{ route('products.show', $product) }}'">
+                                <div class="browse-card-image-landscape">
                                     <img src="{{ asset('img/' . $product->image) }}" alt="{{ $product->name }}">
-                                    <button class="favorite-btn-browse"
+                                    <button class="favorite-btn-landscape"
                                         onclick="event.stopPropagation(); toggleFavorite(this, {{ $product->id }})">
                                         <i class="far fa-heart"></i>
                                     </button>
                                     @if ($product->sales_count > 100)
-                                        <div class="discount-badge-browse">
+                                        <div class="discount-badge-landscape">
                                             -55%
                                         </div>
                                     @endif
                                 </div>
+                                <div class="browse-card-content-landscape">
+                                    <div class="browse-card-header-landscape">
+                                        <h5 class="browse-card-title-landscape">{{ $product->name }}</h5>
+                                        <p class="browse-card-description-landscape">
+                                            {{ Str::limit($product->description, 30) }}</p>
+                                    </div>
 
-                                <div class="browse-card-content">
-                                    <h5 class="browse-card-title">{{ $product->name }}</h5>
-
-                                    <p class="browse-card-description">{{ Str::limit($product->description, 60) }}</p>
-
-                                    <div class="browse-card-badges mb-2">
+                                    <div class="browse-card-badges-landscape">
                                         @if ($product->sales_count > 50)
-                                            <span class="badge bg-success">
+                                            <span class="badge-top-seller-landscape">
                                                 <i class="fas fa-crown me-1"></i>Top Seller
                                             </span>
                                         @endif
-                                        <span class="badge bg-primary">{{ $product->game_type }}</span>
+                                        <span class="badge-game-type-landscape">{{ $product->game_type }}</span>
                                     </div>
 
                                     <!-- Seller Info -->
-                                    <div class="mb-2" style="position: relative; z-index: 5;">
-                                        @if ($product->seller && $product->seller->id)
-                                            <a href="{{ route('seller.profile', $product->seller->id) }}"
-                                                class="d-flex align-items-center text-decoration-none seller-link-browse"
-                                                style="position: relative; z-index: 10;"
-                                                title="View {{ $product->seller_name }}'s profile">
-                                                <div class="seller-avatar me-2">
-                                                    @if ($product->seller->profile_photo)
-                                                        <img src="{{ asset('storage/' . $product->seller->profile_photo) }}"
-                                                            alt="{{ $product->seller_name }}" class="rounded-circle"
-                                                            style="width: 20px; height: 20px; object-fit: cover;">
-                                                    @else
-                                                        <div class="bg-secondary d-flex align-items-center justify-content-center rounded-circle"
-                                                            style="width: 20px; height: 20px;">
-                                                            <i class="fas fa-user fa-xs text-white"></i>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                                <div>
-                                                    <small class="text-muted d-block"
-                                                        style="font-size: 0.65rem;">Seller:</small>
-                                                    <span class="text-white" style="font-size: 0.8rem;">
-                                                        {{ $product->seller_name }}
-                                                        <i class="fas fa-external-link-alt ms-1"
-                                                            style="font-size: 0.55rem;"></i>
-                                                    </span>
-                                                </div>
-                                            </a>
-                                        @else
-                                            <div class="d-flex align-items-center">
-                                                <div class="seller-avatar me-2">
-                                                    <div class="bg-secondary d-flex align-items-center justify-content-center rounded-circle"
-                                                        style="width: 20px; height: 20px;">
-                                                        <i class="fas fa-user fa-xs text-white"></i>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <small class="text-muted d-block"
-                                                        style="font-size: 0.65rem;">Seller:</small>
-                                                    <span class="text-white"
-                                                        style="font-size: 0.8rem;">{{ $product->seller_name }}</span>
-                                                </div>
-                                            </div>
-                                        @endif
+                                    <div class="seller-info-landscape">
+                                        <i class="fas fa-user-circle me-1"></i>
+                                        <span class="seller-label-landscape">Seller:</span>
+                                        <span class="seller-name-landscape">{{ $product->seller_name }}</span>
                                     </div>
 
                                     <!-- Rating and Sales -->
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="d-flex align-items-center">
-                                            <div class="rating me-1">
-                                                @for ($i = 1; $i <= 5; $i++)
-                                                    @if ($i <= floor($product->averageRating()))
-                                                        <i class="fas fa-star text-warning"
-                                                            style="font-size: 0.8rem;"></i>
-                                                    @elseif($i - 0.5 <= $product->averageRating())
-                                                        <i class="fas fa-star-half-alt text-warning"
-                                                            style="font-size: 0.8rem;"></i>
-                                                    @else
-                                                        <i class="far fa-star text-warning"
-                                                            style="font-size: 0.8rem;"></i>
-                                                    @endif
-                                                @endfor
-                                            </div>
-                                            <small class="text-muted"
-                                                style="font-size: 0.75rem;">{{ number_format($product->averageRating(), 1) }}</small>
+                                    <div class="rating-sales-landscape">
+                                        <div class="rating-stars-landscape">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= floor($product->averageRating()))
+                                                    <i class="fas fa-star"></i>
+                                                @elseif($i - 0.5 <= $product->averageRating())
+                                                    <i class="fas fa-star-half-alt"></i>
+                                                @else
+                                                    <i class="far fa-star"></i>
+                                                @endif
+                                            @endfor
+                                            <span
+                                                class="rating-value-landscape">{{ number_format($product->averageRating(), 1) }}</span>
                                         </div>
-                                        <small class="text-success" style="font-size: 0.75rem;">
+                                        <div class="sales-count-landscape">
                                             <i
                                                 class="fas fa-shopping-cart me-1"></i>{{ number_format($product->sales_count) }}
-                                        </small>
+                                            terjual
+                                        </div>
                                     </div>
 
-                                    <div class="browse-card-footer">
-                                        <div>
+                                    <div class="browse-card-footer-landscape">
+                                        <div class="price-section-landscape">
                                             @if ($product->sales_count > 100)
-                                                <span class="original-price-browse">Rp
-                                                    {{ number_format($product->price * 2.22, 0, ',', '.') }}</span>
+                                                <div class="original-price-landscape">Rp
+                                                    {{ number_format($product->price * 2.22, 0, ',', '.') }}</div>
                                             @endif
-                                            <span class="current-price-browse">Rp
-                                                {{ number_format($product->price, 0, ',', '.') }}</span>
+                                            <div class="current-price-landscape">Rp
+                                                {{ number_format($product->price, 0, ',', '.') }}</div>
                                         </div>
-                                        <button class="btn-add-cart-browse"
-                                            onclick="event.stopPropagation(); addToCartLandscape({{ $product->id }})">
+                                        <a href="{{ route('products.show', $product) }}" class="btn-add-cart-landscape"
+                                            onclick="event.stopPropagation();">
                                             <i class="fas fa-shopping-cart"></i>
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

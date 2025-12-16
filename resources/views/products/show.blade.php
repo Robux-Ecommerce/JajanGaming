@@ -40,7 +40,7 @@
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 1.25rem;
-            margin-bottom: 1.25rem;
+            margin-bottom: 0;
         }
 
         .product-image-wrapper {
@@ -92,8 +92,9 @@
         .image-info-cards {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 0.65rem;
-            margin-top: 1rem;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+            margin-bottom: 0.2rem;
         }
 
         .info-card-mini {
@@ -285,27 +286,168 @@
 
         .seller-stats {
             display: flex;
-            gap: 1rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 0.6rem;
+            padding-top: 0.35rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            align-items: flex-start;
         }
 
         .seller-stat {
             flex: 1;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.35rem 0;
         }
 
         .seller-stat-value {
-            font-size: 0.85rem;
-            font-weight: 700;
+            font-size: 0.95rem;
+            font-weight: 800;
             color: #00d4aa;
             display: block;
         }
 
         .seller-stat-label {
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.75);
             display: block;
+        }
+
+        .seller-stat-value {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            justify-content: center;
+        }
+
+        .stat-icon {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .rating-icon {
+            color: #ffc107;
+        }
+
+        .products-icon {
+            color: #00d4aa;
+        }
+
+        .seller-stat-label i {
+            margin-right: 0.35rem;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.8rem;
+            vertical-align: middle;
+        }
+
+        .seller-stat i {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .comments-section {
+            background: rgba(42, 42, 62, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-height: min(70vh, 480px);
+            overflow-y: auto;
+            padding-bottom: 0.75rem;
+            /* ensure last item not clipped against edge */
+        }
+
+        .comments-header {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comment-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 0.6rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .comment-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .comment-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 212, 170, 0.08);
+        }
+
+        .comment-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4aa 0%, #00a8cc 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .comment-name {
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .comment-date {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 0.65rem;
+            margin-left: auto;
+        }
+
+        .comment-rating {
+            color: #ffc107;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        .comment-text {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.77rem;
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .view-all-comments {
+            display: block;
+            text-align: center;
+            color: #00d4aa;
+            font-size: 0.77rem;
+            font-weight: 700;
+            padding: 0.45rem;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            margin-top: 0.45rem;
+        }
+
+        .view-all-comments:hover {
+            background: rgba(0, 212, 170, 0.08);
+            color: #00a8cc;
         }
 
         .product-actions {
@@ -405,6 +547,8 @@
             padding: 1.25rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: calc(66.666% - 0.625rem);
+            margin-top: -25rem;
         }
 
         .section-title {
@@ -531,6 +675,7 @@
 
             .description-section {
                 padding: 1.5rem;
+                width: 100%;
             }
         }
     </style>
@@ -607,32 +752,6 @@
                         </span>
                     </div>
 
-                    <!-- Seller Profile -->
-                    <a href="{{ route('seller.profile', ['sellerId' => $product->seller_id ?? 1]) }}" class="seller-card">
-                        <div class="seller-header">
-                            <div class="seller-avatar">
-                                <i class="fas fa-store"></i>
-                            </div>
-                            <div class="seller-info">
-                                <div class="seller-label">Seller</div>
-                                <div class="seller-name">
-                                    {{ $product->seller_name ?? 'GameHub Official' }}
-                                    <i class="fas fa-check-circle seller-verified" title="Verified Seller"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="seller-stats">
-                            <div class="seller-stat">
-                                <span class="seller-stat-value">98%</span>
-                                <span class="seller-stat-label">Rating</span>
-                            </div>
-                            <div class="seller-stat">
-                                <span class="seller-stat-value">1.2k</span>
-                                <span class="seller-stat-label">Products</span>
-                            </div>
-                        </div>
-                    </a>
-
                     <!-- Actions -->
                     @auth
                         <form action="{{ route('cart.add') }}" method="POST">
@@ -676,6 +795,115 @@
                             <span class="meta-label">Total Sales</span>
                             <span class="meta-value">{{ number_format($product->sales_count) }} sold</span>
                         </div>
+                    </div>
+
+                    <!-- Seller Profile -->
+                    <a href="{{ route('seller.profile', ['sellerId' => $product->seller_id ?? 1]) }}" class="seller-card">
+                        <div class="seller-header">
+                            <div class="seller-avatar">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="seller-info">
+                                <div class="seller-label">Seller</div>
+                                <div class="seller-name">
+                                    {{ $product->seller_name ?? 'GameHub Official' }}
+                                    <i class="fas fa-check-circle seller-verified" title="Verified Seller"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="seller-stats">
+                            <div class="seller-stat">
+                                <span class="seller-stat-value"><i class="fas fa-star stat-icon rating-icon"></i>98%</span>
+                                <span class="seller-stat-label">Rating</span>
+                            </div>
+                            <div class="seller-stat">
+                                <span class="seller-stat-value"><i
+                                        class="fas fa-boxes stat-icon products-icon"></i>1.2k</span>
+                                <span class="seller-stat-label">Products</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Comments Section -->
+                    <div class="comments-section">
+                        <div class="comments-header">
+                            <i class="fas fa-comments"></i>
+                            Reviews & Comments
+                        </div>
+
+                        @auth
+                            @if ($userHasPurchased)
+                                <form action="{{ route('product.reviews.store', $product) }}" method="POST" class="mb-2">
+                                    @csrf
+                                    <div class="mb-2">
+                                        <label class="text-muted" style="font-size:0.8rem;">Your rating</label>
+                                        <select name="rating" class="form-select"
+                                            style="width:120px; display:inline-block; margin-left:0.5rem;">
+                                            <option value="">Rate</option>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <option value="{{ $i }}">{{ $i }}
+                                                    star{{ $i > 1 ? 's' : '' }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <textarea name="review" class="form-control" rows="2" placeholder="Write your review..."
+                                            style="resize:none;"></textarea>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary" type="submit">Submit Review</button>
+                                    </div>
+                                </form>
+                            @else
+                                <div style="margin-bottom:0.5rem; font-size:0.9rem; color:rgba(255,255,255,0.8);">You can leave
+                                    a review after purchasing this product. <a href="{{ route('orders.index') }}"
+                                        style="color:#00d4aa;">See your orders</a></div>
+                            @endif
+                        @else
+                            <div style="margin-bottom:0.5rem; font-size:0.9rem; color:rgba(255,255,255,0.8);">Please <a
+                                    href="{{ route('login') }}" style="color:#00d4aa;">login</a> to leave a review.</div>
+                        @endauth
+
+                        @forelse($product->ratings()->latest()->take(6)->with('user')->get() as $rating)
+                            <div class="comment-item">
+                                <div class="comment-author">
+                                    <div class="comment-avatar">{{ strtoupper(substr($rating->user->name ?? 'U', 0, 1)) }}
+                                    </div>
+                                    <span class="comment-name">{{ $rating->user->name ?? 'Anonymous' }}</span>
+                                    <span class="comment-rating">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $rating->rating)
+                                                <i class="fas fa-star"></i>
+                                            @else
+                                                <i class="far fa-star"></i>
+                                            @endif
+                                        @endfor
+                                    </span>
+                                    <span class="comment-date">{{ $rating->created_at->diffForHumans() }}</span>
+                                </div>
+                                <p class="comment-text">{{ $rating->review ?? 'Great product! Recommended!' }}</p>
+                            </div>
+                        @empty
+                            <div class="comment-item">
+                                <div class="comment-author">
+                                    <div class="comment-avatar">A</div>
+                                    <span class="comment-name">Ahmad Gaming</span>
+                                    <span class="comment-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                    <span class="comment-date">2 days ago</span>
+                                </div>
+                                <p class="comment-text">Fast delivery, trusted seller! Recommended!</p>
+                            </div>
+                        @endforelse
+
+                        <a href="#reviews" class="view-all-comments">
+                            View All Reviews <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
                     </div>
                 </div>
             </div>

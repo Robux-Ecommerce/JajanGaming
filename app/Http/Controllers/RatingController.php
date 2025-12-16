@@ -98,4 +98,48 @@ class RatingController extends Controller
 
         return view('ratings.index', compact('ratings'));
     }
+
+    // Store a rating submitted from product page
+    public function storeForProduct(Request $request, \App\Models\Product $product)
+    {
+        $request->validate([
+            'rating' => 'nullable|integer|min:1|max:5',
+            'review' => 'nullable|string|max:1000',
+        ]);
+
+        // Ensure only authenticated users can submit
+        if (!Auth::check()) {
+            return redirect()->back()->with('error', 'You must be logged in to submit a review.');
+        }
+
+        $user = Auth::user();
+
+        // Optional: require user to have bought product
+        $hasPurchased = \App\Models\Order::where('user_id', $user->id)
+            ->where('status', 'completed')
+            ->whereHas('orderItems', function($q) use ($product) {
+                $q->where('product_id', $product->id);
+            })->exists();
+
+        if (! $hasPurchased) {
+            return redirect()->back()->with('error', 'You can only leave reviews after purchasing this product.');
+        }
+
+        $ratingValue = $request->input('rating', null);
+        $reviewText = $request->input('review', null);
+
+        // Update existing rating for this user/product or create
+        $rating = Rating::firstOrNew([
+            'user_id' => $user->id,
+            'product_id' => $product->id,
+        ]);
+
+        if ($ratingValue) {
+            $rating->rating = $ratingValue;
+        }
+        $rating->review = $reviewText ?? $rating->review;
+        $rating->save();
+
+        return redirect()->back()->with('success', 'Thank you — your review has been submitted.');
+    }
 }

@@ -73,6 +73,12 @@ class BrowseController extends Controller
             ->distinct()
             ->pluck('game_type');
 
-        return view('browse', compact('products', 'gameTypes'));
+        // Get active banner (if any)
+        $banner = null;
+        if (\Illuminate\Support\Facades\Schema::hasTable('banners')) {
+            $banner = \App\Models\Banner::active()->orderBy('start_date', 'desc')->first();
+        }
+
+        return view('browse', compact('products', 'gameTypes', 'banner'));
     }
 }
