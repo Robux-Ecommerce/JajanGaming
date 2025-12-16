@@ -3,57 +3,114 @@
 @section('title', 'JajanGaming - Top Up Robux Roblox')
 
 @section('content')
-    <!-- Hero Section -->
-    <div class="hero-section">
-        <!-- Hero Slider -->
-        <div class="hero-slider">
-            <div class="hero-slide active"></div>
-            <div class="hero-slide"></div>
-            <div class="hero-slide"></div>
+    <!-- Hero Section - Roblox Gaming Style -->
+    <div class="hero-wrapper">
+        <!-- Floating Particles -->
+        <div class="hero-particles">
+            <span class="particle particle-1">💎</span>
+            <span class="particle particle-2">🎮</span>
+            <span class="particle particle-3">⭐</span>
+            <span class="particle particle-4">🎯</span>
+            <span class="particle particle-5">🔥</span>
+            <span class="particle particle-6">💰</span>
         </div>
+        
+        <!-- Hero Slider Card (Left) -->
+        <div class="hero-slider-card">
+            <div class="hero-slider">
+                <div class="hero-slide active"></div>
+                <div class="hero-slide"></div>
+                <div class="hero-slide"></div>
+                <div class="hero-slide"></div>
+                <div class="hero-slide"></div>
+                <div class="hero-slide"></div>
+            </div>
 
-        <!-- Dark Overlay for text contrast -->
-        <div class="dark-overlay"></div>
+            <!-- Dark Overlay for text contrast -->
+            <div class="dark-overlay"></div>
 
-        <!-- Navigation Arrows -->
-        <button class="hero-nav hero-nav-prev" onclick="changeHeroSlide(-1)">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="hero-nav hero-nav-next" onclick="changeHeroSlide(1)">
-            <i class="fas fa-chevron-right"></i>
-        </button>
+            <!-- Hero Content -->
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">💎</span>
+                    <span class="badge-text">ROBUX MARKETPLACE #1</span>
+                </div>
+                
+                <h1 class="hero-title" id="heroTitle">
+                    Top Up <span class="highlight-text">Robux</span> Murah & Cepat!
+                </h1>
 
-        <div class="container">
-            <div class="row align-items-center">
-                <!-- Left Content -->
-                <div class="col-lg-6 hero-content-left">
-                    <h1 class="hero-title">
-                        <i class="fas fa-hand-wave me-2"></i>Selamat Datang di Marketplace Robux Terpercaya
-                    </h1>
-                    <p class="hero-description">
-                        Kami memudahkan kamu menemukan reseller Robux yang aman, cepat, dan berharga terbaik. Semua reseller
-                        melalui proses verifikasi dan rating dari pengguna.
-                    </p>
-                    <div class="hero-stats mt-4">
-                        <div class="stat-item">
-                            <i class="fas fa-clock me-2"></i>
-                            <span>Update harga Robux real-time</span>
-                        </div>
-                        <div class="stat-item mt-2">
-                            <i class="fas fa-check-circle me-2"></i>
-                            <span>Ribuan transaksi berhasil setiap hari</span>
-                        </div>
+                <p class="hero-description" id="heroDescription">
+                    🎮 Temukan reseller terpercaya dengan harga terbaik. Transaksi aman, proses cepat, dan rating pengguna nyata!
+                </p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>Proses Instan</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>100% Aman</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-star"></i>
+                        <span>Terpercaya</span>
                     </div>
                 </div>
 
-                <!-- Right Content -->
-                <div class="col-lg-6 hero-content-right">
-                    <!-- Robux Calculator -->
-                    <div class="robux-calculator">
+                <div class="hero-buttons mt-4">
+                    <a href="#products" class="btn btn-hero-primary">
+                        <i class="fas fa-shopping-cart me-2"></i>Beli Robux
+                    </a>
+                    <a href="{{ route('browse') }}" class="btn btn-hero-secondary">
+                        <i class="fas fa-search me-2"></i>Cari Reseller
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thumbnail List Card (Right) -->
+        <div class="hero-thumbnails-list">
+            <div class="hero-thumb-item active" onclick="goToHeroSlide(0)">
+                <img src="{{ asset('img/rbg1.jpg') }}" alt="Slide 1">
+                <span class="thumb-title">Robux Murah</span>
+            </div>
+            <div class="hero-thumb-item" onclick="goToHeroSlide(1)">
+                <img src="{{ asset('img/rbg2.jpg') }}" alt="Slide 2">
+                <span class="thumb-title">Flash Sale</span>
+            </div>
+            <div class="hero-thumb-item" onclick="goToHeroSlide(2)">
+                <img src="{{ asset('img/rbg3.jpg') }}" alt="Slide 3">
+                <span class="thumb-title">Reseller Top</span>
+            </div>
+            <div class="hero-thumb-item" onclick="goToHeroSlide(3)">
+                <img src="{{ asset('img/rbg4.jpg') }}" alt="Slide 4">
+                <span class="thumb-title">Promo Spesial</span>
+            </div>
+            <div class="hero-thumb-item" onclick="goToHeroSlide(4)">
+                <img src="{{ asset('img/rbg5.jpg') }}" alt="Slide 5">
+                <span class="thumb-title">Best Seller</span>
+            </div>
+            <div class="hero-thumb-item" onclick="goToHeroSlide(5)">
+                <img src="{{ asset('img/rbg6.jpg') }}" alt="Slide 6">
+                <span class="thumb-title">Terpercaya</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Section - Calculator & Search -->
+    <div class="quick-actions-section">
+    <div class="quick-actions-section">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Kalkulator Column -->
+                <div class="col-lg-6">
+                    <div class="robux-calculator-card">
                         <h3 class="calculator-title">
-                            <i class="fas fa-calculator me-2"></i>Kalkulator Robux
+                            <i class="fas fa-coins me-2"></i>Robux Price Estimator
                         </h3>
-                        <p class="calculator-subtitle">Hitung cepat: "Saya mau beli berapa Robux?"</p>
+                        <p class="calculator-subtitle">Estimasi harga sebelum membeli Robux</p>
 
                         <div class="calculator-input-group">
                             <label for="robuxAmount" class="calculator-label">Masukkan jumlah Robux:</label>
@@ -76,25 +133,22 @@
                         </a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Search Section -->
-    <div class="container">
-        <div class="search-section">
-            <div class="row align-items-center">
-                <div class="col-md-10">
-                    <div class="d-flex align-items-center">
-                        <h4 class="mb-0 me-4">
+                <!-- Search Filter Column -->
+                <div class="col-lg-6">
+                    <div class="search-filter-card">
+                        <h3 class="filter-title">
                             <i class="fas fa-search me-2"></i>Cari Paket Robux
-                        </h4>
-                        <form method="GET" action="{{ route('home') }}" class="d-flex flex-grow-1">
-                            <div class="me-2 flex-grow-1">
+                        </h3>
+                        <p class="filter-subtitle">Temukan paket terbaik untuk kebutuhan Anda</p>
+
+                        <form method="GET" action="{{ route('home') }}" class="search-filter-form">
+                            <div class="search-input-wrapper mb-3">
                                 <input type="text" class="form-control" name="search" placeholder="Cari paket Robux..."
                                     value="{{ request('search') }}">
                             </div>
-                            <div class="me-2" style="min-width: 180px;">
+
+                            <div class="category-select-wrapper mb-3">
                                 <select class="form-select" name="category">
                                     <option value="">🏷️ Semua Kategori</option>
                                     <option value="popular" {{ request('category') == 'popular' ? 'selected' : '' }}>
@@ -105,87 +159,27 @@
                                     </option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary me-3">
-                                <i class="fas fa-search"></i>
+
+                            <button type="submit" class="btn btn-search-filter">
+                                <i class="fas fa-search me-2"></i>Cari Sekarang
                             </button>
                         </form>
+
+                        @auth
+                            <div class="wallet-info mt-3">
+                                <i class="fas fa-wallet me-2"></i>
+                                <span>Saldo: <strong>Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}</strong></span>
+                            </div>
+                        @endauth
                     </div>
-                </div>
-                <div class="col-md-2 text-end">
-                    @auth
-                        <div class="wallet-balance" style="max-width: 160px;">
-                            <i class="fas fa-wallet me-2"></i>
-                            Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
-                        </div>
-                    @endauth
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Special Events Banner -->
-    <div class="container mt-4">
-        <div class="special-events-section">
-            <h2 class="special-events-title mb-4">
-                <i class="fas fa-star me-2"></i>Special Events
-            </h2>
-            <div class="special-banner">
-                <div class="special-banner-content">
-                    @if (isset($banner) && $banner)
-                        <div class="special-banner-text">
-                            <span class="special-banner-subtitle">{{ $banner->subtitle }}</span>
-                            <h1 class="special-banner-title">{{ $banner->title }}</h1>
-                            @if ($banner->start_date || $banner->end_date)
-                                <p class="special-banner-date">{{ optional($banner->start_date)->format('F j') }}
-                                    @if ($banner->start_date && $banner->end_date)
-                                        - {{ optional($banner->end_date)->format('F j') }}
-                                    @endif
-                                </p>
-                            @endif
-                            <p class="special-banner-description">{!! nl2br(e($banner->description)) !!}</p>
-                            @if ($banner->button_text)
-                                @php $isExternal = $banner->button_url && (Illuminate\Support\Str::startsWith($banner->button_url, ['http://','https://'])); @endphp
-                                <a href="{{ $banner->button_url ?? '#' }}" class="btn btn-special-banner"
-                                    @if ($isExternal) target="_blank" rel="noopener noreferrer" @endif>{{ $banner->button_text }}</a>
-                            @endif
-                        </div>
-                        <div class="special-banner-visual">
-                            @if ($banner->image)
-                                <img src="{{ asset('storage/' . $banner->image) }}" alt="{{ $banner->title }}"
-                                    style="max-width:100%; height:auto; border-radius: 12px;">
-                            @else
-                                <h1 class="special-visual-text">{{ $banner->subtitle }}</h1>
-                                <h2 class="special-visual-sale">{{ $banner->title }}</h2>
-                                @if ($banner->button_text)
-                                    <div class="special-visual-discount">{{ $banner->button_text }}</div>
-                                @endif
-                            @endif
-                        </div>
-                    @else
-                        <div class="special-banner-text">
-                            <span class="special-banner-subtitle">Summer</span>
-                            <h1 class="special-banner-title">Savings</h1>
-                            <p class="special-banner-date">August 7 - August 21</p>
-                            <p class="special-banner-description">
-                                Enjoy the summer!<br>
-                                Get big discounts on top up Robux!<br>
-                                Summer sale is now live!<br>
-                                Grab your favorites now - up to<br>
-                                70% OFF for a limited time
-                            </p>
-                            <button class="btn btn-special-banner">
-                                Browse Now
-                            </button>
-                        </div>
-                        <div class="special-banner-visual">
-                            <h1 class="special-visual-text">Summer</h1>
-                            <h2 class="special-visual-sale">SALE</h2>
-                            <div class="special-visual-discount">UP TO 70% DISCOUNT</div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
+    <!-- Search Section -->
+    <div class="container">
+        <!-- Products results start here -->
     </div>
 
     <!-- Top Selling Products Section -->

@@ -1786,265 +1786,6 @@
             color: white;
         }
 
-        /* Landscape Browse Card Styles */
-        .browse-card-landscape {
-            background: linear-gradient(135deg, rgba(42, 42, 62, 0.95) 0%, rgba(26, 26, 46, 0.95) 100%);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            position: relative;
-            height: 100%;
-            display: flex;
-            flex-direction: row;
-            min-height: 280px;
-        }
-
-        .browse-card-landscape:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0, 212, 170, 0.3);
-            border-color: rgba(0, 212, 170, 0.6);
-        }
-
-        .browse-card-image-landscape {
-            position: relative;
-            width: 220px;
-            min-width: 220px;
-            height: 100%;
-            overflow: hidden;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        }
-
-        .browse-card-image-landscape img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .browse-card-landscape:hover .browse-card-image-landscape img {
-            transform: scale(1.15);
-        }
-
-        .favorite-btn-landscape {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            width: 40px;
-            height: 40px;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #ffffff;
-            z-index: 10;
-            font-size: 1.1rem;
-        }
-
-        .favorite-btn-landscape:hover {
-            background: rgba(255, 71, 87, 0.9);
-            border-color: #ff4757;
-            transform: scale(1.15);
-        }
-
-        .discount-badge-landscape {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 1rem;
-            z-index: 10;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .browse-card-content-landscape {
-            padding: 1.25rem 1.5rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 0.75rem;
-        }
-
-        .browse-card-header-landscape {
-            flex-shrink: 0;
-        }
-
-        .browse-card-title-landscape {
-            color: #ffffff;
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 0.35rem;
-            line-height: 1.3;
-        }
-
-        .browse-card-description-landscape {
-            color: rgba(255, 255, 255, 0.65);
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-
-        .browse-card-badges-landscape {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 0.5rem;
-        }
-
-        .badge-top-seller-landscape {
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            color: white;
-            padding: 0.3rem 0.75rem;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.7rem;
-            display: inline-flex;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
-        }
-
-        .badge-game-type-landscape {
-            background: linear-gradient(135deg, #00d4aa 0%, #00a8cc 100%);
-            color: white;
-            padding: 0.3rem 0.75rem;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.7rem;
-            box-shadow: 0 2px 8px rgba(0, 212, 170, 0.3);
-        }
-
-        .seller-info-landscape {
-            display: flex;
-            align-items: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .seller-info-landscape i {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1rem;
-        }
-
-        .seller-label-landscape {
-            color: rgba(255, 255, 255, 0.6);
-            margin-right: 0.25rem;
-        }
-
-        .seller-name-landscape {
-            color: #ffffff;
-            font-weight: 600;
-        }
-
-        .rating-sales-landscape {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .rating-stars-landscape {
-            display: flex;
-            align-items: center;
-            gap: 0.15rem;
-        }
-
-        .rating-stars-landscape i {
-            color: #ffc107;
-            font-size: 0.85rem;
-        }
-
-        .rating-value-landscape {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8rem;
-            margin-left: 0.4rem;
-        }
-
-        .sales-count-landscape {
-            color: #2ecc71;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .browse-card-footer-landscape {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-top: auto;
-            padding-top: 0.5rem;
-        }
-
-        .price-section-landscape {
-            display: flex;
-            flex-direction: column;
-            gap: 0.15rem;
-        }
-
-        .original-price-landscape {
-            color: rgba(255, 255, 255, 0.4);
-            text-decoration: line-through;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .current-price-landscape {
-            color: #00d4aa;
-            font-size: 1.4rem;
-            font-weight: 800;
-            line-height: 1;
-        }
-
-        .btn-add-cart-landscape {
-            background: #ffffff;
-            color: #1a1a2e;
-            border: none;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
-            flex-shrink: 0;
-        }
-
-        .btn-add-cart-landscape:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 25px rgba(0, 212, 170, 0.5);
-            background: #00d4aa;
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            .browse-card-landscape {
-                flex-direction: column;
-                min-height: auto;
-            }
-
-            .browse-card-image-landscape {
-                width: 100%;
-                height: 220px;
-            }
-
-            .browse-card-content-landscape {
-                padding: 1.25rem;
-            }
-        }
-
         @media (max-width: 992px) {
             .special-banner {
                 padding: 2rem;
@@ -5965,8 +5706,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sidebar-quick-action"
-                                href="{{ Route::has('admin.products.index') ? route('admin.products.index') : route('admin.dashboard') }}">
+                            <a class="nav-link sidebar-quick-action" href="{{ route('admin.products') }}">
                                 <i class="fas fa-cube"></i>
                                 Manage Products
                             </a>
@@ -6026,8 +5766,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sidebar-quick-action"
-                                href="{{ Route::has('admin.products.index') ? route('admin.products.index') : route('admin.dashboard') }}">
+                            <a class="nav-link sidebar-quick-action" href="{{ route('admin.products') }}">
                                 <i class="fas fa-cube"></i>
                                 Manage Products
                             </a>
@@ -6141,40 +5880,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('orders.index') }}">Orders</a>
                         </li>
-                        @if (auth()->user()->isAdmin())
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="adminMenu" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Admin
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminMenu">
-                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ Route::has('admin.banners.index') ? route('admin.banners.index') : route('admin.dashboard') }}">Banners</a>
-                                    </li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ Route::has('admin.products.index') ? route('admin.products.index') : route('admin.dashboard') }}">Products</a>
-                                    </li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ Route::has('admin.orders') ? route('admin.orders') : route('admin.dashboard') }}">Orders</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @elseif(auth()->user()->isSeller())
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="sellerMenu" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Seller
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="sellerMenu">
-                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ Route::has('admin.products.index') ? route('admin.products.index') : route('admin.dashboard') }}">Manage
-                                            Products</a></li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ Route::has('admin.orders') ? route('admin.orders') : route('admin.dashboard') }}">Orders</a>
-                                    </li>
-                                </ul>
+                        @if (auth()->user()->isAdminOrSeller())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
                             </li>
                         @endif
                     @endauth
