@@ -10,7 +10,7 @@
                     <h1 class="h3 mb-0">
                         <i class="fas fa-plus me-2"></i>Add New Product
                     </h1>
-                    <a href="{{ Route::has('admin.products.index') ? route('admin.products.index') : route('admin.dashboard') }}"
+                    <a href="{{ Route::has('admin.products') ? route('admin.products') : route('admin.dashboard') }}"
                         class="btn btn-secondary">
                         <i class="fas fa-arrow-left me-2"></i>Back to Products
                     </a>
@@ -325,7 +325,7 @@
                             </div>
 
                             <div class="d-flex justify-content-end">
-                                <a href="{{ Route::has('admin.products.index') ? route('admin.products.index') : route('admin.dashboard') }}"
+                                <a href="{{ Route::has('admin.products') ? route('admin.products') : route('admin.dashboard') }}"
                                     class="btn btn-secondary me-2">Cancel</a>
                                 <button type="submit" class="btn btn-primary" id="submitBtn">
                                     <i class="fas fa-save me-2"></i>Create Product

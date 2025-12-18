@@ -5695,6 +5695,12 @@
                                 Dashboard
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.banners.index') }}">
+                                <i class="fas fa-image"></i>
+                                Manage Banners
+                            </a>
+                        </li>
                     </ul>
 
                     <div class="sidebar-section">Quick Actions</div>
@@ -5709,6 +5715,12 @@
                             <a class="nav-link sidebar-quick-action" href="{{ route('admin.products') }}">
                                 <i class="fas fa-cube"></i>
                                 Manage Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link sidebar-quick-action" href="{{ route('admin.banners.index') }}">
+                                <i class="fas fa-image"></i>
+                                Manage Banners
                             </a>
                         </li>
                         <li class="nav-item">
