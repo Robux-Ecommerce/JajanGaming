@@ -21,7 +21,7 @@
             @endif
             <div class="sidebar-user-info">
                 <h6>{{ $user->name }}</h6>
-                <span class="user-role">{{ $user->isAdmin() ? 'Administrator' : 'Seller' }}</span>
+                <span class="user-role">{{ $user->isAdmin() ? 'Administrator' : ($user->isSeller() ? 'Seller' : 'Customer') }}</span>
             </div>
         </div>
         
@@ -83,9 +83,9 @@
             <div class="header-left">
                 <h1>
                     <i class="fas fa-tachometer-alt"></i>
-                    {{ $user->isAdmin() ? 'Admin Dashboard' : 'Seller Dashboard' }}
+                    {{ $user->isAdmin() ? 'Admin Dashboard' : ($user->isSeller() ? 'Seller Dashboard' : 'Customer Dashboard') }}
                 </h1>
-                <p class="header-subtitle">Welcome back, {{ $user->name }}! Here's your overview.</p>
+                <p class="header-subtitle">{{ $user->isAdmin() ? 'Welcome back, ' . $user->name . '! Here\'s your overview.' : ($user->isSeller() ? 'Selamat datang kembali, ' . $user->name . '! Berikut adalah ringkasan Anda.' : 'Selamat datang kembali, ' . $user->name . '! Berikut adalah ringkasan Anda.') }}</p>
             </div>
             <div class="header-right">
                 <div class="header-date">
