@@ -5966,6 +5966,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('browse') }}">Browse</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('sellers.index') }}">Sellers</a>
+                    </li>
                     @auth
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cart.index') }}">
