@@ -452,6 +452,70 @@
             color: #00a8cc;
         }
 
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.6rem 0.9rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .qty-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            white-space: nowrap;
+            margin: 0;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            padding: 0.3rem;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+        }
+
+        .qty-btn {
+            background: rgba(0, 212, 170, 0.2);
+            color: #00d4aa;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-btn:hover {
+            background: rgba(0, 212, 170, 0.4);
+            transform: scale(1.1);
+        }
+
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
         .product-actions {
             display: flex;
             flex-direction: column;
@@ -493,6 +557,7 @@
             text-decoration: none;
             display: block;
             font-size: 0.75rem;
+            cursor: pointer;
         }
 
         .btn-secondary-action:hover {
@@ -805,18 +870,31 @@
 
                     <!-- Actions -->
                     @auth
-                        <form action="{{ route('cart.add') }}" method="POST">
+                        <form action="{{ route('cart.add') }}" method="POST" id="addToCartForm">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <input type="hidden" name="quantity" value="1">
-
+                            
                             <div class="product-actions">
-                                <button type="submit" class="btn-buy-now">
+                                <div class="quantity-selector">
+                                    <label for="quantity" class="qty-label">Quantity:</label>
+                                    <div class="qty-control">
+                                        <button type="button" class="qty-btn" id="qtyDecrement">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" id="quantity" name="quantity" value="1" min="1" 
+                                            max="{{ $product->quantity }}" class="qty-input" readonly>
+                                        <button type="button" class="qty-btn" id="qtyIncrement">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn-buy-now" id="addToCartBtn">
                                     <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                                 </button>
-                                <a href="{{ route('home') }}" class="btn-secondary-action">
-                                    <i class="fas fa-heart me-2"></i>Add to Wishlist
-                                </a>
+                                <button type="button" class="btn-secondary-action" id="viewDetailsBtn" data-bs-toggle="modal" data-bs-target="#productDetailsModal">
+                                    <i class="fas fa-info-circle me-2"></i>View Details
+                                </button>
                             </div>
                         </form>
                     @else
@@ -824,6 +902,9 @@
                             <a href="{{ route('login') }}" class="btn-buy-now">
                                 <i class="fas fa-sign-in-alt me-2"></i>Login to Purchase
                             </a>
+                            <button type="button" class="btn-secondary-action" data-bs-toggle="modal" data-bs-target="#productDetailsModal">
+                                <i class="fas fa-info-circle me-2"></i>View Details
+                            </button>
                         </div>
                     @endauth
 
@@ -1020,4 +1101,174 @@
             </div>
         </div>
     </div>
+
+    <!-- Product Details Modal -->
+    <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background: #16213e; border: 1px solid rgba(0, 212, 170, 0.2);">
+                <div class="modal-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                    <h5 class="modal-title" id="productDetailsLabel" style="color: #ffffff;">
+                        <i class="fas fa-info-circle me-2"></i>{{ $product->name }} - Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="color: #ffffff;">
+                    <div class="detail-section mb-4">
+                        <h6 style="color: #00d4aa; font-weight: 600; margin-bottom: 1rem;">
+                            <i class="fas fa-file-alt me-2"></i>Description
+                        </h6>
+                        <p>
+                            {{ $product->description ?? $product->name . ' adalah paket ' . $product->game_type . ' untuk ' . $product->game_name . '. Dapatkan dengan harga terbaik dan proses yang cepat. Top up mudah, aman, dan terpercaya untuk kebutuhan gaming Anda.' }}
+                        </p>
+                    </div>
+
+                    <hr style="border-color: rgba(255, 255, 255, 0.1);">
+
+                    <div class="detail-section mb-4">
+                        <h6 style="color: #00d4aa; font-weight: 600; margin-bottom: 1rem;">
+                            <i class="fas fa-cube me-2"></i>Product Specifications
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
+                                    <small style="color: rgba(255, 255, 255, 0.6);">Game</small>
+                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">{{ $product->game_name }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
+                                    <small style="color: rgba(255, 255, 255, 0.6);">Category</small>
+                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">{{ $product->game_type }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
+                                    <small style="color: rgba(255, 255, 255, 0.6);">Price</small>
+                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
+                                    <small style="color: rgba(255, 255, 255, 0.6);">Stock Available</small>
+                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">{{ $product->quantity }} units</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
+                                    <small style="color: rgba(255, 255, 255, 0.6);">Total Sales</small>
+                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">{{ number_format($product->sales_count) }} sold</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
+                                    <small style="color: rgba(255, 255, 255, 0.6);">Rating</small>
+                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">
+                                        @if($product->ratings()->count() > 0)
+                                            {{ number_format($product->ratings()->avg('rating'), 1) }} ⭐ ({{ $product->ratings()->count() }} reviews)
+                                        @else
+                                            No ratings yet
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="border-color: rgba(255, 255, 255, 0.1);">
+
+                    <div class="detail-section">
+                        <h6 style="color: #00d4aa; font-weight: 600; margin-bottom: 1rem;">
+                            <i class="fas fa-store me-2"></i>Seller Information
+                        </h6>
+                        <div style="background: rgba(0, 212, 170, 0.05); padding: 1rem; border-radius: 8px;">
+                            <p style="margin: 0.25rem 0; font-weight: 600;">{{ $product->seller_name }}</p>
+                            <small style="color: rgba(255, 255, 255, 0.6);">Verified Seller</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quantity Control
+            const qtyInput = document.getElementById('quantity');
+            const qtyIncrement = document.getElementById('qtyIncrement');
+            const qtyDecrement = document.getElementById('qtyDecrement');
+            const maxQty = {{ $product->quantity }};
+
+            if (qtyIncrement) {
+                qtyIncrement.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    let current = parseInt(qtyInput.value) || 1;
+                    if (current < maxQty) {
+                        qtyInput.value = current + 1;
+                    }
+                });
+            }
+
+            if (qtyDecrement) {
+                qtyDecrement.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    let current = parseInt(qtyInput.value) || 1;
+                    if (current > 1) {
+                        qtyInput.value = current - 1;
+                    }
+                });
+            }
+
+            // Add to Cart with feedback
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            const addToCartForm = document.getElementById('addToCartForm');
+
+            if (addToCartBtn && addToCartForm) {
+                addToCartBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(addToCartForm);
+                    const quantity = parseInt(qtyInput.value) || 1;
+                    
+                    fetch('{{ route("cart.add") }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Show success message
+                            const alertDiv = document.createElement('div');
+                            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+                            alertDiv.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                            alertDiv.innerHTML = `
+                                <i class="fas fa-check-circle me-2"></i>
+                                <strong>Success!</strong> ${quantity} item${quantity > 1 ? 's' : ''} added to cart
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            `;
+                            document.body.appendChild(alertDiv);
+                            
+                            // Auto remove after 3 seconds
+                            setTimeout(() => {
+                                alertDiv.remove();
+                            }, 3000);
+
+                            // Reset quantity
+                            qtyInput.value = 1;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error adding to cart. Please try again.');
+                    });
+                });
+            }
+        });
+    </script>
 @endsection
