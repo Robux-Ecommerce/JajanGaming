@@ -2128,18 +2128,22 @@
             border-radius: 10px;
             box-shadow: var(--shadow);
             color: var(--text-color);
+            z-index: 1060 !important;
+            position: relative;
         }
 
         .alert-success {
             background: rgba(100, 160, 180, 0.15);
             border-color: var(--primary-color);
             color: var(--text-color);
+            z-index: 1060 !important;
         }
 
         .alert-danger {
             background: rgba(220, 53, 69, 0.2);
             border-color: #dc3545;
             color: var(--text-color);
+            z-index: 1060 !important;
         }
 
         .text-muted {
