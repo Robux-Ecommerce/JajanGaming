@@ -242,7 +242,7 @@
         @endif
         <div class="sidebar-user-info">
             <h6>{{ auth()->user()->name }}</h6>
-            <span class="user-role">{{ auth()->user()->isAdmin() ? 'Administrator' : 'Seller' }}</span>
+            <span class="user-role">{{ auth()->user()->isAdmin() ? 'Administrator' : (auth()->user()->isSeller() ? 'Seller' : 'Customer') }}</span>
         </div>
     </div>
     @endif

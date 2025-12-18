@@ -5942,7 +5942,7 @@
                             @elseif(auth()->user()->isSeller())
                                 Seller
                             @else
-                                User
+                                Customer
                             @endif
                         </div>
                     </div>
