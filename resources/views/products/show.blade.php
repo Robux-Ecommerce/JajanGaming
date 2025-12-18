@@ -892,9 +892,6 @@
                                 <button type="submit" class="btn-buy-now" id="addToCartBtn">
                                     <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                                 </button>
-                                <button type="button" class="btn-secondary-action" id="viewDetailsBtn" data-bs-toggle="modal" data-bs-target="#productDetailsModal">
-                                    <i class="fas fa-info-circle me-2"></i>View Details
-                                </button>
                             </div>
                         </form>
                     @else
@@ -902,9 +899,6 @@
                             <a href="{{ route('login') }}" class="btn-buy-now">
                                 <i class="fas fa-sign-in-alt me-2"></i>Login to Purchase
                             </a>
-                            <button type="button" class="btn-secondary-action" data-bs-toggle="modal" data-bs-target="#productDetailsModal">
-                                <i class="fas fa-info-circle me-2"></i>View Details
-                            </button>
                         </div>
                     @endauth
 
@@ -1098,97 +1092,6 @@
                     <i class="fas fa-arrow-left"></i>
                     Back to Products
                 </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product Details Modal -->
-    <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="background: #16213e; border: 1px solid rgba(0, 212, 170, 0.2);">
-                <div class="modal-header" style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
-                    <h5 class="modal-title" id="productDetailsLabel" style="color: #ffffff;">
-                        <i class="fas fa-info-circle me-2"></i>{{ $product->name }} - Details
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="color: #ffffff;">
-                    <div class="detail-section mb-4">
-                        <h6 style="color: #00d4aa; font-weight: 600; margin-bottom: 1rem;">
-                            <i class="fas fa-file-alt me-2"></i>Description
-                        </h6>
-                        <p>
-                            {{ $product->description ?? $product->name . ' adalah paket ' . $product->game_type . ' untuk ' . $product->game_name . '. Dapatkan dengan harga terbaik dan proses yang cepat. Top up mudah, aman, dan terpercaya untuk kebutuhan gaming Anda.' }}
-                        </p>
-                    </div>
-
-                    <hr style="border-color: rgba(255, 255, 255, 0.1);">
-
-                    <div class="detail-section mb-4">
-                        <h6 style="color: #00d4aa; font-weight: 600; margin-bottom: 1rem;">
-                            <i class="fas fa-cube me-2"></i>Product Specifications
-                        </h6>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
-                                    <small style="color: rgba(255, 255, 255, 0.6);">Game</small>
-                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">{{ $product->game_name }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
-                                    <small style="color: rgba(255, 255, 255, 0.6);">Category</small>
-                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">{{ $product->game_type }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
-                                    <small style="color: rgba(255, 255, 255, 0.6);">Price</small>
-                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
-                                    <small style="color: rgba(255, 255, 255, 0.6);">Stock Available</small>
-                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">{{ $product->quantity }} units</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
-                                    <small style="color: rgba(255, 255, 255, 0.6);">Total Sales</small>
-                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">{{ number_format($product->sales_count) }} sold</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div style="background: rgba(0, 212, 170, 0.05); padding: 0.8rem; border-radius: 8px; border-left: 3px solid #00d4aa;">
-                                    <small style="color: rgba(255, 255, 255, 0.6);">Rating</small>
-                                    <p style="margin: 0.25rem 0 0 0; font-weight: 600;">
-                                        @if($product->ratings()->count() > 0)
-                                            {{ number_format($product->ratings()->avg('rating'), 1) }} ⭐ ({{ $product->ratings()->count() }} reviews)
-                                        @else
-                                            No ratings yet
-                                        @endif
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr style="border-color: rgba(255, 255, 255, 0.1);">
-
-                    <div class="detail-section">
-                        <h6 style="color: #00d4aa; font-weight: 600; margin-bottom: 1rem;">
-                            <i class="fas fa-store me-2"></i>Seller Information
-                        </h6>
-                        <div style="background: rgba(0, 212, 170, 0.05); padding: 1rem; border-radius: 8px;">
-                            <p style="margin: 0.25rem 0; font-weight: 600;">{{ $product->seller_name }}</p>
-                            <small style="color: rgba(255, 255, 255, 0.6);">Verified Seller</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer" style="border-top: 1px solid rgba(255, 255, 255, 0.1);">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
             </div>
         </div>
     </div>
