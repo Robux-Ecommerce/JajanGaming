@@ -3,6 +3,12 @@
 @section('title', 'Manage Transactions - JajanGaming')
 
 @section('content')
+<!-- Page Container with Sidebar -->
+<div style="display: flex; min-height: calc(100vh - 80px);">
+    @include('partials.sidebar', ['sidebarTitle' => 'Transactions'])
+    
+    <!-- Main Content -->
+    <div style="flex: 1; overflow-y: auto;">
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -152,4 +158,6 @@
     color: #858796 !important;
 }
 </style>
+    </div>
+</div>
 @endsection

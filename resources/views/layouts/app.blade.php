@@ -627,91 +627,66 @@
             }
         }
 
-        /* Logo G Styling */
+        /* ===================================================================
+           MODERN NAVBAR STYLING - Soft Gaming Theme
+        =================================================================== */
+        
+        /* Logo G Styling - Modern Gaming */
         .logo-g {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #00d4ff;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #64b5c6 0%, #8ecfda 50%, #a8e0eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             position: relative;
             display: inline-block;
+            letter-spacing: -1px;
+            transition: all 0.3s ease;
         }
 
         .logo-g::after {
-            content: '→';
-            position: absolute;
-            bottom: -2px;
-            right: -8px;
-            font-size: 0.8rem;
-            color: #4dd0e1;
-            font-weight: 400;
+            display: none;
         }
 
         .navbar-brand {
-            padding: 0;
-            margin-right: 2rem;
+            padding: 0.5rem 0;
+            margin-right: 1.5rem;
+            display: flex;
+            align-items: center;
         }
 
         .navbar-brand:hover .logo-g {
-            color: #4dd0e1;
-            transform: scale(1.05);
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #8ecfda 0%, #a8e0eb 50%, #c8f0f8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            transform: scale(1.08);
+            filter: drop-shadow(0 2px 8px rgba(100, 181, 198, 0.3));
         }
 
-        /* Search Bar Styling */
-        .navbar-search {
-            position: relative;
-            flex: 1;
-            max-width: 400px;
-            margin: 0 2rem;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ffffff;
-            font-size: 1rem;
-            z-index: 2;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 10px 15px 10px 45px;
-            background: #2a2a3e;
-            border: none;
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 0.95rem;
-        }
-
-        .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .search-input:focus {
-            outline: none;
-            background: #323248;
-        }
-
+        /* Modern Nav Link Styling */
         .nav-link {
-            color: #ffffff !important;
+            color: rgba(255, 255, 255, 0.85) !important;
             font-weight: 500;
-            padding: 0.5rem 1rem !important;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.1rem !important;
+            border-radius: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
+            letter-spacing: 0.02em;
         }
 
         .nav-link:hover {
             color: #ffffff !important;
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(100, 160, 180, 0.15) 0%, rgba(100, 160, 180, 0.08) 100%);
+            transform: translateY(-1px);
         }
 
         .nav-link.active {
             color: #ffffff !important;
-            font-weight: 700;
-            background: transparent;
+            font-weight: 600;
+            background: linear-gradient(135deg, rgba(100, 160, 180, 0.25) 0%, rgba(100, 160, 180, 0.12) 100%);
+            box-shadow: 0 2px 8px rgba(100, 160, 180, 0.15);
         }
 
         .nav-link.active::after {
@@ -728,53 +703,174 @@
 
         .nav-link.active i {
             color: #ffffff !important;
-            transform: scale(1.1);
         }
 
         .nav-link::after {
             display: none;
         }
 
-        /* Login and Register Buttons */
+        /* Wallet Balance - Clickable Modern Style */
+        .wallet-balance {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(100, 160, 180, 0.2) 0%, rgba(64, 120, 140, 0.15) 100%);
+            color: #a8e0eb;
+            padding: 0.55rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(100, 160, 180, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .wallet-balance:hover {
+            background: linear-gradient(135deg, rgba(100, 160, 180, 0.3) 0%, rgba(64, 120, 140, 0.25) 100%);
+            border-color: rgba(100, 160, 180, 0.5);
+            color: #c8f0f8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(100, 160, 180, 0.25);
+            text-decoration: none;
+        }
+
+        .wallet-balance i {
+            color: #64b5c6;
+            font-size: 0.9rem;
+        }
+
+        /* Notification Bell - Modern */
+        #notificationBell {
+            position: relative;
+            padding: 0.5rem 0.75rem !important;
+            border-radius: 12px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        #notificationBell:hover {
+            background: rgba(100, 160, 180, 0.12) !important;
+            transform: translateY(-1px);
+        }
+
+        #notificationBell i {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
+        }
+
+        #notificationBell:hover i {
+            color: #ffffff;
+        }
+
+        /* Notification Badge - Red Pill */
+        #notificationBadge {
+            font-size: 0.65rem !important;
+            min-width: 18px !important;
+            height: 18px !important;
+            padding: 0 5px !important;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+            border: 2px solid #1a2535 !important;
+            font-weight: 700 !important;
+            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4) !important;
+            animation: badgePulse 2s infinite !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            top: -2px !important;
+            right: -8px !important;
+            transform: none !important;
+            left: auto !important;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+            }
+            50% { 
+                transform: scale(1.1); 
+                box-shadow: 0 3px 12px rgba(231, 76, 60, 0.6);
+            }
+        }
+
+        /* Login and Register Buttons - Modern */
         .btn-login {
             background: transparent;
-            border: 1px solid #ffffff;
-            color: #ffffff;
-            padding: 8px 20px;
-            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem 1.25rem;
+            border-radius: 10px;
             font-weight: 500;
+            font-size: 0.9rem;
             text-decoration: none;
             transition: all 0.3s ease;
-            margin-right: 10px;
+            margin-right: 0.75rem;
         }
 
         .btn-login:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             color: #ffffff;
-            border-color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-1px);
         }
 
         .btn-register {
-            background: #6c5ce7;
+            background: linear-gradient(135deg, rgba(100, 160, 180, 0.9) 0%, rgba(80, 140, 165, 0.9) 100%);
             border: none;
             color: #ffffff;
-            padding: 8px 20px;
-            border-radius: 6px;
-            font-weight: 500;
+            padding: 0.5rem 1.25rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
             text-decoration: none;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(100, 160, 180, 0.25);
         }
 
         .btn-register:hover {
-            background: #5f4fd8;
+            background: linear-gradient(135deg, rgba(110, 170, 190, 0.95) 0%, rgba(90, 150, 175, 0.95) 100%);
             color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(100, 160, 180, 0.35);
         }
 
-        /* Dropdown Menu Styling for Dark Theme */
-        .dropdown-menu {
-            background: #2a2a3e;
+        /* User Profile Dropdown Toggle - Modern */
+        .nav-item.dropdown .nav-link.dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 25px;
+            padding: 0.4rem 0.9rem 0.4rem 0.5rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.dropdown .nav-link.dropdown-toggle:hover {
+            background: rgba(100, 160, 180, 0.12);
+            border-color: rgba(100, 160, 180, 0.3);
+        }
+
+        .nav-item.dropdown .nav-link.dropdown-toggle img {
+            width: 28px;
+            height: 28px;
+            border: 2px solid rgba(100, 160, 180, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.dropdown .nav-link.dropdown-toggle:hover img {
+            border-color: rgba(100, 160, 180, 0.7);
+        }
+
+        /* Dropdown Menu Styling - Modern Dark Theme */
+        .dropdown-menu {
+            background: linear-gradient(135deg, #1e2a38 0%, #1a2535 100%);
+            border: 1px solid rgba(100, 160, 180, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
         }
 
         .dropdown-item {
@@ -3992,6 +4088,19 @@
             margin-top: 4rem;
         }
 
+        /* Add margin-left footer only when sidebar is present */
+        body:has(.page-sidebar) .footer,
+        body.dashboard-page .footer {
+            margin-left: 280px;
+        }
+
+        @media (max-width: 1024px) {
+            body:has(.page-sidebar) .footer,
+            body.dashboard-page .footer {
+                margin-left: 0;
+            }
+        }
+
         /* ===================================================================
            QUICK ACTIONS SECTION (Calculator + Search Filter)
         =================================================================== */
@@ -5652,7 +5761,7 @@
                             <a class="nav-link sidebar-notification" href="{{ route('notifications.index') }}">
                                 <i class="fas fa-bell"></i>
                                 Notifications
-                                <span class="badge sidebar-notification-badge" id="sidebarNotificationBadge"
+                                <span class="badge sidebar-notification-badge notification-count-badge"
                                     style="display: none;">0</span>
                             </a>
                         </li>
@@ -5731,7 +5840,7 @@
                             <a class="nav-link sidebar-notification" href="{{ route('notifications.index') }}">
                                 <i class="fas fa-bell"></i>
                                 Notifications
-                                <span class="badge sidebar-notification-badge" id="sidebarNotificationBadge"
+                                <span class="badge sidebar-notification-badge notification-count-badge"
                                     style="display: none;">0</span>
                             </a>
                         </li>
@@ -5791,7 +5900,7 @@
                             <a class="nav-link sidebar-notification" href="{{ route('notifications.index') }}">
                                 <i class="fas fa-bell"></i>
                                 Notifications
-                                <span class="badge sidebar-notification-badge" id="sidebarNotificationBadge"
+                                <span class="badge sidebar-notification-badge notification-count-badge"
                                     style="display: none;">0</span>
                             </a>
                         </li>
@@ -5840,25 +5949,10 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <button class="sidebar-toggle me-3" id="sidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-
             <!-- Logo G -->
             <a class="navbar-brand" href="{{ route('home') }}">
                 <span class="logo-g">G</span>
             </a>
-
-            <!-- Search Bar -->
-            <form class="navbar-search" method="GET" action="{{ route('home') }}">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" name="search" placeholder="Search store"
-                    value="{{ request('search') }}">
-            </form>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
@@ -5867,9 +5961,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('browse') }}">Browse</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('sellers.index') }}">Sellers</a>
                     </li>
                     @auth
                         <li class="nav-item">
@@ -5888,25 +5979,25 @@
                     @endauth
                 </ul>
 
-                <ul class="navbar-nav">
+                <ul class="navbar-nav align-items-center">
                     @auth
-                        <li class="nav-item me-4">
-                            <a class="nav-link position-relative" href="{{ route('notifications.index') }}"
+                        <li class="nav-item me-3">
+                            <a class="nav-link position-relative d-flex align-items-center" href="{{ route('notifications.index') }}"
                                 id="notificationBell">
                                 <i class="fas fa-bell"></i>
                                 <span
-                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                    class="position-absolute badge rounded-pill notification-count-badge"
                                     id="notificationBadge" style="display: none;">
                                     0
                                 </span>
                             </a>
                         </li>
                         @if (auth()->user()->isUser() || auth()->user()->isAdmin())
-                            <li class="nav-item me-4">
-                                <span class="wallet-balance">
-                                    <i class="fas fa-coins me-1"></i>
+                            <li class="nav-item me-3">
+                                <a href="{{ route('wallet.index') }}" class="wallet-balance">
+                                    <i class="fas fa-wallet"></i>
                                     Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
-                                </span>
+                                </a>
                             </li>
                         @endif
                         <li class="nav-item dropdown">
@@ -6562,24 +6653,27 @@
             fetch('{{ route('notifications.unread-count') }}')
                 .then(response => response.json())
                 .then(data => {
-                    const navbarBadge = document.getElementById('notificationBadge');
-                    const sidebarBadge = document.getElementById('sidebarNotificationBadge');
+                    // Get all notification badges (navbar + all sidebars)
+                    const allBadges = document.querySelectorAll('.notification-count-badge');
 
                     if (data.count > 0) {
-                        navbarBadge.textContent = data.count;
-                        navbarBadge.style.display = 'block';
-                        sidebarBadge.textContent = data.count;
-                        sidebarBadge.style.display = 'block';
+                        allBadges.forEach(badge => {
+                            badge.textContent = data.count;
+                            badge.style.display = 'inline-block';
+                        });
 
                         // Add shake animation to bell
                         const bell = document.getElementById('notificationBell');
-                        bell.style.animation = 'shake 0.5s ease-in-out';
-                        setTimeout(() => {
-                            bell.style.animation = '';
-                        }, 500);
+                        if (bell) {
+                            bell.style.animation = 'shake 0.5s ease-in-out';
+                            setTimeout(() => {
+                                bell.style.animation = '';
+                            }, 500);
+                        }
                     } else {
-                        navbarBadge.style.display = 'none';
-                        sidebarBadge.style.display = 'none';
+                        allBadges.forEach(badge => {
+                            badge.style.display = 'none';
+                        });
                     }
                 })
                 .catch(error => console.log('Error fetching notification count:', error));

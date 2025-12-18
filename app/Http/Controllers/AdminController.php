@@ -128,7 +128,7 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('stats', 'recent_orders', 'top_products', 'monthly_revenue', 'monthly_orders', 'user'));
     }
 
-    public function products()
+    public function products(Request $request)
     {
         // Check if user is admin or seller
         if (!auth()->user()->isAdminOrSeller()) {
@@ -136,21 +136,45 @@ class AdminController extends Controller
         }
 
         $user = auth()->user();
+        $sellerId = $request->get('seller_id');
         
         if ($user->isAdmin()) {
-            // Admin sees all products
-            $products = Product::with('orderItems')
-                ->orderBy('created_at', 'desc')
-                ->paginate(10);
+            // If seller_id is provided, show products from that seller
+            if ($sellerId) {
+                $selectedSeller = User::where('id', $sellerId)
+                    ->where('role', 'seller')
+                    ->firstOrFail();
+                
+                $products = Product::where('seller_name', $selectedSeller->name)
+                    ->with('orderItems')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(12);
+                
+                return view('admin.products.index', compact('products', 'user', 'selectedSeller'));
+            }
+            
+            // Otherwise show list of sellers
+            $sellers = User::where('role', 'seller')
+                ->get()
+                ->map(function($seller) {
+                    $seller->total_sales = Product::where('seller_name', $seller->name)->sum('sales_count');
+                    $seller->total_products = Product::where('seller_name', $seller->name)->count();
+                    return $seller;
+                })
+                ->sortByDesc('total_sales');
+            
+            return view('admin.products.index', compact('user', 'sellers'));
         } else {
             // Seller sees only their products
             $products = Product::where('seller_name', $user->name)
                 ->with('orderItems')
                 ->orderBy('created_at', 'desc')
-                ->paginate(10);
-        }
+                ->paginate(12);
+            
+            $selectedSeller = $user;
 
-        return view('admin.products.index', compact('products', 'user'));
+            return view('admin.products.index', compact('products', 'user', 'selectedSeller'));
+        }
     }
 
     public function createProduct()

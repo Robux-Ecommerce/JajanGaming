@@ -3,12 +3,6 @@
 @section('title', 'Shopping Cart - JajanGaming')
 
 @section('content')
-<!-- Page Container with Sidebar -->
-<div style="display: flex; min-height: calc(100vh - 80px);">
-    @include('partials.sidebar', ['sidebarTitle' => 'Shopping Cart'])
-    
-    <!-- Main Content -->
-    <div style="flex: 1; overflow-y: auto;">
 <div class="cart-page">
     <!-- Page Header -->
     <div class="cart-header">
@@ -1502,6 +1496,4 @@ function showToast(message, type) {
     setTimeout(() => toast.remove(), 3000);
 }
 </script>
-    </div>
-</div>
 @endsection

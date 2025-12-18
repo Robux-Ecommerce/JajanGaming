@@ -54,12 +54,10 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>Add Product</span>
             </a>
-            @if($user->isSeller())
             <a href="{{ route('wallet.index') }}" class="menu-item">
                 <i class="fas fa-wallet"></i>
                 <span>Wallet</span>
             </a>
-            @endif
             <a href="{{ route('admin.profile') }}" class="menu-item">
                 <i class="fas fa-user-cog"></i>
                 <span>Profile Settings</span>
@@ -427,6 +425,25 @@
     z-index: 1000;
     overflow-y: auto;
     transition: transform 0.3s ease;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 160, 180, 0.2) transparent;
+}
+
+.dashboard-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dashboard-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dashboard-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(100, 160, 180, 0.2);
+    border-radius: 3px;
+}
+
+.dashboard-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 160, 180, 0.4);
 }
 
 .sidebar-brand {
