@@ -5961,26 +5961,37 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">Home</a>
+                        <a class="nav-link" href="{{ route('home') }}">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('browse') }}">Browse</a>
+                        <a class="nav-link" href="{{ route('browse') }}">
+                            <i class="fas fa-list me-1"></i>Browse
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('sellers.index') }}">Sellers</a>
+                        <a class="nav-link" href="{{ route('sellers.index') }}">
+                            <i class="fas fa-store me-1"></i>Sellers
+                        </a>
                     </li>
                     @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cart.index') }}">
-                                <i class="fas fa-shopping-cart me-1"></i>Cart
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('orders.index') }}">Orders</a>
-                        </li>
-                        @if (auth()->user()->isAdminOrSeller())
+                        @if (auth()->user()->isUser())
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                                <a class="nav-link" href="{{ route('cart.index') }}">
+                                    <i class="fas fa-shopping-cart me-1"></i>Cart
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('orders.index') }}">
+                                    <i class="fas fa-receipt me-1"></i>Orders
+                                </a>
+                            </li>
+                        @elseif (auth()->user()->isAdminOrSeller())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                                </a>
                             </li>
                         @endif
                     @endauth
@@ -5999,11 +6010,18 @@
                                 </span>
                             </a>
                         </li>
-                        @if (auth()->user()->isUser() || auth()->user()->isAdmin())
+                        @if (auth()->user()->isUser())
                             <li class="nav-item me-3">
                                 <a href="{{ route('wallet.index') }}" class="wallet-balance">
                                     <i class="fas fa-wallet"></i>
                                     Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
+                                </a>
+                            </li>
+                        @elseif (auth()->user()->isSeller())
+                            <li class="nav-item me-3">
+                                <a href="{{ route('wallet.index') }}" class="wallet-balance">
+                                    <i class="fas fa-chart-line"></i>
+                                    Revenue: Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
                                 </a>
                             </li>
                         @endif
@@ -6020,16 +6038,16 @@
                             </a>
                             <ul class="dropdown-menu">
                                 @if (auth()->user()->isUser())
-                                    <li><a class="dropdown-item" href="{{ route('profile.index') }}">My Profile</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('wallet.index') }}">My Wallet</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('orders.index') }}">My Orders</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('profile.index') }}"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('wallet.index') }}"><i class="fas fa-wallet me-2"></i>My Wallet</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('orders.index') }}"><i class="fas fa-receipt me-2"></i>My Orders</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
                                 @endif
                                 @if (auth()->user()->isAdminOrSeller())
-                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="fas fa-cog me-2"></i>Settings</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -6037,7 +6055,7 @@
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                         @csrf
-                                        <button type="submit" class="dropdown-item">Logout</button>
+                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
                                     </form>
                                 </li>
                             </ul>
