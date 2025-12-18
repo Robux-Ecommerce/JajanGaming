@@ -457,57 +457,62 @@
             align-items: center;
             gap: 0.75rem;
             background: rgba(0, 0, 0, 0.2);
-            padding: 0.6rem 0.9rem;
+            padding: 0.8rem 1rem;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            margin-bottom: 0.75rem;
         }
 
         .qty-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
             white-space: nowrap;
             margin: 0;
+            flex-shrink: 0;
         }
 
         .qty-control {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            background: rgba(0, 0, 0, 0.3);
+            gap: 0.3rem;
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 6px;
-            padding: 0.3rem;
+            padding: 0.4rem 0.5rem;
             border: 1px solid rgba(0, 212, 170, 0.2);
+            margin-left: auto;
         }
 
         .qty-btn {
-            background: rgba(0, 212, 170, 0.2);
+            background: rgba(0, 212, 170, 0.3);
             color: #00d4aa;
             border: none;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
         }
 
         .qty-btn:hover {
-            background: rgba(0, 212, 170, 0.4);
-            transform: scale(1.1);
+            background: rgba(0, 212, 170, 0.5);
+            transform: scale(1.05);
         }
 
         .qty-input {
-            width: 50px;
+            width: 60px;
             text-align: center;
             background: transparent;
             border: none;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 0.9rem;
+            color: #00d4aa;
+            font-weight: 700;
+            font-size: 1rem;
         }
 
         .qty-input::-webkit-outer-spin-button,
