@@ -439,7 +439,7 @@
                         <div class="role-options">
                             <div class="role-option">
                                 <input type="radio" id="user" name="role" value="user"
-                                    {{ old('role') == 'user' ? 'checked' : '' }}>
+                                    {{ old('role', 'user') == 'user' ? 'checked' : '' }} required>
                                 <label for="user" class="role-card">
                                     <i class="fas fa-user"></i>
                                     <h5>Customer</h5>
