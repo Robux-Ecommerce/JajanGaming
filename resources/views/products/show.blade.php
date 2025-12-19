@@ -39,8 +39,8 @@
         .product-main-section {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
         .product-image-wrapper {
@@ -50,30 +50,136 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             width: 100%;
-            background: rgba(42, 42, 62, 0.7);
+            background:
+                radial-gradient(circle at 25px 25px, rgba(0, 212, 170, 0.15) 2px, transparent 2px),
+                radial-gradient(circle at 75px 75px, rgba(102, 126, 234, 0.15) 2px, transparent 2px),
+                radial-gradient(circle at 125px 125px, rgba(255, 193, 7, 0.1) 2px, transparent 2px),
+                linear-gradient(45deg, rgba(42, 42, 62, 0.95) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(42, 42, 62, 0.95) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(42, 42, 62, 0.95) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(42, 42, 62, 0.95) 75%);
+            background-size: 50px 50px, 50px 50px, 50px 50px, 20px 20px, 20px 20px, 20px 20px, 20px 20px;
+            background-position: 0 0, 25px 25px, 50px 50px, 0 0, 0 10px, 10px -10px, -10px 0px;
             backdrop-filter: blur(10px);
+            box-shadow:
+                inset 0 2px 15px rgba(0, 0, 0, 0.4),
+                inset 0 -2px 15px rgba(255, 255, 255, 0.08),
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.08);
+        }
+
+        .product-image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.8s ease;
+            z-index: 4;
+            border-radius: 16px;
+        }
+
+        .product-image-wrapper:hover::before {
+            left: 100%;
+        }
+
+        .product-image-wrapper .image-decoration {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.8), rgba(102, 126, 234, 0.8));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+            z-index: 5;
+            opacity: 0;
+            transform: scale(0) rotate(-180deg);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .product-image-wrapper:hover .image-decoration {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
         }
 
         .product-image-wrapper:hover {
-            border-color: rgba(0, 212, 170, 0.5);
-            box-shadow: 0 15px 45px rgba(0, 212, 170, 0.3);
-            background: rgba(42, 42, 62, 0.85);
+            border-color: rgba(0, 212, 170, 0.6);
+            box-shadow:
+                inset 0 2px 15px rgba(0, 0, 0, 0.4),
+                inset 0 -2px 15px rgba(255, 255, 255, 0.08),
+                0 15px 45px rgba(0, 212, 170, 0.3),
+                0 0 0 1px rgba(0, 212, 170, 0.2);
+            background:
+                radial-gradient(circle at 20% 80%, rgba(0, 212, 170, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 193, 7, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(42, 42, 62, 0.95) 0%, rgba(33, 37, 41, 0.95) 100%);
         }
 
         .main-product-image {
             width: 100%;
             height: 100%;
-            aspect-ratio: 2/1;
-            object-fit: cover;
-            object-position: center;
+            min-height: 300px;
+            max-height: 400px;
+            object-fit: contain;
+            object-position: center center;
             display: block;
             position: relative;
             z-index: 1;
-            transition: transform 0.4s ease;
+            transition: all 0.4s ease;
+            border-radius: 12px;
+        }
+
+        .product-image-wrapper::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.8), rgba(102, 126, 234, 0.8));
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s ease;
+            z-index: 3;
+        }
+
+        .product-image-wrapper:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .product-image-wrapper::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: -2px;
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.8), rgba(0, 212, 170, 0.8));
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s ease 0.1s;
+            z-index: 3;
+        }
+
+        .product-image-wrapper:hover::before {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .product-image-wrapper:hover .main-product-image {
-            transform: scale(1.1);
+            transform: scale(1.05);
+            filter: brightness(1.1) contrast(1.05);
         }
 
         .image-info-cards {
@@ -452,70 +558,6 @@
             color: #00a8cc;
         }
 
-        .quantity-selector {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 0.6rem 0.9rem;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .qty-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-            white-space: nowrap;
-            margin: 0;
-        }
-
-        .qty-control {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 6px;
-            padding: 0.3rem;
-            border: 1px solid rgba(0, 212, 170, 0.2);
-        }
-
-        .qty-btn {
-            background: rgba(0, 212, 170, 0.2);
-            color: #00d4aa;
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .qty-btn:hover {
-            background: rgba(0, 212, 170, 0.4);
-            transform: scale(1.1);
-        }
-
-        .qty-input {
-            width: 50px;
-            text-align: center;
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .qty-input::-webkit-outer-spin-button,
-        .qty-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
         .product-actions {
             display: flex;
             flex-direction: column;
@@ -557,7 +599,6 @@
             text-decoration: none;
             display: block;
             font-size: 0.75rem;
-            cursor: pointer;
         }
 
         .btn-secondary-action:hover {
@@ -618,9 +659,9 @@
 
         .product-bottom-section {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
         .comments-section-bottom {
@@ -628,9 +669,10 @@
             backdrop-filter: blur(10px);
             border-radius: 12px;
             padding: 0.75rem;
+            margin-top: 0.8rem;
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            max-height: min(70vh, 600px);
+            max-height: 420px;
             overflow-y: auto;
         }
 
@@ -741,7 +783,7 @@
             }
 
             .main-product-image {
-                aspect-ratio: 5/3;
+                /* aspect-ratio removed for natural image display */
             }
         }
 
@@ -756,6 +798,7 @@
 
             .main-product-image {
                 height: 300px;
+                max-height: 300px;
             }
 
             .product-price {
@@ -785,22 +828,35 @@
                 <!-- Product Image -->
                 <div>
                     <div class="product-image-wrapper">
+                        <div class="image-decoration">
+                            <i class="fas fa-gem"></i>
+                        </div>
                         @php
                             $fallback = 'img/sellers/robux dikit 1.png';
-                            
+
                             // Map product name/price to specific image
-                            if (strpos(strtolower($product->name), '320') !== false || $product->price >= 40000 && $product->price <= 60000) {
+                            if (
+                                strpos(strtolower($product->name), '320') !== false ||
+                                ($product->price >= 40000 && $product->price <= 60000)
+                            ) {
                                 $fallback = 'img/sellers/robux banyak 2.png';
-                            } elseif (strpos(strtolower($product->name), '800') !== false || $product->price >= 90000 && $product->price <= 110000) {
+                            } elseif (
+                                strpos(strtolower($product->name), '800') !== false ||
+                                ($product->price >= 90000 && $product->price <= 110000)
+                            ) {
                                 $fallback = 'img/sellers/robux.png';
                             } elseif (strpos(strtolower($product->name), '80') !== false || $product->price <= 20000) {
                                 $fallback = 'img/sellers/robux dikit 1.png';
-                            } elseif (strpos(strtolower($product->name), '170') !== false || $product->price >= 20000 && $product->price <= 35000) {
+                            } elseif (
+                                strpos(strtolower($product->name), '170') !== false ||
+                                ($product->price >= 20000 && $product->price <= 35000)
+                            ) {
                                 $fallback = 'img/sellers/robux sedang 2.png';
                             }
                         @endphp
-                        @if($product->image && file_exists(public_path('storage/' . $product->image)))
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="main-product-image">
+                        @if ($product->image && file_exists(public_path('storage/' . $product->image)))
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                class="main-product-image">
                         @else
                             <img src="{{ asset($fallback) }}" alt="Random Product Image" class="main-product-image">
                         @endif
@@ -824,6 +880,98 @@
                             <div class="value">{{ $product->total_sold ?? 0 }}</div>
                         </div>
                     </div>
+
+                    <!-- Comments card moved here -->
+                    <div class="comments-section-bottom">
+                        <div class="comments-header">
+                            <i class="fas fa-comments"></i>
+                            Reviews & Comments
+                        </div>
+
+                        @auth
+                            @php
+                                $userHasPurchased = false;
+                                if (auth()->check()) {
+                                    $userHasPurchased = \App\Models\OrderItem::whereHas('order', function ($q) {
+                                        $q->where('user_id', auth()->id());
+                                    })
+                                        ->where('product_id', $product->id)
+                                        ->exists();
+                                }
+                            @endphp
+                            @if ($userHasPurchased)
+                                <form method="POST" class="mb-2">
+                                    @csrf
+                                    <div class="mb-2">
+                                        <label class="text-muted" style="font-size:0.8rem;">Your rating</label>
+                                        <select name="rating" class="form-select"
+                                            style="width:120px; display:inline-block; margin-left:0.5rem;">
+                                            <option value="">Rate</option>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <option value="{{ $i }}">{{ $i }}
+                                                    star{{ $i > 1 ? 's' : '' }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <textarea name="review" class="form-control" rows="2" placeholder="Write your review..." style="resize:none;"></textarea>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary" type="submit">Submit Review</button>
+                                    </div>
+                                </form>
+                            @else
+                                <div style="margin-bottom:0.5rem; font-size:0.9rem; color:rgba(255,255,255,0.8);">You can leave
+                                    a review after purchasing this product. <a href="{{ route('orders.index') }}"
+                                        style="color:#00d4aa;">See your orders</a></div>
+                            @endif
+                        @else
+                            <div style="margin-bottom:0.5rem; font-size:0.9rem; color:rgba(255,255,255,0.8);">Please <a
+                                    href="{{ route('login') }}" style="color:#00d4aa;">login</a> to leave a review.</div>
+                        @endauth
+
+                        @forelse($product->ratings()->latest()->take(6)->with('user')->get() as $rating)
+                            <div class="comment-item">
+                                <div class="comment-author">
+                                    <div class="comment-avatar">{{ strtoupper(substr($rating->user->name ?? 'U', 0, 1)) }}
+                                    </div>
+                                    <span class="comment-name">{{ $rating->user->name ?? 'Anonymous' }}</span>
+                                    <span class="comment-rating">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $rating->rating)
+                                                <i class="fas fa-star"></i>
+                                            @else
+                                                <i class="far fa-star"></i>
+                                            @endif
+                                        @endfor
+                                    </span>
+                                    <span class="comment-date">{{ $rating->created_at->diffForHumans() }}</span>
+                                </div>
+                                <p class="comment-text">{{ $rating->review ?? 'Great product! Recommended!' }}</p>
+                            </div>
+                        @empty
+                            <div class="comment-item">
+                                <div class="comment-author">
+                                    <div class="comment-avatar">A</div>
+                                    <span class="comment-name">Ahmad Gaming</span>
+                                    <span class="comment-rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                    <span class="comment-date">2 days ago</span>
+                                </div>
+                                <p class="comment-text">Fast delivery, trusted seller! Recommended!</p>
+                            </div>
+                        @endforelse
+
+                        <a href="#reviews" class="view-all-comments">
+                            View All Reviews <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+
                 </div>
 
                 <!-- Sidebar -->
@@ -870,28 +1018,18 @@
 
                     <!-- Actions -->
                     @auth
-                        <form action="{{ route('cart.add') }}" method="POST" id="addToCartForm">
+                        <form action="{{ route('cart.add') }}" method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            
-                            <div class="product-actions">
-                                <div class="quantity-selector">
-                                    <label for="quantity" class="qty-label">Quantity:</label>
-                                    <div class="qty-control">
-                                        <button type="button" class="qty-btn" id="qtyDecrement">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="number" id="quantity" name="quantity" value="1" min="1" 
-                                            max="{{ $product->quantity }}" class="qty-input" readonly>
-                                        <button type="button" class="qty-btn" id="qtyIncrement">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                            <input type="hidden" name="quantity" value="1">
 
-                                <button type="submit" class="btn-buy-now" id="addToCartBtn">
+                            <div class="product-actions">
+                                <button type="submit" class="btn-buy-now">
                                     <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                                 </button>
+                                <a href="{{ route('home') }}" class="btn-secondary-action">
+                                    <i class="fas fa-heart me-2"></i>Add to Wishlist
+                                </a>
                             </div>
                         </form>
                     @else
@@ -924,7 +1062,8 @@
                     </div>
 
                     <!-- Seller Profile -->
-                    <a href="{{ route('seller.profile', ['sellerId' => $product->seller_id ?? 1]) }}" class="seller-card">
+                    <a href="{{ route('seller.profile', ['sellerId' => $product->seller_id ?? 1]) }}"
+                        class="seller-card">
                         <div class="seller-header">
                             <div class="seller-avatar">
                                 <i class="fas fa-store"></i>
@@ -939,7 +1078,8 @@
                         </div>
                         <div class="seller-stats">
                             <div class="seller-stat">
-                                <span class="seller-stat-value"><i class="fas fa-star stat-icon rating-icon"></i>98%</span>
+                                <span class="seller-stat-value"><i
+                                        class="fas fa-star stat-icon rating-icon"></i>98%</span>
                                 <span class="seller-stat-label">Rating</span>
                             </div>
                             <div class="seller-stat">
@@ -949,229 +1089,59 @@
                             </div>
                         </div>
                     </a>
-                </div>
-            </div>
 
-            <!-- Two Column Section: Comments & Description -->
-            <div class="product-bottom-section">
-                <!-- Comments Section (Left) -->
-                <div class="comments-section-bottom">
-                    <div class="comments-header">
-                        <i class="fas fa-comments"></i>
-                        Reviews & Comments
+                    <!-- About (moved under seller) -->
+                    <div class="product-about-card description-section">
+                        <h2 class="section-title">About This Product</h2>
+                        <p class="description-text">
+                            {{ $product->description ?? $product->name . ' adalah paket ' . $product->game_type . ' untuk ' . $product->game_name . '. Dapatkan dengan harga terbaik dan proses yang cepat. Top up mudah, aman, dan terpercaya untuk kebutuhan gaming Anda.' }}
+                        </p>
+
+                        <h3 class="section-title">Product Details</h3>
+                        <ul class="info-list">
+                            <li class="info-list-item">
+                                <span class="info-label">
+                                    <i class="fas fa-gamepad me-2"></i>Game
+                                </span>
+                                <span class="info-value">{{ $product->game_name }}</span>
+                            </li>
+                            <li class="info-list-item">
+                                <span class="info-label">
+                                    <i class="fas fa-tag me-2"></i>Category
+                                </span>
+                                <span class="info-value">{{ $product->game_type }}</span>
+                            </li>
+                            <li class="info-list-item">
+                                <span class="info-label">
+                                    <i class="fas fa-boxes me-2"></i>Stock Available
+                                </span>
+                                <span class="info-value">{{ $product->quantity }} units</span>
+                            </li>
+                            <li class="info-list-item">
+                                <span class="info-label">
+                                    <i class="fas fa-shopping-bag me-2"></i>Total Purchases
+                                </span>
+                                <span class="info-value">{{ number_format($product->sales_count) }} transactions</span>
+                            </li>
+                            <li class="info-list-item">
+                                <span class="info-label">
+                                    <i class="fas fa-calendar-alt me-2"></i>Listed Date
+                                </span>
+                                <span class="info-value">{{ $product->created_at->format('F d, Y') }}</span>
+                            </li>
+                        </ul>
                     </div>
 
-                    @auth
-                        @php
-                            $userHasPurchased = false;
-                            if (auth()->check()) {
-                                $userHasPurchased = \App\Models\OrderItem::whereHas('order', function($q) {
-                                    $q->where('user_id', auth()->id());
-                                })->where('product_id', $product->id)->exists();
-                            }
-                        @endphp
-                        @if ($userHasPurchased)
-                            <form method="POST" class="mb-2">
-                                @csrf
-                                <div class="mb-2">
-                                    <label class="text-muted" style="font-size:0.8rem;">Your rating</label>
-                                    <select name="rating" class="form-select"
-                                        style="width:120px; display:inline-block; margin-left:0.5rem;">
-                                        <option value="">Rate</option>
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <option value="{{ $i }}">{{ $i }}
-                                                star{{ $i > 1 ? 's' : '' }}</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                                <div class="mb-2">
-                                    <textarea name="review" class="form-control" rows="2" placeholder="Write your review..."
-                                        style="resize:none;"></textarea>
-                                </div>
-                                <div>
-                                    <button class="btn btn-primary" type="submit">Submit Review</button>
-                                </div>
-                            </form>
-                        @else
-                            <div style="margin-bottom:0.5rem; font-size:0.9rem; color:rgba(255,255,255,0.8);">You can leave
-                                a review after purchasing this product. <a href="{{ route('orders.index') }}"
-                                    style="color:#00d4aa;">See your orders</a></div>
-                        @endif
-                    @else
-                        <div style="margin-bottom:0.5rem; font-size:0.9rem; color:rgba(255,255,255,0.8);">Please <a
-                                href="{{ route('login') }}" style="color:#00d4aa;">login</a> to leave a review.</div>
-                    @endauth
 
-                    @forelse($product->ratings()->latest()->take(6)->with('user')->get() as $rating)
-                        <div class="comment-item">
-                            <div class="comment-author">
-                                <div class="comment-avatar">{{ strtoupper(substr($rating->user->name ?? 'U', 0, 1)) }}
-                                </div>
-                                <span class="comment-name">{{ $rating->user->name ?? 'Anonymous' }}</span>
-                                <span class="comment-rating">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= $rating->rating)
-                                            <i class="fas fa-star"></i>
-                                        @else
-                                            <i class="far fa-star"></i>
-                                        @endif
-                                    @endfor
-                                </span>
-                                <span class="comment-date">{{ $rating->created_at->diffForHumans() }}</span>
-                            </div>
-                            <p class="comment-text">{{ $rating->review ?? 'Great product! Recommended!' }}</p>
-                        </div>
-                    @empty
-                        <div class="comment-item">
-                            <div class="comment-author">
-                                <div class="comment-avatar">A</div>
-                                <span class="comment-name">Ahmad Gaming</span>
-                                <span class="comment-rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </span>
-                                <span class="comment-date">2 days ago</span>
-                            </div>
-                            <p class="comment-text">Fast delivery, trusted seller! Recommended!</p>
-                        </div>
-                    @endforelse
 
-                    <a href="#reviews" class="view-all-comments">
-                        View All Reviews <i class="fas fa-arrow-right ms-1"></i>
-                    </a>
+
+                    <!-- Back Button -->
+                    <div class="mt-4 mb-4">
+                        <a href="{{ route('home') }}" class="back-button">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Products
+                        </a>
+                    </div>
                 </div>
-
-                <!-- Description Section (Right) -->
-                <div class="description-section">
-                    <h2 class="section-title">About This Product</h2>
-                    <p class="description-text">
-                        {{ $product->description ?? $product->name . ' adalah paket ' . $product->game_type . ' untuk ' . $product->game_name . '. Dapatkan dengan harga terbaik dan proses yang cepat. Top up mudah, aman, dan terpercaya untuk kebutuhan gaming Anda.' }}
-                    </p>
-
-                    <h3 class="section-title">Product Details</h3>
-                    <ul class="info-list">
-                        <li class="info-list-item">
-                            <span class="info-label">
-                                <i class="fas fa-gamepad me-2"></i>Game
-                            </span>
-                            <span class="info-value">{{ $product->game_name }}</span>
-                        </li>
-                        <li class="info-list-item">
-                            <span class="info-label">
-                                <i class="fas fa-tag me-2"></i>Category
-                            </span>
-                            <span class="info-value">{{ $product->game_type }}</span>
-                        </li>
-                        <li class="info-list-item">
-                            <span class="info-label">
-                                <i class="fas fa-boxes me-2"></i>Stock Available
-                            </span>
-                            <span class="info-value">{{ $product->quantity }} units</span>
-                        </li>
-                        <li class="info-list-item">
-                            <span class="info-label">
-                                <i class="fas fa-shopping-bag me-2"></i>Total Purchases
-                            </span>
-                            <span class="info-value">{{ number_format($product->sales_count) }} transactions</span>
-                        </li>
-                        <li class="info-list-item">
-                            <span class="info-label">
-                                <i class="fas fa-calendar-alt me-2"></i>Listed Date
-                            </span>
-                            <span class="info-value">{{ $product->created_at->format('F d, Y') }}</span>
-                        </li>
-                    </ul>
-                </div>
-
-            <!-- Back Button -->
-            <div class="mt-4 mb-4">
-                <a href="{{ route('home') }}" class="back-button">
-                    <i class="fas fa-arrow-left"></i>
-                    Back to Products
-                </a>
             </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Quantity Control
-            const qtyInput = document.getElementById('quantity');
-            const qtyIncrement = document.getElementById('qtyIncrement');
-            const qtyDecrement = document.getElementById('qtyDecrement');
-            const maxQty = {{ $product->quantity }};
-
-            if (qtyIncrement) {
-                qtyIncrement.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    let current = parseInt(qtyInput.value) || 1;
-                    if (current < maxQty) {
-                        qtyInput.value = current + 1;
-                    }
-                });
-            }
-
-            if (qtyDecrement) {
-                qtyDecrement.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    let current = parseInt(qtyInput.value) || 1;
-                    if (current > 1) {
-                        qtyInput.value = current - 1;
-                    }
-                });
-            }
-
-            // Add to Cart with feedback
-            const addToCartBtn = document.getElementById('addToCartBtn');
-            const addToCartForm = document.getElementById('addToCartForm');
-
-            if (addToCartBtn && addToCartForm) {
-                addToCartBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const formData = new FormData(addToCartForm);
-                    const quantity = parseInt(qtyInput.value) || 1;
-                    
-                    fetch('{{ route("cart.add") }}', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Accept': 'application/json'
-                        },
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Show success message
-                            const alertDiv = document.createElement('div');
-                            alertDiv.className = 'alert alert-success alert-dismissible fade show';
-                            alertDiv.style.cssText = 'position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-                            alertDiv.innerHTML = `
-                                <i class="fas fa-check-circle me-2"></i>
-                                <strong>Success!</strong> ${quantity} item${quantity > 1 ? 's' : ''} added to cart
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            `;
-                            document.body.appendChild(alertDiv);
-                            
-                            // Auto remove after 3 seconds
-                            setTimeout(() => {
-                                alertDiv.remove();
-                            }, 3000);
-
-                            // Reset quantity
-                            qtyInput.value = 1;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error adding to cart. Please try again.');
-                    });
-                });
-            }
-        });
-    </script>
-@endsection
+        @endsection

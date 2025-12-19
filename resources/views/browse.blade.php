@@ -219,40 +219,43 @@
             <div class="col-lg-9">
                 <div class="row">
                     @forelse($products as $product)
-                        <div class="col-12 col-md-6 col-xl-4 mb-4">
-                            <div class="browse-card" onclick="window.location='{{ route('products.show', $product) }}'">
-                                <div class="browse-card-image">
+                        <div class="col-12 col-lg-6 mb-4">
+                            <div class="card-landscape h-100"
+                                onclick="window.location='{{ route('products.show', $product) }}'">
+                                <div class="card-landscape-image">
                                     <img src="{{ asset('img/' . $product->image) }}" alt="{{ $product->name }}">
-                                    <button class="favorite-btn-browse"
+                                    <button class="favorite-btn-landscape"
                                         onclick="event.stopPropagation(); toggleFavorite(this, {{ $product->id }})">
                                         <i class="far fa-heart"></i>
                                     </button>
                                     @if ($product->sales_count > 100)
-                                        <div class="discount-badge-browse">
+                                        <div class="discount-badge-landscape">
                                             -55%
                                         </div>
                                     @endif
                                 </div>
 
-                                <div class="browse-card-content">
-                                    <h5 class="browse-card-title">{{ $product->name }}</h5>
+                                <div class="card-landscape-content">
+                                    <h5 class="card-landscape-title">{{ $product->name }}</h5>
 
-                                    <p class="browse-card-description">{{ Str::limit($product->description, 60) }}</p>
+                                    <p class="card-landscape-description">{{ Str::limit($product->description, 60) }}</p>
 
-                                    <div class="browse-card-badges mb-2">
+                                    <div class="d-flex align-items-center gap-1 mb-2">
                                         @if ($product->sales_count > 50)
-                                            <span class="badge bg-success">
+                                            <span class="badge bg-success"
+                                                style="font-size: 0.7rem; padding: 0.3rem 0.55rem;">
                                                 <i class="fas fa-crown me-1"></i>Top Seller
                                             </span>
                                         @endif
-                                        <span class="badge bg-primary">{{ $product->game_type }}</span>
+                                        <span class="badge bg-primary"
+                                            style="font-size: 0.7rem; padding: 0.3rem 0.55rem;">{{ $product->game_type }}</span>
                                     </div>
 
                                     <!-- Seller Info -->
                                     <div class="mb-2" style="position: relative; z-index: 5;">
                                         @if ($product->seller && $product->seller->id)
                                             <a href="{{ route('seller.profile', $product->seller->id) }}"
-                                                class="d-flex align-items-center text-decoration-none seller-link-browse"
+                                                class="d-flex align-items-center text-decoration-none seller-link-landscape"
                                                 style="position: relative; z-index: 10;"
                                                 title="View {{ $product->seller_name }}'s profile">
                                                 <div class="seller-avatar me-2">
@@ -269,8 +272,9 @@
                                                 </div>
                                                 <div>
                                                     <small class="text-muted d-block"
-                                                        style="font-size: 0.65rem;">Seller:</small>
-                                                    <span class="text-white" style="font-size: 0.8rem;">
+                                                        style="font-size: 0.65rem; line-height: 1;">Seller:</small>
+                                                    <span class="text-white"
+                                                        style="font-size: 0.75rem; line-height: 1.2;">
                                                         {{ $product->seller_name }}
                                                         <i class="fas fa-external-link-alt ms-1"
                                                             style="font-size: 0.55rem;"></i>
@@ -287,50 +291,49 @@
                                                 </div>
                                                 <div>
                                                     <small class="text-muted d-block"
-                                                        style="font-size: 0.65rem;">Seller:</small>
+                                                        style="font-size: 0.65rem; line-height: 1;">Seller:</small>
                                                     <span class="text-white"
-                                                        style="font-size: 0.8rem;">{{ $product->seller_name }}</span>
+                                                        style="font-size: 0.8rem; line-height: 1.2;">{{ $product->seller_name }}</span>
                                                 </div>
                                             </div>
                                         @endif
                                     </div>
 
                                     <!-- Rating and Sales -->
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div class="d-flex align-items-center">
-                                            <div class="rating me-1">
+                                    <div class="d-flex justify-content-between align-items-center"
+                                        style="margin-bottom: 0.5rem;">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <div class="rating" style="font-size: 0.75rem;">
                                                 @for ($i = 1; $i <= 5; $i++)
                                                     @if ($i <= floor($product->averageRating()))
-                                                        <i class="fas fa-star text-warning"
-                                                            style="font-size: 0.8rem;"></i>
+                                                        <i class="fas fa-star text-warning"></i>
                                                     @elseif($i - 0.5 <= $product->averageRating())
-                                                        <i class="fas fa-star-half-alt text-warning"
-                                                            style="font-size: 0.8rem;"></i>
+                                                        <i class="fas fa-star-half-alt text-warning"></i>
                                                     @else
-                                                        <i class="far fa-star text-warning"
-                                                            style="font-size: 0.8rem;"></i>
+                                                        <i class="far fa-star text-warning"></i>
                                                     @endif
                                                 @endfor
                                             </div>
                                             <small class="text-muted"
-                                                style="font-size: 0.75rem;">{{ number_format($product->averageRating(), 1) }}</small>
+                                                style="font-size: 0.7rem; font-weight: 500;">{{ number_format($product->averageRating(), 1) }}</small>
                                         </div>
-                                        <small class="text-success" style="font-size: 0.75rem;">
-                                            <i
-                                                class="fas fa-shopping-cart me-1"></i>{{ number_format($product->sales_count) }}
+                                        <small class="text-success" style="font-size: 0.7rem; font-weight: 500;">
+                                            <i class="fas fa-shopping-cart me-1"
+                                                style="font-size: 0.65rem;"></i>{{ number_format($product->sales_count) }}
+                                            terjual
                                         </small>
                                     </div>
 
-                                    <div class="browse-card-footer">
-                                        <div>
+                                    <div class="card-landscape-footer">
+                                        <div class="d-flex flex-column">
                                             @if ($product->sales_count > 100)
-                                                <span class="original-price-browse">Rp
+                                                <span class="original-price-landscape">Rp
                                                     {{ number_format($product->price * 2.22, 0, ',', '.') }}</span>
                                             @endif
-                                            <span class="current-price-browse">Rp
+                                            <span class="current-price-landscape">Rp
                                                 {{ number_format($product->price, 0, ',', '.') }}</span>
                                         </div>
-                                        <button class="btn-add-cart-browse"
+                                        <button class="btn-add-to-cart-landscape"
                                             onclick="event.stopPropagation(); addToCartLandscape({{ $product->id }})">
                                             <i class="fas fa-shopping-cart"></i>
                                         </button>

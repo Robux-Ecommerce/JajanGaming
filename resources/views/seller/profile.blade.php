@@ -470,14 +470,7 @@
         </div>
     </div>
 </div>
-@endsection
-                                    @for($i=1; $i<=5; $i++)
-                                        <i class="fa{{ $i <= floor($averageRating) ? 's' : 'r' }} fa-star text-warning"></i>
-                                    @endfor
-                                </div>
-                                <div class="small text-light-50">{{ $totalRatings }} ulasan</div>
-                            </div>
-                            
+
                             <!-- Star Rating Breakdown -->
                             <div class="rating-breakdown">
                                 @php
