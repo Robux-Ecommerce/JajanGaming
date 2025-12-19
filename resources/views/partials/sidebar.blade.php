@@ -242,103 +242,139 @@
         @endif
         <div class="sidebar-user-info">
             <h6>{{ auth()->user()->name }}</h6>
-            <span class="user-role">{{ auth()->user()->isAdmin() ? 'Administrator' : (auth()->user()->isSeller() ? 'Seller' : 'Customer') }}</span>
+            <span class="user-role">{{ auth()->user()->isAdmin() ? 'Administrator' : (auth()->user()->isSeller() ? 'Penjual' : 'Pelanggan') }}</span>
         </div>
     </div>
     @endif
 
     <!-- Menu -->
     <nav class="sidebar-menu">
-        <!-- Main Menu -->
-        @if(auth()->check() && auth()->user()->isAdminOrSeller())
-            <div class="menu-label">Main Menu</div>
-            <a href="{{ route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="{{ route('admin.products') }}" class="menu-item {{ request()->routeIs('admin.products*') ? 'active' : '' }}">
-                <i class="fas fa-cube"></i>
-                <span>Products</span>
-            </a>
-            <a href="{{ route('admin.orders') }}" class="menu-item {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
-                <i class="fas fa-shopping-cart"></i>
-                <span>Orders</span>
-            </a>
+        <!-- Menu Utama -->
+        @if(auth()->check())
             @if(auth()->user()->isAdmin())
-            <a href="{{ route('admin.users') }}" class="menu-item {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
-                <i class="fas fa-users"></i>
-                <span>Users</span>
-            </a>
-            @endif
-            
-            <div class="menu-label">Management</div>
-            <a href="{{ route('admin.products.create') }}" class="menu-item">
-                <i class="fas fa-plus-circle"></i>
-                <span>Add Product</span>
-            </a>
-            <a href="{{ route('wallet.index') }}" class="menu-item {{ request()->routeIs('wallet.index') ? 'active' : '' }}">
-                <i class="fas fa-wallet"></i>
-                <span>Wallet</span>
-            </a>
-            <a href="{{ route('admin.profile') }}" class="menu-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
-                <i class="fas fa-user-cog"></i>
-                <span>Profile Settings</span>
-            </a>
-        @else
-            <!-- User Shopping Menu -->
-            <div class="menu-label">Account</div>
-            <a href="{{ route('wallet.index') }}" class="menu-item {{ request()->routeIs('wallet.index') ? 'active' : '' }}">
-                <i class="fas fa-wallet"></i>
-                <span>My Wallet</span>
-                @if(auth()->check())
+                <!-- Menu Admin -->
+                <div class="menu-label">Menu Utama</div>
+                <a href="{{ route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dasbor</span>
+                </a>
+                <a href="{{ route('admin.products') }}" class="menu-item {{ request()->routeIs('admin.products*') ? 'active' : '' }}">
+                    <i class="fas fa-cube"></i>
+                    <span>Produk</span>
+                </a>
+                <a href="{{ route('admin.orders') }}" class="menu-item {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Pesanan</span>
+                </a>
+                <a href="{{ route('admin.users') }}" class="menu-item {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
+                    <i class="fas fa-users"></i>
+                    <span>Pengguna</span>
+                </a>
+                <a href="{{ route('admin.transactions') }}" class="menu-item {{ request()->routeIs('admin.transactions*') ? 'active' : '' }}">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transaksi</span>
+                </a>
+                
+                <div class="menu-label">Manajemen</div>
+                <a href="{{ route('wallet.index') }}" class="menu-item {{ request()->routeIs('wallet.index') ? 'active' : '' }}">
+                    <i class="fas fa-wallet"></i>
+                    <span>Dompet Sistem</span>
+                </a>
+                <a href="{{ route('admin.profile') }}" class="menu-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
+                    <i class="fas fa-cog"></i>
+                    <span>Pengaturan</span>
+                </a>
+
+            @elseif(auth()->user()->isSeller())
+                <!-- Menu Penjual -->
+                <div class="menu-label">Menu Utama</div>
+                <a href="{{ route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dasbor</span>
+                </a>
+                <a href="{{ route('admin.products') }}" class="menu-item {{ request()->routeIs('admin.products*') ? 'active' : '' }}">
+                    <i class="fas fa-cube"></i>
+                    <span>Produk Saya</span>
+                </a>
+                <a href="{{ route('admin.orders') }}" class="menu-item {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Pesanan</span>
+                </a>
+                
+                <div class="menu-label">Manajemen</div>
+                <a href="{{ route('admin.products.create') }}" class="menu-item">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Tambah Produk</span>
+                </a>
+                <a href="{{ route('wallet.index') }}" class="menu-item {{ request()->routeIs('wallet.index') ? 'active' : '' }}">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Pendapatan</span>
+                </a>
+                <a href="{{ route('admin.profile') }}" class="menu-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
+                    <i class="fas fa-cog"></i>
+                    <span>Pengaturan</span>
+                </a>
+
+            @else
+                <!-- Menu Pelanggan -->
+                <div class="menu-label">Akun</div>
+                <a href="{{ route('profile.index') }}" class="menu-item {{ request()->routeIs('profile.index') ? 'active' : '' }}">
+                    <i class="fas fa-user"></i>
+                    <span>Profil Saya</span>
+                </a>
+                <a href="{{ route('wallet.index') }}" class="menu-item {{ request()->routeIs('wallet.index') ? 'active' : '' }}">
+                    <i class="fas fa-wallet"></i>
+                    <span>Dompet Saya</span>
                     <span class="menu-badge">Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}</span>
-                @endif
-            </a>
-            <a href="{{ url('/payment/topup') }}" class="menu-item {{ request()->routeIs('payment.topup') ? 'active' : '' }}">
-                <i class="fas fa-credit-card"></i>
-                <span>Top Up</span>
-            </a>
-            <a href="{{ route('profile.index') }}" class="menu-item {{ request()->routeIs('profile.index') ? 'active' : '' }}">
-                <i class="fas fa-user-cog"></i>
-                <span>Profile</span>
-            </a>
+                </a>
+                <a href="{{ url('/payment/topup') }}" class="menu-item {{ request()->routeIs('payment.topup') ? 'active' : '' }}">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Top Up</span>
+                </a>
 
-            <div class="menu-label">Shopping</div>
-            <a href="{{ route('cart.index') }}" class="menu-item {{ request()->routeIs('cart.index') ? 'active' : '' }}">
-                <i class="fas fa-shopping-cart"></i>
-                <span>Cart</span>
-                @php
-                    $cartCount = auth()->check() ? auth()->user()->carts()->count() : 0;
-                @endphp
-                @if($cartCount > 0)
-                    <span class="menu-badge">{{ $cartCount }}</span>
-                @endif
-            </a>
-            <a href="{{ route('home') }}" class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
-                <i class="fas fa-store"></i>
-                <span>Browse</span>
-            </a>
+                <div class="menu-label">Belanja</div>
+                <a href="{{ route('cart.index') }}" class="menu-item {{ request()->routeIs('cart.index') ? 'active' : '' }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Keranjang</span>
+                    @php
+                        $cartCount = auth()->user()->carts()->count();
+                    @endphp
+                    @if($cartCount > 0)
+                        <span class="menu-badge">{{ $cartCount }}</span>
+                    @endif
+                </a>
+                <a href="{{ route('orders.index') }}" class="menu-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
+                    <i class="fas fa-receipt"></i>
+                    <span>Pesanan Saya</span>
+                </a>
+                <a href="{{ route('wishlist.index') }}" class="menu-item {{ request()->routeIs('wishlist.index') ? 'active' : '' }}" style="--icon-color: #ff3c5a;">
+                    <i class="fas fa-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+                <a href="{{ route('home') }}" class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
+                    <i class="fas fa-th"></i>
+                    <span>Jelajahi</span>
+                </a>
 
-            @if(auth()->check())
-            <div class="menu-label">Activity</div>
-            <a href="{{ route('notifications.index') }}" class="menu-item {{ request()->routeIs('notifications.index') ? 'active' : '' }}">
-                <i class="fas fa-bell"></i>
-                <span>Notifications</span>
-                @php
-                    $unreadCount = auth()->user()->notifications()->where('is_read', false)->count();
-                @endphp
-                @if($unreadCount > 0)
-                    <span class="menu-badge">{{ $unreadCount }}</span>
-                @endif
-            </a>
+                <div class="menu-label">Aktivitas</div>
+                <a href="{{ route('notifications.index') }}" class="menu-item {{ request()->routeIs('notifications.index') ? 'active' : '' }}">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifikasi</span>
+                    @php
+                        $unreadCount = auth()->user()->notifications()->where('is_read', false)->count();
+                    @endphp
+                    @if($unreadCount > 0)
+                        <span class="menu-badge">{{ $unreadCount }}</span>
+                    @endif
+                </a>
             @endif
         @endif
 
-        <!-- Navigation -->
-        <div class="menu-label">Navigation</div>
+        <!-- Navigasi -->
+        <div class="menu-label">Navigasi</div>
         <a href="{{ route('home') }}" class="menu-item">
             <i class="fas fa-home"></i>
-            <span>Back to Store</span>
+            <span>Kembali ke Toko</span>
         </a>
     </nav>
 </aside>

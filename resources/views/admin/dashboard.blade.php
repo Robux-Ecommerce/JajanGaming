@@ -21,23 +21,23 @@
             @endif
             <div class="sidebar-user-info">
                 <h6>{{ $user->name }}</h6>
-                <span class="user-role">{{ $user->isAdmin() ? 'Administrator' : ($user->isSeller() ? 'Seller' : 'Customer') }}</span>
+                <span class="user-role">{{ $user->isAdmin() ? 'Administrator' : ($user->isSeller() ? 'Penjual' : 'Pelanggan') }}</span>
             </div>
         </div>
         
         <nav class="sidebar-menu">
-            <div class="menu-label">Main Menu</div>
+            <div class="menu-label">Menu Utama</div>
             <a href="{{ route('admin.dashboard') }}" class="menu-item active">
                 <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
+                <span>Dasbor</span>
             </a>
             <a href="{{ route('admin.products') }}" class="menu-item">
                 <i class="fas fa-cube"></i>
-                <span>Products</span>
+                <span>Produk</span>
             </a>
             <a href="{{ route('admin.orders') }}" class="menu-item">
-                <i class="fas fa-shopping-cart"></i>
-                <span>Orders</span>
+                <i class="fas fa-shopping-bag"></i>
+                <span>Pesanan</span>
                 @if($stats['pending_orders'] > 0)
                     <span class="menu-badge">{{ $stats['pending_orders'] }}</span>
                 @endif
@@ -45,28 +45,32 @@
             @if($user->isAdmin())
             <a href="{{ route('admin.users') }}" class="menu-item">
                 <i class="fas fa-users"></i>
-                <span>Users</span>
+                <span>Pengguna</span>
+            </a>
+            <a href="{{ route('admin.transactions') }}" class="menu-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transaksi</span>
             </a>
             @endif
             
-            <div class="menu-label">Management</div>
+            <div class="menu-label">Manajemen</div>
             <a href="{{ route('admin.products.create') }}" class="menu-item">
                 <i class="fas fa-plus-circle"></i>
-                <span>Add Product</span>
+                <span>Tambah Produk</span>
             </a>
             <a href="{{ route('wallet.index') }}" class="menu-item">
                 <i class="fas fa-wallet"></i>
-                <span>Wallet</span>
+                <span>Dompet</span>
             </a>
             <a href="{{ route('admin.profile') }}" class="menu-item">
-                <i class="fas fa-user-cog"></i>
-                <span>Profile Settings</span>
+                <i class="fas fa-cog"></i>
+                <span>Pengaturan</span>
             </a>
             
-            <div class="menu-label">Navigation</div>
+            <div class="menu-label">Navigasi</div>
             <a href="{{ route('home') }}" class="menu-item">
                 <i class="fas fa-home"></i>
-                <span>Back to Store</span>
+                <span>Kembali ke Toko</span>
             </a>
         </nav>
     </aside>
@@ -83,9 +87,9 @@
             <div class="header-left">
                 <h1>
                     <i class="fas fa-tachometer-alt"></i>
-                    {{ $user->isAdmin() ? 'Admin Dashboard' : ($user->isSeller() ? 'Seller Dashboard' : 'Customer Dashboard') }}
+                    {{ $user->isAdmin() ? 'Dasbor Admin' : ($user->isSeller() ? 'Dasbor Penjual' : 'Dasbor Pelanggan') }}
                 </h1>
-                <p class="header-subtitle">{{ $user->isAdmin() ? 'Welcome back, ' . $user->name . '! Here\'s your overview.' : ($user->isSeller() ? 'Selamat datang kembali, ' . $user->name . '! Berikut adalah ringkasan Anda.' : 'Selamat datang kembali, ' . $user->name . '! Berikut adalah ringkasan Anda.') }}</p>
+                <p class="header-subtitle">{{ $user->isAdmin() ? 'Selamat datang kembali, ' . $user->name . '! Berikut adalah ringkasan Anda.' : ($user->isSeller() ? 'Selamat datang kembali, ' . $user->name . '! Berikut adalah ringkasan penjualan Anda.' : 'Selamat datang kembali, ' . $user->name . '! Berikut adalah ringkasan belanja Anda.') }}</p>
             </div>
             <div class="header-right">
                 <div class="header-date">
@@ -103,7 +107,7 @@
                 </div>
                 <div class="stat-content">
                     <h3>{{ number_format($stats['total_products']) }}</h3>
-                    <p>Total Products</p>
+                    <p>Total Produk</p>
                 </div>
                 <div class="stat-trend up">
                     <i class="fas fa-arrow-up"></i>
@@ -116,7 +120,7 @@
                 </div>
                 <div class="stat-content">
                     <h3>{{ number_format($stats['total_orders']) }}</h3>
-                    <p>Total Orders</p>
+                    <p>Total Pesanan</p>
                 </div>
                 <div class="stat-trend up">
                     <i class="fas fa-arrow-up"></i>
@@ -129,7 +133,7 @@
                 </div>
                 <div class="stat-content">
                     <h3>Rp {{ number_format($stats['total_revenue'], 0, ',', '.') }}</h3>
-                    <p>Total Revenue</p>
+                    <p>Total Pendapatan</p>
                 </div>
                 <div class="stat-trend up">
                     <i class="fas fa-arrow-up"></i>
@@ -143,7 +147,7 @@
                 </div>
                 <div class="stat-content">
                     <h3>{{ number_format($stats['total_users']) }}</h3>
-                    <p>Total Users</p>
+                    <p>Total Pengguna</p>
                 </div>
                 <div class="stat-trend up">
                     <i class="fas fa-arrow-up"></i>
@@ -156,7 +160,7 @@
                 </div>
                 <div class="stat-content">
                     <h3>Rp {{ number_format($stats['total_revenue'] ?? 0, 0, ',', '.') }}</h3>
-                    <p>Earnings</p>
+                    <p>Pendapatan</p>
                 </div>
                 <div class="stat-trend up">
                     <i class="fas fa-arrow-up"></i>
@@ -173,7 +177,7 @@
                 </div>
                 <div class="status-content">
                     <span class="status-count">{{ number_format($stats['pending_orders']) }}</span>
-                    <span class="status-label">Pending</span>
+                    <span class="status-label">Tertunda</span>
                 </div>
             </div>
             <div class="order-status-card processing">
@@ -182,7 +186,7 @@
                 </div>
                 <div class="status-content">
                     <span class="status-count">0</span>
-                    <span class="status-label">Processing</span>
+                    <span class="status-label">Diproses</span>
                 </div>
             </div>
             <div class="order-status-card completed">
@@ -191,7 +195,7 @@
                 </div>
                 <div class="status-content">
                     <span class="status-count">{{ number_format($stats['completed_orders']) }}</span>
-                    <span class="status-label">Completed</span>
+                    <span class="status-label">Selesai</span>
                 </div>
             </div>
             <div class="order-status-card cancelled">
@@ -200,7 +204,7 @@
                 </div>
                 <div class="status-content">
                     <span class="status-count">{{ number_format($stats['cancelled_orders']) }}</span>
-                    <span class="status-label">Cancelled</span>
+                    <span class="status-label">Dibatalkan</span>
                 </div>
             </div>
         </div>
@@ -209,9 +213,9 @@
         <div class="charts-grid">
             <div class="chart-card large">
                 <div class="chart-header">
-                    <h4><i class="fas fa-chart-line"></i> Revenue Analytics</h4>
+                    <h4><i class="fas fa-chart-line"></i> Analitik Pendapatan</h4>
                     <div class="chart-period">
-                        <span class="active">This Year</span>
+                        <span class="active">Tahun Ini</span>
                     </div>
                 </div>
                 <div class="chart-body">
@@ -221,7 +225,7 @@
             
             <div class="chart-card">
                 <div class="chart-header">
-                    <h4><i class="fas fa-chart-bar"></i> Orders Overview</h4>
+                    <h4><i class="fas fa-chart-bar"></i> Ringkasan Pesanan</h4>
                 </div>
                 <div class="chart-body">
                     <canvas id="ordersChart"></canvas>
@@ -230,7 +234,7 @@
             
             <div class="chart-card">
                 <div class="chart-header">
-                    <h4><i class="fas fa-chart-pie"></i> Order Status</h4>
+                    <h4><i class="fas fa-chart-pie"></i> Status Pesanan</h4>
                 </div>
                 <div class="chart-body">
                     <canvas id="orderStatusChart"></canvas>
@@ -243,19 +247,19 @@
             <!-- Recent Orders -->
             <div class="data-card">
                 <div class="data-header">
-                    <h4><i class="fas fa-history"></i> Recent Orders</h4>
-                    <a href="{{ route('admin.orders') }}" class="view-all-btn">View All <i class="fas fa-arrow-right"></i></a>
+                    <h4><i class="fas fa-history"></i> Pesanan Terbaru</h4>
+                    <a href="{{ route('admin.orders') }}" class="view-all-btn">Lihat Semua <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="data-body">
                     <div class="table-responsive">
                         <table class="dashboard-table">
                             <thead>
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Amount</th>
+                                    <th>ID Pesanan</th>
+                                    <th>Pelanggan</th>
+                                    <th>Jumlah</th>
                                     <th>Status</th>
-                                    <th>Date</th>
+                                    <th>Tanggal</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -279,7 +283,7 @@
                                 <tr>
                                     <td colspan="5" class="empty-state">
                                         <i class="fas fa-inbox"></i>
-                                        <p>No orders found</p>
+                                        <p>Tidak ada pesanan</p>
                                     </td>
                                 </tr>
                                 @endforelse
@@ -292,8 +296,8 @@
             <!-- Top Products -->
             <div class="data-card">
                 <div class="data-header">
-                    <h4><i class="fas fa-fire"></i> Top Selling Products</h4>
-                    <a href="{{ route('admin.products') }}" class="view-all-btn">View All <i class="fas fa-arrow-right"></i></a>
+                    <h4><i class="fas fa-fire"></i> Produk Terlaris</h4>
+                    <a href="{{ route('admin.products') }}" class="view-all-btn">Lihat Semua <i class="fas fa-arrow-right"></i></a>
                 </div>
                 <div class="data-body">
                     <div class="top-products-list">

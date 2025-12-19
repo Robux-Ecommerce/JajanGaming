@@ -5987,7 +5987,28 @@
                                     <i class="fas fa-receipt me-1"></i>Orders
                                 </a>
                             </li>
-                        @elseif (auth()->user()->isAdminOrSeller())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('wishlist.index') }}" style="color: #ff3c5a; transition: color 0.3s;">
+                                    <i class="fas fa-heart me-1"></i>Wishlist
+                                </a>
+                            </li>
+                        @elseif (auth()->user()->isSeller())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.products') }}">
+                                    <i class="fas fa-cube me-1"></i>Products
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.orders') }}">
+                                    <i class="fas fa-shopping-bag me-1"></i>Orders
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                                </a>
+                            </li>
+                        @elseif (auth()->user()->isAdmin())
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.dashboard') }}">
                                     <i class="fas fa-tachometer-alt me-1"></i>Dashboard
@@ -6014,14 +6035,21 @@
                             <li class="nav-item me-3">
                                 <a href="{{ route('wallet.index') }}" class="wallet-balance">
                                     <i class="fas fa-wallet"></i>
-                                    Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
+                                    Saldo: Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
                                 </a>
                             </li>
                         @elseif (auth()->user()->isSeller())
                             <li class="nav-item me-3">
                                 <a href="{{ route('wallet.index') }}" class="wallet-balance">
                                     <i class="fas fa-chart-line"></i>
-                                    Revenue: Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
+                                    Pendapatan: Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
+                                </a>
+                            </li>
+                        @elseif (auth()->user()->isAdmin())
+                            <li class="nav-item me-3">
+                                <a href="{{ route('wallet.index') }}" class="wallet-balance">
+                                    <i class="fas fa-coins"></i>
+                                    Sistem: Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
                                 </a>
                             </li>
                         @endif
@@ -6038,16 +6066,31 @@
                             </a>
                             <ul class="dropdown-menu">
                                 @if (auth()->user()->isUser())
-                                    <li><a class="dropdown-item" href="{{ route('profile.index') }}"><i class="fas fa-user me-2"></i>My Profile</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('wallet.index') }}"><i class="fas fa-wallet me-2"></i>My Wallet</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('orders.index') }}"><i class="fas fa-receipt me-2"></i>My Orders</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('profile.index') }}"><i class="fas fa-user me-2"></i>Profil Saya</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('wallet.index') }}"><i class="fas fa-wallet me-2"></i>Saldo Saya</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('orders.index') }}"><i class="fas fa-receipt me-2"></i>Pesanan Saya</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                @endif
-                                @if (auth()->user()->isAdminOrSeller())
-                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                                @elseif (auth()->user()->isSeller())
+                                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="fas fa-user me-2"></i>Profil Saya</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('wallet.index') }}"><i class="fas fa-chart-line me-2"></i>Pendapatan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.products') }}"><i class="fas fa-cube me-2"></i>Produk Saya</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.orders') }}"><i class="fas fa-shopping-bag me-2"></i>Pesanan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dasbor</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                @elseif (auth()->user()->isAdmin())
+                                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="fas fa-user me-2"></i>Profil Saya</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('wallet.index') }}"><i class="fas fa-coins me-2"></i>Dompet Sistem</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dasbor</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.users') }}"><i class="fas fa-users me-2"></i>Pengguna</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.products') }}"><i class="fas fa-cube me-2"></i>Produk</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.orders') }}"><i class="fas fa-shopping-bag me-2"></i>Pesanan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.transactions') }}"><i class="fas fa-exchange-alt me-2"></i>Transaksi</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -6055,7 +6098,7 @@
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                         @csrf
-                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Keluar</button>
                                     </form>
                                 </li>
                             </ul>

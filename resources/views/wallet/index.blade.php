@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'My Wallet - JajanGaming')
+@section('title', 'Dompet Saya - JajanGaming')
 
 @section('content')
 <!-- Page Container with Sidebar -->
@@ -465,10 +465,10 @@
         <div class="page-header d-flex justify-content-between align-items-center flex-wrap">
             <h1 class="page-title">
                 <i class="fas fa-wallet"></i>
-                {{ auth()->user()->isSeller() ? 'Dompet Penghasilan' : 'My Wallet' }}
+                {{ auth()->user()->isSeller() ? 'Dompet Penghasilan' : 'Dompet Saya' }}
             </h1>
             <a href="{{ route('home') }}" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Home
+                <i class="fas fa-arrow-left"></i> Beranda
             </a>
         </div>
 
@@ -480,7 +480,7 @@
                         <i class="fas fa-coins"></i>
                     </div>
                     <div class="balance-label">
-                        {{ auth()->user()->isSeller() ? 'Total Revenue' : 'Current Balance' }}
+                        {{ auth()->user()->isSeller() ? 'Total Pendapatan' : 'Saldo Saat Ini' }}
                     </div>
                     <div class="balance-amount">
                         @if(auth()->user()->isSeller())
@@ -495,7 +495,7 @@
                     <form action="{{ route('wallet.topup') }}" method="POST" class="topup-form">
                         @csrf
                         <div class="form-group">
-                            <label class="form-label">Top Up Amount</label>
+                            <label class="form-label">Jumlah Top Up</label>
                             <input type="number" class="form-control @error('amount') is-invalid @enderror" 
                                    name="amount" min="10000" step="1000" 
                                    value="{{ $requiredAmount ?? '' }}" 
@@ -507,7 +507,7 @@
                             @if($requiredAmount)
                                 <div class="form-hint warning">
                                     <i class="fas fa-exclamation-triangle"></i>
-                                    You need at least Rp {{ number_format($requiredAmount, 0, ',', '.') }} to complete your order.
+                                    Anda membutuhkan minimal Rp {{ number_format($requiredAmount, 0, ',', '.') }} untuk menyelesaikan pesanan Anda.
                                 </div>
                             @else
                                 <div class="form-hint">Minimum top up: Rp 10,000</div>
@@ -515,12 +515,12 @@
                         </div>
                         
                         <button type="submit" class="btn-topup">
-                            <i class="fas fa-plus"></i> Top Up Wallet
+                            <i class="fas fa-plus"></i> Top Up Dompet
                         </button>
                         
                         @if($requiredAmount)
                         <a href="{{ route('cart.index') }}" class="btn-topup btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Back to Cart
+                            <i class="fas fa-arrow-left"></i> Kembali ke Keranjang
                         </a>
                         @endif
                     </form>
@@ -537,31 +537,31 @@
             <div class="info-card">
                 <div class="info-header">
                     <i class="fas fa-info-circle"></i>
-                    <h3>{{ auth()->user()->isSeller() ? 'Informasi Pendapatan' : 'Wallet Information' }}</h3>
+                    <h3>{{ auth()->user()->isSeller() ? 'Informasi Pendapatan' : 'Informasi Dompet' }}</h3>
                 </div>
                 <div class="info-body">
                     <ul class="info-list">
                         <li>
                             <i class="fas fa-check"></i>
-                            <span>Secure wallet system</span>
+                            <span>Sistem dompet yang aman</span>
                         </li>
                         @if(!auth()->user()->isSeller())
                         <li>
                             <i class="fas fa-check"></i>
-                            <span>Instant top up processing</span>
+                            <span>Pemrosesan top up instan</span>
                         </li>
                         @endif
                         <li>
                             <i class="fas fa-check"></i>
-                            <span>Use for purchases or withdrawals</span>
+                            <span>Gunakan untuk pembelian atau penarikan</span>
                         </li>
                         <li>
                             <i class="fas fa-check"></i>
-                            <span>Transaction history tracking</span>
+                            <span>Pelacakan riwayat transaksi</span>
                         </li>
                         <li>
                             <i class="fas fa-check"></i>
-                            <span>24/7 support available</span>
+                            <span>Dukungan tersedia 24/7</span>
                         </li>
                     </ul>
                 </div>
@@ -572,7 +572,7 @@
         <div class="history-card">
             <div class="history-header">
                 <i class="fas fa-history"></i>
-                <h3>{{ auth()->user()->isSeller() ? 'Ringkasan Order Selesai' : 'Transaction History' }}</h3>
+                <h3>{{ auth()->user()->isSeller() ? 'Ringkasan Order Selesai' : 'Riwayat Transaksi' }}</h3>
             </div>
             <div class="history-body">
                 @if(auth()->user()->isSeller())
@@ -599,9 +599,9 @@
                                 @if($transaction->type === 'topup')
                                     Top Up
                                 @elseif($transaction->type === 'purchase')
-                                    Purchase
+                                    Pembelian
                                 @else
-                                    Refund
+                                    Pengembalian Dana
                                 @endif
                             </div>
                             <div class="transaction-desc">{{ $transaction->description }}</div>
@@ -620,7 +620,7 @@
                 @if($transactions->hasPages())
                 <div class="pagination-wrapper">
                     <div class="pagination-info">
-                        Showing {{ $transactions->firstItem() }} to {{ $transactions->lastItem() }} of {{ $transactions->total() }} results
+                        Menampilkan {{ $transactions->firstItem() }} hingga {{ $transactions->lastItem() }} dari {{ $transactions->total() }} hasil
                     </div>
                     {{ $transactions->links('pagination.bootstrap-5') }}
                 </div>
@@ -628,8 +628,8 @@
                 @else
                 <div class="empty-state">
                     <i class="fas fa-history"></i>
-                    <h4>No Transactions Yet</h4>
-                    <p>Your transaction history will appear here</p>
+                    <h4>Belum Ada Transaksi</h4>
+                    <p>Riwayat transaksi Anda akan muncul di sini</p>
                 </div>
                 @endif
             </div>

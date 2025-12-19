@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', isset($selectedSeller) ? $selectedSeller->name . ' Products - JajanGaming' : 'Manage Products - JajanGaming')
+@section('title', isset($selectedSeller) ? $selectedSeller->name . ' - Produk - JajanGaming' : 'Kelola Produk - JajanGaming')
 
 @section('content')
 <style>
@@ -501,16 +501,16 @@
                 <div class="page-header">
                     <h1 class="page-title">
                         <i class="fas fa-cube"></i>
-                        Products
+                        Produk
                     </h1>
                     <div class="header-actions">
                         @if($user->isAdmin())
                         <a href="{{ route('admin.products') }}" class="btn-back">
-                            <i class="fas fa-arrow-left"></i> Sellers
+                            <i class="fas fa-arrow-left"></i> Penjual
                         </a>
                         @endif
                         <a href="{{ route('admin.products.create') }}" class="btn-add">
-                            <i class="fas fa-plus"></i> Add
+                            <i class="fas fa-plus"></i> Tambah
                         </a>
                     </div>
                 </div>
@@ -526,7 +526,7 @@
                     </div>
                     <div>
                         <h4>{{ $selectedSeller->name }}</h4>
-                        <p>{{ $products->total() }} products • {{ $selectedSeller->email }}</p>
+                        <p>{{ $products->total() }} produk • {{ $selectedSeller->email }}</p>
                     </div>
                 </div>
 
@@ -548,7 +548,7 @@
                                 <img src="{{ asset($fallback) }}" alt="Random Product Image">
                             @endif
                             <span class="product-status {{ $product->is_active ? 'active' : 'inactive' }}">
-                                {{ $product->is_active ? 'Active' : 'Off' }}
+                                {{ $product->is_active ? 'Aktif' : 'Nonaktif' }}
                             </span>
                         </div>
                         <div class="product-body">
@@ -556,13 +556,13 @@
                             <p class="product-type">{{ $product->game_type ?? 'Roblox' }}</p>
                             <div class="product-meta">
                                 <span class="product-price">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
-                                <span class="product-sales">{{ $product->sales_count ?? 0 }} sold</span>
+                                <span class="product-sales">{{ $product->sales_count ?? 0 }} terjual</span>
                             </div>
                             <div class="product-actions">
                                 <a href="{{ route('admin.products.edit', $product->id) }}" class="btn-edit">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="flex: 1;" onsubmit="return confirm('Delete this product?')">
+                                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="flex: 1;" onsubmit="return confirm('Hapus produk ini?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn-delete" style="width: 100%;">
@@ -575,8 +575,8 @@
                     @empty
                     <div class="empty-state" style="grid-column: 1 / -1;">
                         <i class="fas fa-box-open"></i>
-                        <h4>No Products</h4>
-                        <p>This seller has no products yet.</p>
+                        <h4>Tidak Ada Produk</h4>
+                        <p>Penjual ini belum memiliki produk.</p>
                     </div>
                     @endforelse
                 </div>
@@ -592,14 +592,14 @@
                 <div class="page-header">
                     <h1 class="page-title">
                         <i class="fas fa-store"></i>
-                        Sellers
+                        Penjual
                     </h1>
                     <div class="header-actions">
                         <a href="{{ route('admin.dashboard') }}" class="btn-back">
-                            <i class="fas fa-arrow-left"></i> Dashboard
+                            <i class="fas fa-arrow-left"></i> Dasbor
                         </a>
                         <a href="{{ route('admin.products.create') }}" class="btn-add">
-                            <i class="fas fa-plus"></i> Add Product
+                            <i class="fas fa-plus"></i> Tambah Produk
                         </a>
                     </div>
                 </div>
@@ -608,20 +608,20 @@
                 <div class="filter-bar">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="sellerSearch" placeholder="Search sellers..." onkeyup="filterSellers()">
+                        <input type="text" id="sellerSearch" placeholder="Cari penjual..." onkeyup="filterSellers()">
                     </div>
                     <div class="stats-pills">
                         <div class="stat-pill">
                             <i class="fas fa-users"></i>
-                            <strong>{{ $sellers->count() }}</strong> Sellers
+                            <strong>{{ $sellers->count() }}</strong> Penjual
                         </div>
                         <div class="stat-pill">
                             <i class="fas fa-cube"></i>
-                            <strong>{{ $sellers->sum('total_products') }}</strong> Products
+                            <strong>{{ $sellers->sum('total_products') }}</strong> Produk
                         </div>
                         <div class="stat-pill">
                             <i class="fas fa-shopping-cart"></i>
-                            <strong>{{ $sellers->sum('total_sales') }}</strong> Sales
+                            <strong>{{ $sellers->sum('total_sales') }}</strong> Penjualan
                         </div>
                     </div>
                 </div>
@@ -629,10 +629,10 @@
                 <!-- Sellers Table -->
                 <div class="sellers-table">
                     <div class="sellers-table-header">
-                        <div>Seller</div>
-                        <div>Products</div>
-                        <div>Sales</div>
-                        <div>Action</div>
+                        <div>Penjual</div>
+                        <div>Produk</div>
+                        <div>Penjualan</div>
+                        <div>Aksi</div>
                     </div>
                     <div id="sellersContainer">
                         @forelse($sellers as $seller)
@@ -654,15 +654,15 @@
                             <div class="seller-stat sales">{{ $seller->total_sales }}</div>
                             <div>
                                 <a href="{{ route('admin.products', ['seller_id' => $seller->id]) }}" class="btn-view" onclick="event.stopPropagation();">
-                                    View <i class="fas fa-chevron-right"></i>
+                                    Lihat <i class="fas fa-chevron-right"></i>
                                 </a>
                             </div>
                         </div>
                         @empty
                         <div class="empty-state">
                             <i class="fas fa-store-slash"></i>
-                            <h4>No Sellers</h4>
-                            <p>No sellers registered yet.</p>
+                            <h4>Tidak Ada Penjual</h4>
+                            <p>Belum ada penjual yang terdaftar.</p>
                         </div>
                         @endforelse
                     </div>

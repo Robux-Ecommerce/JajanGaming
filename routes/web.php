@@ -14,6 +14,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SellerProfileController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -76,6 +77,12 @@ Route::middleware('auth')->group(function () {
     // Rating routes
     Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');
     Route::get('/ratings', [RatingController::class, 'index'])->name('ratings.index');
+    
+    // Wishlist routes
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+    Route::get('/wishlist/check', [WishlistController::class, 'check'])->name('wishlist.check');
+    Route::delete('/wishlist/{wishlist}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
     
     // Debug route for testing rating
     Route::get('/debug-rating/{order}', function($orderId) {

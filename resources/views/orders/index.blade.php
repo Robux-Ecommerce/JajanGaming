@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'My Orders - JajanGaming')
+@section('title', 'Pesanan Saya - JajanGaming')
 
 @section('content')
 <style>
@@ -553,12 +553,12 @@
                     <i class="fas fa-shopping-bag"></i>
                 </div>
                 <div>
-                    <h1 class="page-title">My Orders</h1>
-                    <p class="page-subtitle">Track and manage your purchases</p>
+                    <h1 class="page-title">Pesanan Saya</h1>
+                    <p class="page-subtitle">Lacak dan kelola pembelian Anda</p>
                 </div>
             </div>
             <a href="{{ route('home') }}" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Back to Home
+                <i class="fas fa-arrow-left"></i> Kembali ke Beranda
             </a>
         </div>
 
@@ -588,7 +588,7 @@
                                             @if($order->status === 'completed')
                                                 <br>
                                                 <button class="btn-rate" onclick="openRatingModal({{ $item->product->id }}, {{ $order->id }}, '{{ $item->product->name }}')">
-                                                    <i class="fas fa-star"></i> Rate Product
+                                                    <i class="fas fa-star"></i> Beri Rating
                                                 </button>
                                             @endif
                                         </div>
@@ -602,7 +602,7 @@
                             
                             <div class="order-details-section">
                                 <div class="detail-row">
-                                    <span class="detail-label">Payment Method</span>
+                                    <span class="detail-label">Metode Pembayaran</span>
                                     @if($order->payment_method === 'wallet')
                                         <span class="payment-badge wallet">
                                             <i class="fas fa-wallet"></i> DompetKu
@@ -615,13 +615,13 @@
                                 </div>
                                 
                                 <div class="detail-row">
-                                    <span class="detail-label">Order Date</span>
+                                    <span class="detail-label">Tanggal Pesanan</span>
                                     <span class="detail-value">{{ $order->created_at->format('d M Y H:i') }}</span>
                                 </div>
                                 
                                 @if($order->notes)
                                     <div>
-                                        <span class="detail-label">Notes:</span>
+                                        <span class="detail-label">Catatan:</span>
                                         <div class="notes-box">
                                             <small>{{ $order->notes }}</small>
                                         </div>
@@ -629,7 +629,7 @@
                                 @endif
                                 
                                 <a href="{{ route('orders.show', $order) }}" class="btn-view-details">
-                                    <i class="fas fa-eye"></i> View Details
+                                    <i class="fas fa-eye"></i> Lihat Detail
                                 </a>
                             </div>
                         </div>
@@ -640,7 +640,7 @@
             <div class="pagination-wrapper">
                 <div>
                     <div class="pagination-info">
-                        Showing {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of {{ $orders->total() }} results
+                        Menampilkan {{ $orders->firstItem() }} hingga {{ $orders->lastItem() }} dari {{ $orders->total() }} hasil
                     </div>
                     {{ $orders->links('pagination.bootstrap-5') }}
                 </div>
@@ -650,10 +650,10 @@
                 <div class="empty-icon">
                     <i class="fas fa-shopping-bag"></i>
                 </div>
-                <h3>No Orders Yet</h3>
-                <p>Your orders will appear here once you make a purchase</p>
+                <h3>Belum Ada Pesanan</h3>
+                <p>Pesanan Anda akan muncul di sini setelah Anda melakukan pembelian</p>
                 <a href="{{ route('home') }}" class="btn-shop">
-                    <i class="fas fa-shopping-bag"></i> Start Shopping
+                    <i class="fas fa-shopping-bag"></i> Mulai Belanja
                 </a>
             </div>
         @endif
@@ -666,7 +666,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ratingModalLabel">
-                    <i class="fas fa-star me-2"></i>Rate Product
+                    <i class="fas fa-star me-2"></i>Beri Rating Produk
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -677,7 +677,7 @@
                     <input type="hidden" id="rating_order_id" name="order_id">
                     
                     <div class="mb-3">
-                        <label class="form-label">Product:</label>
+                        <label class="form-label">Produk:</label>
                         <p class="fw-bold text-white" id="rating_product_name"></p>
                     </div>
                     
@@ -696,16 +696,16 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label for="review" class="form-label">Review (Optional)</label>
+                        <label for="review" class="form-label">Ulasan (Opsional)</label>
                         <textarea class="form-control" id="review" name="review" rows="3" 
-                                  placeholder="Share your experience with this product..."></textarea>
+                                  placeholder="Bagikan pengalaman Anda dengan produk ini..."></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 <button type="button" class="btn btn-warning" onclick="submitRating()">
-                    <i class="fas fa-star me-1"></i>Submit Rating
+                    <i class="fas fa-star me-1"></i>Kirim Rating
                 </button>
             </div>
         </div>
@@ -796,7 +796,7 @@ function submitRating() {
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while submitting the rating');
+        alert('Kesalahan terjadi saat mengirim rating');
     });
 }
 </script>

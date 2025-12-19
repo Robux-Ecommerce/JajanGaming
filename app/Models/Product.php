@@ -50,6 +50,11 @@ class Product extends Model
         return $this->hasMany(Rating::class);
     }
 
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
     public function averageRating()
     {
         return $this->ratings()->avg('rating') ?? 0;
