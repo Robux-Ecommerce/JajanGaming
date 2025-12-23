@@ -276,9 +276,13 @@
                 </a>
                 
                 <div class="menu-label">Manajemen</div>
-                <a href="{{ route('wallet.index') }}" class="menu-item {{ request()->routeIs('wallet.index') ? 'active' : '' }}">
+                <a href="{{ route('admin.wallet.index') }}" class="menu-item {{ request()->routeIs('admin.wallet*') ? 'active' : '' }}">
                     <i class="fas fa-wallet"></i>
                     <span>Dompet Sistem</span>
+                </a>
+                <a href="{{ route('admin.reports.index') }}" class="menu-item {{ request()->routeIs('admin.reports*') ? 'active' : '' }}">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Laporan</span>
                 </a>
                 <a href="{{ route('admin.profile') }}" class="menu-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
                     <i class="fas fa-cog"></i>
@@ -305,6 +309,10 @@
                 <a href="{{ route('admin.products.create') }}" class="menu-item">
                     <i class="fas fa-plus-circle"></i>
                     <span>Tambah Produk</span>
+                </a>
+                <a href="{{ route('seller.reports.index') }}" class="menu-item {{ request()->routeIs('seller.reports*') ? 'active' : '' }}">
+                    <i class="fas fa-bell"></i>
+                    <span>Laporan Saya</span>
                 </a>
                 <a href="{{ route('wallet.index') }}" class="menu-item {{ request()->routeIs('wallet.index') ? 'active' : '' }}">
                     <i class="fas fa-chart-line"></i>

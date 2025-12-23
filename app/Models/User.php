@@ -118,4 +118,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class, 'seller_id');
     }
+
+    // Report relationships
+    public function reportsSubmitted()
+    {
+        return $this->hasMany(Report::class, 'user_id');
+    }
+
+    public function reportsAgainst()
+    {
+        return $this->hasMany(Report::class, 'seller_id');
+    }
 }

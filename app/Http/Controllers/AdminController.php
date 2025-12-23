@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Transaction;
 use App\Models\Notification;
+use App\Models\AdminWallet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -23,12 +24,16 @@ class AdminController extends Controller
         $user = auth()->user();
         
         if ($user->isAdmin()) {
+            // Get admin wallet balance
+            $adminWallet = AdminWallet::first();
+            
             // Admin sees all data
             $stats = [
                 'total_products' => Product::count(),
                 'total_orders' => Order::count(),
                 'total_users' => User::where('role', 'user')->count(),
                 'total_revenue' => Order::where('status', 'completed')->sum('total_amount'),
+                'admin_wallet_balance' => $adminWallet ? $adminWallet->total_balance : 0,
                 'pending_orders' => Order::where('status', 'pending')->count(), 
                 'completed_orders' => Order::where('status', 'completed')->count(),
                 'cancelled_orders' => Order::where('status', 'cancelled')->count(),

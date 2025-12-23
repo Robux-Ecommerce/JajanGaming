@@ -582,6 +582,10 @@
                                 <h6>Order Items:</h6>
                                 @foreach($order->orderItems as $item)
                                     <div class="order-item">
+                                        <div class="item-image" style="margin-right: 1rem;">
+                                            <img src="{{ asset('img/' . $item->product->image) }}" alt="{{ $item->product->name }}" 
+                                                 style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                                        </div>
                                         <div class="item-info">
                                             <h6>{{ $item->product->name }}</h6>
                                             <small>{{ $item->product->game_name }} - {{ $item->product->game_type }}</small>
@@ -676,6 +680,16 @@
                     <input type="hidden" id="rating_product_id" name="product_id">
                     <input type="hidden" id="rating_order_id" name="order_id">
                     
+                    <!-- Product Image -->
+                    <div class="mb-3 text-center">
+                        <div id="product_image_container" style="max-width: 200px; margin: 0 auto 1rem;">
+                            <img id="rating_product_image" src="" alt="Product" class="img-fluid rounded" style="max-width: 100%; height: auto; display: none;">
+                            <div id="rating_product_placeholder" style="width: 200px; height: 150px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-image fa-3x" style="color: #666;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="mb-3">
                         <label class="form-label">Produk:</label>
                         <p class="fw-bold text-white" id="rating_product_name"></p>
@@ -724,6 +738,19 @@ function openRatingModal(productId, orderId, productName) {
     document.querySelectorAll('.rating-input .stars i').forEach(star => {
         star.classList.remove('active', 'filled');
     });
+    
+    // Try to find product image from page
+    const productLink = document.querySelector(`a[href*="/products/${productId}"]`);
+    const productImage = productLink?.querySelector('img');
+    
+    if (productImage && productImage.src) {
+        document.getElementById('rating_product_image').src = productImage.src;
+        document.getElementById('rating_product_image').style.display = 'block';
+        document.getElementById('rating_product_placeholder').style.display = 'none';
+    } else {
+        document.getElementById('rating_product_image').style.display = 'none';
+        document.getElementById('rating_product_placeholder').style.display = 'flex';
+    }
     
     new bootstrap.Modal(document.getElementById('ratingModal')).show();
 }

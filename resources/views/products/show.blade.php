@@ -1027,9 +1027,9 @@
                                 <button type="submit" class="btn-buy-now">
                                     <i class="fas fa-shopping-cart me-2"></i>Add to Cart
                                 </button>
-                                <a href="{{ route('home') }}" class="btn-secondary-action">
-                                    <i class="fas fa-heart me-2"></i>Add to Wishlist
-                                </a>
+                                <button type="button" class="btn-secondary-action" data-bs-toggle="modal" data-bs-target="#reportModal" @if(auth()->user()->id === $product->seller_id) disabled @endif>
+                                    <i class="fas fa-flag me-2"></i>Report Product
+                                </button>
                             </div>
                         </form>
                     @else
@@ -1144,4 +1144,61 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Report Product Modal -->
+            @auth
+                <div class="modal fade" id="reportModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="background: linear-gradient(135deg, #1a2a38 0%, #243645 100%); border: 1px solid rgba(100, 160, 180, 0.2); color: #e0e0e0;">
+                            <div class="modal-header" style="border-bottom: 1px solid rgba(100, 160, 180, 0.2);">
+                                <h5 class="modal-title" style="color: #ffffff; font-weight: 700;">
+                                    <i class="fas fa-flag me-2" style="color: #e8b056;"></i>Laporkan Produk Ini
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: brightness(1.5);"></button>
+                            </div>
+
+                            <form action="{{ route('product.report') }}" method="POST" id="reportForm">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                                <div class="modal-body">
+                                    <p style="color: #a0b5c5; margin-bottom: 1.5rem;">Laporan anda akan membantu kami menjaga kualitas platform. Silakan jelaskan masalah anda secara detail.</p>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" style="color: #a0c5d5; font-weight: 600;">Alasan Laporan *</label>
+                                        <select name="reason" class="form-select" required style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(100, 160, 180, 0.3); color: #e0e0e0; border-radius: 8px; padding: 0.75rem;">
+                                            <option value="">-- Pilih Alasan --</option>
+                                            <option value="poor_quality">Kualitas Produk Buruk</option>
+                                            <option value="fake_product">Produk Palsu/Tidak Sesuai</option>
+                                            <option value="unsafe">Tidak Aman/Berbahaya</option>
+                                            <option value="inappropriate">Konten Tidak Layak</option>
+                                            <option value="other">Lainnya</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" style="color: #a0c5d5; font-weight: 600;">Deskripsi Detail *</label>
+                                        <textarea name="description" class="form-control" required rows="4" placeholder="Jelaskan masalah anda secara detail..." style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(100, 160, 180, 0.3); color: #e0e0e0; border-radius: 8px; resize: none;" minlength="10" maxlength="500"></textarea>
+                                        <small style="color: #7a8a9a;">Minimal 10 karakter, maksimal 500 karakter</small>
+                                    </div>
+
+                                    <div style="background: rgba(100, 160, 180, 0.1); border-left: 4px solid #64a0b4; padding: 0.75rem 1rem; border-radius: 4px; color: #a0c5d5; font-size: 0.85rem;">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Laporan palsu atau spam akan membuat akun anda kehilangan kepercayaan.
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer" style="border-top: 1px solid rgba(100, 160, 180, 0.2);">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: rgba(100, 160, 180, 0.2); color: #64a0b4; border: 1px solid rgba(100, 160, 180, 0.3); text-decoration: none; font-weight: 600; padding: 0.5rem 1.5rem; border-radius: 8px;">
+                                        Batal
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" style="background: linear-gradient(135deg, #e8b056 0%, #d68940 100%); color: white; border: none; text-decoration: none; font-weight: 600; padding: 0.5rem 1.5rem; border-radius: 8px;">
+                                        <i class="fas fa-paper-plane me-2"></i>Kirim Laporan
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endauth
         @endsection

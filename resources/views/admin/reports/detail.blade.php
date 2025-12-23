@@ -1,0 +1,663 @@
+@extends('layouts.app')
+
+@section('styles')
+<style>
+/* Dashboard Styling untuk Report Pages */
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a1218 0%, #0f1a24 50%, #142130 100%);
+}
+
+.dashboard-sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, #0f1a24 0%, #162030 100%);
+    border-right: 1px solid rgba(100, 160, 180, 0.1);
+    position: fixed;
+    top: 76px;
+    left: 0;
+    height: calc(100vh - 76px);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-brand {
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(100, 160, 180, 0.1);
+    background: rgba(100, 160, 180, 0.05);
+}
+
+.sidebar-brand i {
+    font-size: 28px;
+    color: #64a0b4;
+}
+
+.sidebar-brand span {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.sidebar-user {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid rgba(100, 160, 180, 0.1);
+}
+
+.sidebar-avatar, .sidebar-avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-avatar-placeholder {
+    background: linear-gradient(135deg, #64a0b4 0%, #508ca0 100%);
+    color: white;
+    font-size: 20px;
+}
+
+.sidebar-user-info h6 {
+    color: #ffffff;
+    font-weight: 600;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.sidebar-user-info .user-role {
+    font-size: 0.75rem;
+    color: #64a0b4;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar-menu {
+    padding: 15px 0;
+}
+
+.menu-label {
+    padding: 15px 20px 8px;
+    font-size: 0.7rem;
+    color: rgba(100, 160, 180, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    gap: 14px;
+}
+
+.menu-item:hover {
+    background: rgba(100, 160, 180, 0.1);
+    color: #ffffff;
+    border-left-color: rgba(100, 160, 180, 0.5);
+}
+
+.menu-item.active {
+    background: rgba(100, 160, 180, 0.15);
+    color: #64a0b4;
+    border-left-color: #64a0b4;
+}
+
+.menu-item i {
+    width: 20px;
+    font-size: 1rem;
+}
+
+.menu-item span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.dashboard-main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 30px;
+    min-height: 100vh;
+}
+</style>
+@endsection
+
+@section('content')
+<div class="dashboard-wrapper">
+    <!-- Dashboard Sidebar -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-gamepad"></i>
+            <span>JajanGaming</span>
+        </div>
+        
+        <div class="sidebar-user">
+            @if(auth()->user()->profile_photo)
+                <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" alt="Profile" class="sidebar-avatar">
+            @else
+                <div class="sidebar-avatar-placeholder">
+                    <i class="fas fa-user"></i>
+                </div>
+            @endif
+            <div class="sidebar-user-info">
+                <h6>{{ auth()->user()->name }}</h6>
+                <span class="user-role">{{ auth()->user()->isAdmin() ? 'Administrator' : (auth()->user()->isSeller() ? 'Penjual' : 'Pelanggan') }}</span>
+            </div>
+        </div>
+        
+        <nav class="sidebar-menu">
+            <div class="menu-label">Menu Utama</div>
+            <a href="{{ route('admin.dashboard') }}" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dasbor</span>
+            </a>
+            <a href="{{ route('admin.products') }}" class="menu-item">
+                <i class="fas fa-cube"></i>
+                <span>Produk</span>
+            </a>
+            <a href="{{ route('admin.orders') }}" class="menu-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Pesanan</span>
+            </a>
+            @if(auth()->user()->isAdmin())
+            <a href="{{ route('admin.users') }}" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Pengguna</span>
+            </a>
+            <a href="{{ route('admin.transactions') }}" class="menu-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transaksi</span>
+            </a>
+            @endif
+            
+            <div class="menu-label">Manajemen</div>
+            <a href="{{ route('admin.wallet.index') }}" class="menu-item">
+                <i class="fas fa-wallet"></i>
+                <span>Dompet Sistem</span>
+            </a>
+            <a href="{{ route('admin.reports.index') }}" class="menu-item active">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Laporan</span>
+            </a>
+            <a href="{{ route('admin.profile') }}" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Pengaturan</span>
+            </a>
+            
+            <div class="menu-label">Navigasi</div>
+            <a href="{{ route('home') }}" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Kembali ke Toko</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+<div style="margin-left: 0;">
+    <div class="row">
+        <div class="col-12" style="padding: 1.5rem 2rem;">
+        <!-- Header -->
+        <div class="mb-6">
+            <a href="{{ route('admin.reports.index') }}" style="color: #64a0b4; text-decoration: none; margin-bottom: 1rem; display: inline-block; font-weight: 600; transition: all 0.3s;">
+                <i class="fas fa-arrow-left me-2"></i> Kembali ke Daftar Seller
+            </a>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+                <div>
+                    <h1 class="h3 mb-1" style="font-size: 1.4rem; color: #ffffff; font-weight: 700;">
+                        <i class="fas fa-user-circle me-2" style="color: #64a0b4;"></i>{{ $seller->name }}
+                    </h1>
+                    <p class="mb-0" style="font-size: 0.9rem; color: #a0b5c5;">{{ $seller->email }}</p>
+                </div>
+
+                @if($seller->is_blacklisted)
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#removeBlacklistModal" style="background: linear-gradient(135deg, #6ebe96 0%, #48a070 100%); color: white; border: none; font-weight: 600;">
+                        <i class="fas fa-unlock me-2"></i> Hapus Blacklist
+                    </button>
+                @else
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#blacklistModal" style="background: linear-gradient(135deg, #e07856 0%, #c84c40 100%); color: white; border: none; font-weight: 600;">
+                        <i class="fas fa-ban me-2"></i> Blacklist Seller
+                    </button>
+                @endif
+            </div>
+        </div>
+
+        <!-- Status Alert -->
+        <div style="padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; background: rgba(100, 160, 180, 0.15); border-left: 4px solid #64a0b4; color: #a0c5d5;">
+            @if($seller->is_blacklisted)
+                <i class="fas fa-exclamation-triangle me-2" style="color: #e07856;"></i>
+                <strong>Seller ini telah diblacklist</strong><br>
+                <small>Alasan: {{ $seller->suspended_reason }}</small><br>
+                <small>Dinonaktifkan: {{ $seller->suspended_at?->format('d M Y H:i') }}</small>
+            @else
+                <i class="fas fa-check-circle me-2" style="color: #6ebe96;"></i>
+                <strong>Seller ini masih aktif</strong>
+            @endif
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row g-3 mb-6">
+            <div class="col-md-4">
+                <div class="stats-card total">
+                    <div class="stats-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h6>Total Laporan</h6>
+                        <h3>{{ $reportCount }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stats-card warning">
+                    <div class="stats-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h6>Pending</h6>
+                        <h3>{{ $pendingCount }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stats-card success">
+                    <div class="stats-icon">
+                        <i class="fas fa-reply"></i>
+                    </div>
+                    <div class="stats-content">
+                        <h6>Sudah Direspons</h6>
+                        <h3>{{ $respondedCount }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports List -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Laporan dari Pembeli</h5>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Pembeli</th>
+                            <th>Produk</th>
+                            <th>Alasan</th>
+                            <th>Status</th>
+                            <th>Tanggal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($reports as $report)
+                            <tr class="transaction-row">
+                                <td>
+                                    <strong>{{ $report->reporter->name }}</strong><br>
+                                    <small style="color: #7a8a9a;">{{ $report->reporter->email }}</small>
+                                </td>
+                                <td>
+                                    <a href="{{ route('product.show', $report->product) }}" style="color: #64a0b4; text-decoration: none;">
+                                        {{ Str::limit($report->product->name, 30) }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="badge" style="background: linear-gradient(135deg, rgba(232, 176, 86, 0.3) 0%, rgba(216, 149, 64, 0.2) 100%); color: #ffa500; border: 1px solid rgba(232, 176, 86, 0.4); text-transform: capitalize;">
+                                        {{ str_replace('_', ' ', $report->reason) }}
+                                    </span>
+                                </td>
+                                <td>
+                                    @switch($report->status)
+                                        @case('pending')
+                                            <span class="badge" style="background: linear-gradient(135deg, rgba(232, 176, 86, 0.3) 0%, rgba(216, 149, 64, 0.2) 100%); color: #ffa500; border: 1px solid rgba(232, 176, 86, 0.4);">Menunggu</span>
+                                            @break
+                                        @case('responded')
+                                            <span class="badge" style="background: linear-gradient(135deg, rgba(100, 160, 180, 0.3) 0%, rgba(80, 140, 160, 0.2) 100%); color: #64a0b4; border: 1px solid rgba(100, 160, 180, 0.4);">Direspons</span>
+                                            @break
+                                        @case('resolved')
+                                            <span class="badge" style="background: linear-gradient(135deg, rgba(110, 190, 150, 0.3) 0%, rgba(82, 168, 118, 0.2) 100%); color: #6ebe96; border: 1px solid rgba(110, 190, 150, 0.4);">Selesai</span>
+                                            @break
+                                    @endswitch
+                                </td>
+                                <td style="color: #a0b5c5; font-size: 0.85rem;">
+                                    {{ $report->created_at->format('d M Y') }}<br>
+                                    {{ $report->created_at->format('H:i') }}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#reportModal{{ $report->id }}" style="background: linear-gradient(135deg, rgba(100, 160, 180, 0.2) 0%, rgba(80, 140, 160, 0.15) 100%); color: #64a0b4; border: 1px solid rgba(100, 160, 180, 0.3); text-decoration: none; font-weight: 600;">
+                                        <i class="fas fa-eye me-1"></i> Lihat
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Report Detail Modal -->
+                            <div class="modal fade" id="reportModal{{ $report->id }}" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content" style="background: linear-gradient(135deg, #1a2a38 0%, #243645 100%); border: 1px solid rgba(100, 160, 180, 0.2); color: #e0e0e0;">
+                                        <div class="modal-header" style="border-bottom: 1px solid rgba(100, 160, 180, 0.2);">
+                                            <h5 class="modal-title" style="color: #ffffff; font-weight: 700;">Detail Laporan</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: brightness(1.5);"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label class="form-label" style="color: #a0c5d5; font-weight: 600;">Pembeli:</label>
+                                                <p style="color: #e0e0e0;">{{ $report->reporter->name }} ({{ $report->reporter->email }})</p>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label" style="color: #a0c5d5; font-weight: 600;">Produk:</label>
+                                                <p style="color: #64a0b4;">{{ $report->product->name }}</p>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label" style="color: #a0c5d5; font-weight: 600;">Alasan:</label>
+                                                <p style="color: #e0e0e0; text-transform: capitalize;">{{ str_replace('_', ' ', $report->reason) }}</p>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label" style="color: #a0c5d5; font-weight: 600;">Deskripsi:</label>
+                                                <p style="color: #e0e0e0; line-height: 1.6;">{{ $report->description }}</p>
+                                            </div>
+
+                                            @if($report->seller_response)
+                                                <div class="mb-3" style="background: rgba(110, 190, 150, 0.1); padding: 1rem; border-left: 4px solid #6ebe96; border-radius: 4px;">
+                                                    <label class="form-label" style="color: #a0c5d5; font-weight: 600;">Respons Seller:</label>
+                                                    <p style="color: #e0e0e0; line-height: 1.6;">{{ $report->seller_response }}</p>
+                                                </div>
+                                            @endif
+
+                                            <div class="mb-3">
+                                                <label class="form-label" style="color: #a0c5d5; font-weight: 600;">Tanggal Laporan:</label>
+                                                <p style="color: #e0e0e0;">{{ $report->created_at->format('d M Y H:i') }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer" style="border-top: 1px solid rgba(100, 160, 180, 0.2);">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: rgba(100, 160, 180, 0.2); color: #64a0b4; border: 1px solid rgba(100, 160, 180, 0.3);">Tutup</button>
+
+                                            @if($report->status !== 'resolved')
+                                                <form action="{{ route('admin.reports.dismiss', $report->id) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn" style="background: linear-gradient(135deg, #6ebe96 0%, #48a070 100%); color: white; border: none; font-weight: 600;">
+                                                        <i class="fas fa-check me-1"></i> Tolak Laporan
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    <i class="fas fa-inbox" style="font-size: 2rem; color: #5a7a8a; margin-bottom: 1rem;"></i>
+                                    <p style="color: #a0b5c5;">Tidak ada laporan untuk seller ini</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            @if($reports->hasPages())
+                <div class="d-flex justify-content-center py-3">
+                    {{ $reports->links() }}
+                </div>
+            @endif
+        </div>
+    </main>
+</div>
+
+<!-- Blacklist Modal -->
+<div class="modal fade" id="blacklistModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background: linear-gradient(135deg, #1a2a38 0%, #243645 100%); border: 1px solid rgba(100, 160, 180, 0.2); color: #e0e0e0;">
+            <div class="modal-header" style="border-bottom: 1px solid rgba(100, 160, 180, 0.2);">
+                <h5 class="modal-title" style="color: #ffffff; font-weight: 700;">Konfirmasi Blacklist</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: brightness(1.5);"></button>
+            </div>
+            <div class="modal-body">
+                <p style="color: #a0b5c5;">Apakah anda yakin ingin memblacklist seller <strong>{{ $seller->name }}</strong>?</p>
+                <p style="color: #7a8a9a; font-size: 0.9rem;">Seller tidak akan bisa berjualan setelah diblacklist.</p>
+                
+                <form action="{{ route('admin.reports.blacklist', $seller->id) }}" method="POST" id="blacklistForm">
+                    @csrf
+                    <div class="mb-3">
+                        <label class="form-label" style="color: #a0c5d5;">Alasan Blacklist:</label>
+                        <textarea name="reason" class="form-control" required rows="3" placeholder="Masukkan alasan blacklist..." style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(100, 160, 180, 0.3); color: #e0e0e0; border-radius: 8px;"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid rgba(100, 160, 180, 0.2);">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: rgba(100, 160, 180, 0.2); color: #64a0b4; border: 1px solid rgba(100, 160, 180, 0.3);">Batal</button>
+                <button type="submit" form="blacklistForm" class="btn" style="background: linear-gradient(135deg, #e07856 0%, #c84c40 100%); color: white; border: none; font-weight: 600;">
+                    <i class="fas fa-ban me-1"></i> Blacklist
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Remove Blacklist Modal -->
+<div class="modal fade" id="removeBlacklistModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background: linear-gradient(135deg, #1a2a38 0%, #243645 100%); border: 1px solid rgba(100, 160, 180, 0.2); color: #e0e0e0;">
+            <div class="modal-header" style="border-bottom: 1px solid rgba(100, 160, 180, 0.2);">
+                <h5 class="modal-title" style="color: #ffffff; font-weight: 700;">Hapus Blacklist</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: brightness(1.5);"></button>
+            </div>
+            <div class="modal-body">
+                <p style="color: #a0b5c5;">Apakah anda yakin ingin menghapus blacklist dari seller <strong>{{ $seller->name }}</strong>?</p>
+                <p style="color: #7a8a9a; font-size: 0.9rem;">Seller akan dapat berjualan kembali setelah blacklist dihapus.</p>
+            </div>
+            <div class="modal-footer" style="border-top: 1px solid rgba(100, 160, 180, 0.2);">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background: rgba(100, 160, 180, 0.2); color: #64a0b4; border: 1px solid rgba(100, 160, 180, 0.3);">Batal</button>
+                <form action="{{ route('admin.reports.remove-blacklist', $seller->id) }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn" style="background: linear-gradient(135deg, #6ebe96 0%, #48a070 100%); color: white; border: none; font-weight: 600;">
+                        <i class="fas fa-unlock me-1"></i> Hapus Blacklist
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Statistics Cards */
+.stats-card {
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+    pointer-events: none;
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.stats-card.total {
+    background: linear-gradient(135deg, #64a0b4 0%, #4a8a9e 100%);
+    border: 2px solid rgba(100, 160, 180, 0.3);
+}
+
+.stats-card.warning {
+    background: linear-gradient(135deg, #e8b056 0%, #d68940 100%);
+    border: 2px solid rgba(232, 176, 86, 0.3);
+}
+
+.stats-card.success {
+    background: linear-gradient(135deg, #6ebe96 0%, #48a070 100%);
+    border: 2px solid rgba(110, 190, 150, 0.3);
+}
+
+.stats-icon {
+    font-size: 2rem;
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.stats-content {
+    position: relative;
+    z-index: 1;
+}
+
+.stats-content h6 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    opacity: 1;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.stats-content h3 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #1a2a38 0%, #243645 100%);
+    border: 1px solid rgba(100, 160, 180, 0.2);
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(100, 160, 180, 0.2);
+    border-radius: 10px 10px 0 0 !important;
+    background: linear-gradient(135deg, #64a0b4 0%, #508ca0 100%);
+    color: white;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+}
+
+.card-header h5 {
+    color: white;
+}
+
+/* Table Styling */
+.table-responsive {
+    background: linear-gradient(135deg, #1a2a38 0%, #243645 100%);
+}
+
+.table {
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    margin-bottom: 0;
+}
+
+.table thead {
+    background-color: rgba(100, 160, 180, 0.15);
+    border-bottom: 2px solid rgba(100, 160, 180, 0.3);
+}
+
+.table thead th {
+    color: #a0c5d5;
+    font-weight: 700;
+    padding: 0.85rem 0.85rem;
+    border: none;
+    letter-spacing: 0.3px;
+}
+
+.table tbody td {
+    padding: 0.75rem 0.85rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(100, 160, 180, 0.1);
+    color: #e0e0e0;
+}
+
+.transaction-row:hover {
+    background-color: rgba(100, 160, 180, 0.1) !important;
+}
+
+/* Form Controls */
+.form-control {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(100, 160, 180, 0.3);
+    color: #e0e0e0;
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(100, 160, 180, 0.6);
+    color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(100, 160, 180, 0.25);
+}
+
+.form-label {
+    color: #a0c5d5;
+    font-weight: 600;
+}
+
+.btn {
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    border: none;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+</style>
+        </div>
+    </div>
+</div>
+    </main>
+</div>
+
+@endsection

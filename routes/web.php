@@ -14,7 +14,8 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SellerProfileController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\WalletController;
-use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ProductReportController;
+use App\Http\Controllers\SellerReportController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -22,6 +23,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/browse', [BrowseController::class, 'index'])->name('browse');
 Route::get('/product/{product}', [HomeController::class, 'showProduct'])->name('product.show');
 Route::get('/products/{product}', [HomeController::class, 'showProduct'])->name('products.show');
+
+// Product Report route (public for authenticated users)
+Route::post('/product/{product}/report', [ProductReportController::class, 'store'])->middleware('auth')->name('product.report');
+Route::get('/product/{product}/report-check', [ProductReportController::class, 'check'])->middleware('auth')->name('product.report.check');
 
 // Seller Profile routes (public)
 Route::get('/sellers', [SellerProfileController::class, 'index'])->name('sellers.index');
@@ -99,26 +104,6 @@ Route::middleware('auth')->group(function () {
             })
         ]);
     })->name('debug.rating');
-    
-    // Simple test route for rating
-    Route::post('/test-rating', function(\Illuminate\Http\Request $request) {
-        \Log::info('Test rating request:', $request->all());
-        return response()->json([
-            'success' => true,
-            'message' => 'Test rating received',
-            'data' => $request->all()
-        ]);
-    })->name('test.rating');
-    
-    // Simple test route for ratings.store
-    Route::post('/test-ratings-store', function(\Illuminate\Http\Request $request) {
-        \Log::info('Test ratings.store request:', $request->all());
-        return response()->json([
-            'success' => true,
-            'message' => 'Test ratings.store received',
-            'data' => $request->all()
-        ]);
-    })->name('test.ratings.store');
 
     // Cart API routes
     Route::get('/api/cart/count', [CartController::class, 'getCount'])->name('cart.count');
@@ -150,6 +135,27 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::middleware('admin')->group(function () {
         Route::get('/users', [AdminController::class, 'users'])->name('users');
         Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
+        
+        // Admin Wallet routes
+        Route::get('/wallet', [\App\Http\Controllers\Admin\AdminWalletController::class, 'index'])->name('wallet.index');
+        Route::get('/wallet/history', [\App\Http\Controllers\Admin\AdminWalletController::class, 'history'])->name('wallet.history');
+        Route::get('/wallet/export', [\App\Http\Controllers\Admin\AdminWalletController::class, 'export'])->name('wallet.export');
+
+        // Report management routes
+        Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/seller/{seller}', [\App\Http\Controllers\Admin\ReportController::class, 'detail'])->name('reports.detail');
+        Route::get('/reports/{report}', [\App\Http\Controllers\Admin\ReportController::class, 'view'])->name('reports.view');
+        Route::post('/reports/{report}/dismiss', [\App\Http\Controllers\Admin\ReportController::class, 'dismiss'])->name('reports.dismiss');
+        Route::post('/reports/seller/{seller}/blacklist', [\App\Http\Controllers\Admin\ReportController::class, 'blacklist'])->name('reports.blacklist');
+        Route::post('/reports/seller/{seller}/remove-blacklist', [\App\Http\Controllers\Admin\ReportController::class, 'removeBlacklist'])->name('reports.remove-blacklist');
+        Route::get('/reports/export', [\App\Http\Controllers\Admin\ReportController::class, 'export'])->name('reports.export');
+    });
+
+    // Seller Report routes
+    Route::middleware('seller')->group(function () {
+        Route::get('/seller/reports', [SellerReportController::class, 'index'])->name('seller.reports.index');
+        Route::get('/seller/reports/{report}', [SellerReportController::class, 'show'])->name('seller.reports.show');
+        Route::post('/seller/reports/{report}/respond', [SellerReportController::class, 'respond'])->name('seller.reports.respond');
     });
 });
 

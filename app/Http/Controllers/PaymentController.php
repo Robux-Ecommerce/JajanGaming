@@ -6,6 +6,8 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Transaction;
 use App\Models\Notification;
+use App\Models\AdminWallet;
+use App\Models\AdminTaxHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -210,6 +212,27 @@ class PaymentController extends Controller
             foreach ($transaction->order->orderItems as $item) {
                 $item->product->increment('sales_count', $item->quantity);
             }
+            
+            // Collect 10% tax from purchase amount
+            $taxAmount = ($transaction->amount * 10) / 100;
+            $adminWallet = AdminWallet::first();
+            
+            if ($adminWallet) {
+                $adminWallet->update([
+                    'total_balance' => $adminWallet->total_balance + $taxAmount,
+                    'total_tax_collected' => $adminWallet->total_tax_collected + $taxAmount,
+                    'last_updated' => now(),
+                ]);
+            }
+            
+            // Record tax history
+            AdminTaxHistory::create([
+                'transaction_id' => $transaction->id,
+                'order_id' => $transaction->order_id,
+                'amount' => $taxAmount,
+                'tax_rate' => 10,
+                'description' => "Pajak dari pesanan #{$transaction->order->order_number}",
+            ]);
             
             // Clear cart if order is completed
             Cart::where('user_id', $transaction->user_id)->delete();

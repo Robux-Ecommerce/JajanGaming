@@ -5700,6 +5700,7 @@
             display: none !important;
         }
     </style>
+    @yield('styles')
 </head>
 
 <body @if(Request::routeIs('admin.dashboard')) class="dashboard-page" @endif>

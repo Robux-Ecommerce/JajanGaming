@@ -54,13 +54,13 @@
             @endif
             
             <div class="menu-label">Manajemen</div>
-            <a href="{{ route('admin.products.create') }}" class="menu-item">
-                <i class="fas fa-plus-circle"></i>
-                <span>Tambah Produk</span>
-            </a>
-            <a href="{{ route('wallet.index') }}" class="menu-item">
+            <a href="{{ route('admin.wallet.index') }}" class="menu-item">
                 <i class="fas fa-wallet"></i>
-                <span>Dompet</span>
+                <span>Dompet Sistem</span>
+            </a>
+            <a href="{{ route('admin.reports.index') }}" class="menu-item">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Laporan</span>
             </a>
             <a href="{{ route('admin.profile') }}" class="menu-item">
                 <i class="fas fa-cog"></i>
@@ -127,7 +127,7 @@
                 </div>
             </div>
             
-            <div class="stat-card stat-info">
+            <a href="{{ route('admin.transactions') }}" class="stat-card stat-card-clickable stat-info" style="text-decoration: none; color: inherit;">
                 <div class="stat-icon">
                     <i class="fas fa-money-bill-wave"></i>
                 </div>
@@ -136,9 +136,9 @@
                     <p>Total Pendapatan</p>
                 </div>
                 <div class="stat-trend up">
-                    <i class="fas fa-arrow-up"></i>
+                    <i class="fas fa-arrow-right"></i>
                 </div>
-            </div>
+            </a>
             
             @if($user->isAdmin())
             <div class="stat-card stat-warning">
@@ -153,6 +153,19 @@
                     <i class="fas fa-arrow-up"></i>
                 </div>
             </div>
+
+            <a href="{{ route('admin.wallet.index') }}" class="stat-card stat-card-clickable" style="text-decoration: none; color: inherit;">
+                <div class="stat-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Rp {{ number_format($stats['admin_wallet_balance'] ?? 0, 0, ',', '.') }}</h3>
+                    <p>Dompet Admin</p>
+                </div>
+                <div class="stat-trend up">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
             @else
             <div class="stat-card stat-warning">
                 <div class="stat-icon">
@@ -679,6 +692,25 @@
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
     border-color: rgba(100, 160, 180, 0.3);
+}
+
+.stat-card-clickable {
+    cursor: pointer;
+}
+
+.stat-card-clickable::before {
+    background: linear-gradient(180deg, #c9a856 0%, #b59042 100%);
+}
+
+.stat-card-clickable .stat-icon {
+    background: rgba(201, 168, 86, 0.15);
+    color: #c9a856;
+}
+
+.stat-card-clickable:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(201, 168, 86, 0.3);
 }
 
 .stat-icon {
