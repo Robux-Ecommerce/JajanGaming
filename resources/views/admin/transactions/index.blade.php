@@ -20,9 +20,14 @@
                             </h1>
                             <p class="mb-0" style="font-size: 0.9rem; color: #a0b5c5;">Pantau dan kelola semua transaksi sistem</p>
                         </div>
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-arrow-left me-1"></i>Kembali
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('admin.transactions.export') }}" class="btn btn-success btn-sm">
+                                <i class="fas fa-download me-1"></i>Export CSV
+                            </a>
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-arrow-left me-1"></i>Kembali
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

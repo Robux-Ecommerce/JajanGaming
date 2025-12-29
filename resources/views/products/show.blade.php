@@ -900,8 +900,9 @@
                                 }
                             @endphp
                             @if ($userHasPurchased)
-                                <form method="POST" class="mb-2">
+                                <form action="{{ route('ratings.store') }}" method="POST" class="mb-2">
                                     @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <div class="mb-2">
                                         <label class="text-muted" style="font-size:0.8rem;">Your rating</label>
                                         <select name="rating" class="form-select"
@@ -1157,9 +1158,8 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: brightness(1.5);"></button>
                             </div>
 
-                            <form action="{{ route('product.report') }}" method="POST" id="reportForm">
+                            <form action="{{ route('product.report', $product) }}" method="POST" id="reportForm">
                                 @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                                 <div class="modal-body">
                                     <p style="color: #a0b5c5; margin-bottom: 1.5rem;">Laporan anda akan membantu kami menjaga kualitas platform. Silakan jelaskan masalah anda secara detail.</p>

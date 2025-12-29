@@ -9,11 +9,6 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        // Redirect seller to admin dashboard
-        if (auth()->check() && auth()->user()->isSeller()) {
-            return redirect()->route('admin.dashboard');
-        }
-
         $query = Product::where('is_active', true);
 
         // Search functionality

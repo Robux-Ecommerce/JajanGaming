@@ -1,0 +1,1 @@
+ <?php /**PATH C:\xampp5\htdocs\JajanGaming1\resources\views/pagination/bootstrap-5.blade.php ENDPATH**/ ?>

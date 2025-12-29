@@ -43,7 +43,14 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Registration successful!');
+        // Redirect based on user role
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard')->with('success', 'Registration successful!');
+        } elseif ($user->isSeller()) {
+            return redirect()->route('seller.dashboard')->with('success', 'Registration successful!');
+        } else {
+            return redirect()->route('home')->with('success', 'Registration successful!');
+        }
     }
 
     public function showLogin()
@@ -60,7 +67,16 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('home'));
+            
+            // Redirect based on user role
+            $user = Auth::user();
+            if ($user->isAdmin()) {
+                return redirect()->intended(route('admin.dashboard'));
+            } elseif ($user->isSeller()) {
+                return redirect()->intended(route('seller.dashboard'));
+            } else {
+                return redirect()->intended(route('home'));
+            }
         }
 
         return back()->withErrors([
