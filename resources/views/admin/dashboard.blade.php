@@ -99,8 +99,66 @@
             </div>
         </div>
 
-        <!-- Stats Overview -->
+        <!-- Financial Cards (2 Column Layout) -->
+        <div class="financial-cards-grid">
+            <a href="{{ route('admin.transactions') }}" class="financial-card financial-card-revenue" style="text-decoration: none; color: inherit;">
+                <div class="financial-header">
+                    <div class="financial-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <span class="financial-label">Total Pendapatan</span>
+                </div>
+                <div class="financial-amount">
+                    <h2>Rp {{ number_format($stats['total_revenue'], 0, ',', '.') }}</h2>
+                </div>
+                <div class="financial-footer">
+                    <span class="financial-trend">
+                        <i class="fas fa-arrow-up"></i> Naik
+                    </span>
+                </div>
+            </a>
+            
+            @if($user->isAdmin())
+            <a href="{{ route('admin.wallet.index') }}" class="financial-card financial-card-wallet" style="text-decoration: none; color: inherit;">
+                <div class="financial-header">
+                    <div class="financial-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <span class="financial-label">Dompet Admin</span>
+                </div>
+                <div class="financial-amount">
+                    <h2>Rp {{ number_format($stats['admin_wallet_balance'] ?? 0, 0, ',', '.') }}</h2>
+                </div>
+                <div class="financial-footer">
+                    <span class="financial-trend">
+                        <i class="fas fa-check-circle"></i> Aktif
+                    </span>
+                </div>
+            </a>
+            @else
+            <div class="financial-card financial-card-seller">
+                <div class="financial-header">
+                    <div class="financial-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <span class="financial-label">Pendapatan Penjual</span>
+                </div>
+                <div class="financial-amount">
+                    <h2>Rp {{ number_format($stats['total_revenue'] ?? 0, 0, ',', '.') }}</h2>
+                </div>
+                <div class="financial-footer">
+                    <span class="financial-trend">
+                        <i class="fas fa-sync-alt"></i> Sinkron
+                    </span>
+                </div>
+            </div>
+            @endif
+        </div>
+
+        <!-- Analytics Cards Section -->
+        @if($user->isAdmin())
         <div class="stats-grid">
+            <!-- Total Product -->
             <div class="stat-card stat-primary">
                 <div class="stat-icon">
                     <i class="fas fa-cube"></i>
@@ -113,7 +171,8 @@
                     <i class="fas fa-arrow-up"></i>
                 </div>
             </div>
-            
+
+            <!-- Total Orders -->
             <div class="stat-card stat-success">
                 <div class="stat-icon">
                     <i class="fas fa-shopping-cart"></i>
@@ -126,21 +185,8 @@
                     <i class="fas fa-arrow-up"></i>
                 </div>
             </div>
-            
-            <a href="{{ route('admin.transactions') }}" class="stat-card stat-card-clickable stat-info" style="text-decoration: none; color: inherit;">
-                <div class="stat-icon">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Rp {{ number_format($stats['total_revenue'], 0, ',', '.') }}</h3>
-                    <p>Total Pendapatan</p>
-                </div>
-                <div class="stat-trend up">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </a>
-            
-            @if($user->isAdmin())
+
+            <!-- Total Users -->
             <div class="stat-card stat-warning">
                 <div class="stat-icon">
                     <i class="fas fa-users"></i>
@@ -154,33 +200,80 @@
                 </div>
             </div>
 
-            <a href="{{ route('admin.wallet.index') }}" class="stat-card stat-card-clickable" style="text-decoration: none; color: inherit;">
-                <div class="stat-icon">
-                    <i class="fas fa-money-bill-wave"></i>
+            <!-- Pending Transactions -->
+            <div class="stat-card" style="border-left: 4px solid #c9a856;">
+                <div class="stat-icon" style="background: rgba(201, 168, 86, 0.15); color: #c9a856;">
+                    <i class="fas fa-hourglass-half"></i>
                 </div>
                 <div class="stat-content">
-                    <h3>Rp {{ number_format($stats['admin_wallet_balance'] ?? 0, 0, ',', '.') }}</h3>
-                    <p>Dompet Admin</p>
+                    <h3>{{ number_format($stats['pending_orders'] ?? 0) }}</h3>
+                    <p>Transaksi Pending</p>
                 </div>
                 <div class="stat-trend up">
-                    <i class="fas fa-arrow-right"></i>
+                    <i class="fas fa-clock"></i>
                 </div>
-            </a>
-            @else
-            <div class="stat-card stat-warning">
+            </div>
+        </div>
+
+        <!-- Performance Metrics Cards -->
+        <div class="stats-grid">
+            <!-- Conversion Rate -->
+            <div class="stat-card stat-info">
                 <div class="stat-icon">
-                    <i class="fas fa-wallet"></i>
+                    <i class="fas fa-chart-pie"></i>
                 </div>
                 <div class="stat-content">
-                    <h3>Rp {{ number_format($stats['total_revenue'] ?? 0, 0, ',', '.') }}</h3>
-                    <p>Pendapatan</p>
+                    <h3>{{ $stats['total_orders'] > 0 ? round(($stats['completed_orders'] / $stats['total_orders']) * 100, 1) : 0 }}%</h3>
+                    <p>Tingkat Konversi</p>
                 </div>
                 <div class="stat-trend up">
                     <i class="fas fa-arrow-up"></i>
                 </div>
             </div>
-            @endif
+
+            <!-- Average Order Value -->
+            <div class="stat-card stat-success">
+                <div class="stat-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Rp {{ $stats['total_orders'] > 0 ? number_format($stats['total_revenue'] / $stats['total_orders'], 0, ',', '.') : 0 }}</h3>
+                    <p>Nilai Pesanan Rata-rata</p>
+                </div>
+                <div class="stat-trend up">
+                    <i class="fas fa-arrow-up"></i>
+                </div>
+            </div>
+
+            <!-- Completion Rate -->
+            <div class="stat-card stat-primary">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ $stats['total_orders'] > 0 ? round(($stats['completed_orders'] / $stats['total_orders']) * 100, 1) : 0 }}%</h3>
+                    <p>Tingkat Penyelesaian</p>
+                </div>
+                <div class="stat-trend up">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+
+            <!-- Cancellation Rate -->
+            <div class="stat-card" style="border-left: 4px solid #c47070;">
+                <div class="stat-icon" style="background: rgba(196, 112, 112, 0.15); color: #c47070;">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>{{ $stats['total_orders'] > 0 ? round(($stats['cancelled_orders'] / $stats['total_orders']) * 100, 1) : 0 }}%</h3>
+                    <p>Tingkat Pembatalan</p>
+                </div>
+                <div class="stat-trend up">
+                    <i class="fas fa-arrow-down"></i>
+                </div>
+            </div>
         </div>
+        @endif
 
         <!-- Order Status Cards -->
         <div class="order-status-grid">
@@ -753,6 +846,157 @@
     color: #5cb890;
 }
 
+/* ===== Financial Cards Grid ===== */
+.financial-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.financial-card {
+    background: linear-gradient(135deg, #1a2a38 0%, #253545 100%);
+    border-radius: 18px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 2px solid rgba(100, 160, 180, 0.2);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.financial-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #64a0b4 0%, #5eb8c4 100%);
+}
+
+.financial-card-revenue::before {
+    background: linear-gradient(90deg, #5cb890 0%, #48a078 100%);
+}
+
+.financial-card-wallet::before {
+    background: linear-gradient(90deg, #64a0b4 0%, #5eb8c4 100%);
+}
+
+.financial-card-seller::before {
+    background: linear-gradient(90deg, #c9a856 0%, #b59042 100%);
+}
+
+.financial-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(100, 160, 180, 0.2);
+    border-color: rgba(100, 160, 180, 0.4);
+}
+
+.financial-card-revenue:hover {
+    border-color: rgba(92, 184, 144, 0.4);
+    box-shadow: 0 20px 50px rgba(92, 184, 144, 0.15);
+}
+
+.financial-card-wallet:hover {
+    border-color: rgba(100, 160, 180, 0.4);
+    box-shadow: 0 20px 50px rgba(100, 160, 180, 0.15);
+}
+
+.financial-card-seller:hover {
+    border-color: rgba(201, 168, 86, 0.4);
+    box-shadow: 0 20px 50px rgba(201, 168, 86, 0.15);
+}
+
+.financial-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.financial-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.financial-card-revenue .financial-icon {
+    background: rgba(92, 184, 144, 0.2);
+    color: #5cb890;
+}
+
+.financial-card-wallet .financial-icon {
+    background: rgba(100, 160, 180, 0.2);
+    color: #64a0b4;
+}
+
+.financial-card-seller .financial-icon {
+    background: rgba(201, 168, 86, 0.2);
+    color: #c9a856;
+}
+
+.financial-card:hover .financial-icon {
+    transform: scale(1.1);
+}
+
+.financial-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.financial-amount h2 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
+    word-break: break-word;
+}
+
+.financial-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(100, 160, 180, 0.1);
+}
+
+.financial-trend {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.financial-card-revenue .financial-trend {
+    color: #5cb890;
+}
+
+.financial-card-wallet .financial-trend {
+    color: #64a0b4;
+}
+
+.financial-card-seller .financial-trend {
+    color: #c9a856;
+}
+
 /* ===== Order Status Grid ===== */
 .order-status-grid {
     display: grid;
@@ -1212,6 +1456,19 @@
         grid-template-columns: repeat(2, 1fr);
     }
     
+    .financial-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .financial-card {
+        padding: 28px;
+    }
+    
+    .financial-amount h2 {
+        font-size: 1.9rem;
+    }
+    
     .order-status-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1253,6 +1510,19 @@
         padding-top: 60px;
     }
     
+    .financial-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .financial-card {
+        padding: 24px;
+    }
+    
+    .financial-amount h2 {
+        font-size: 1.7rem;
+    }
+    
     .actions-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1261,6 +1531,7 @@
 @media (max-width: 576px) {
     .stats-grid,
     .order-status-grid,
+    .financial-cards-grid,
     .actions-grid {
         grid-template-columns: 1fr;
     }
@@ -1280,6 +1551,145 @@
     
     .stat-content h3 {
         font-size: 1.3rem;
+    }
+    
+    .financial-card {
+        padding: 20px;
+    }
+    
+    .financial-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+    }
+    
+    .financial-amount h2 {
+        font-size: 1.5rem;
+    }
+    
+    .financial-header {
+        gap: 12px;
+    }
+    
+    .financial-label {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-wrapper {
+        flex-direction: column;
+    }
+    
+    .dashboard-main {
+        padding: 15px;
+    }
+    
+    .stats-grid {
+        gap: 15px;
+    }
+    
+    .financial-cards-grid {
+        gap: 15px;
+    }
+    
+    .financial-card {
+        padding: 18px;
+    }
+    
+    .financial-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 24px;
+    }
+    
+    .financial-amount h2 {
+        font-size: 1.3rem;
+    }
+    
+    .stat-card {
+        padding: 16px;
+        gap: 12px;
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .stat-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .order-status-card {
+        padding: 12px 15px;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 375px) {
+    .dashboard-main {
+        padding: 12px;
+    }
+    
+    .stats-grid {
+        gap: 12px;
+    }
+    
+    .financial-cards-grid {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    
+    .financial-card {
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    .financial-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+    }
+    
+    .financial-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .financial-amount h2 {
+        font-size: 1.2rem;
+    }
+    
+    .financial-label {
+        font-size: 0.8rem;
+    }
+    
+    .stat-card {
+        padding: 14px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .stat-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+    
+    .stat-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .stat-content p {
+        font-size: 0.75rem;
+    }
+    
+    .stat-trend {
+        font-size: 0.7rem;
+        padding: 4px 8px;
     }
 }
 </style>

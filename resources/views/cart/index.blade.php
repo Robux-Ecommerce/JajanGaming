@@ -42,7 +42,10 @@
                     @foreach($carts as $cart)
                         <div class="cart-item">
                             <div class="item-image">
-                                <img src="{{ asset('img/' . $cart->product->image) }}" 
+                                @php
+                                    $cartImageUrl = file_exists(public_path('storage/' . $cart->product->image)) ? asset('storage/' . $cart->product->image) : asset('img/' . $cart->product->image);
+                                @endphp
+                                <img src="{{ $cartImageUrl }}" 
                                      alt="{{ $cart->product->name }}">
                                 @if($cart->product->discount > 0)
                                     <span class="discount-badge">-{{ $cart->product->discount }}%</span>

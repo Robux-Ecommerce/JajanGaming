@@ -125,6 +125,16 @@
     font-weight: 500;
 }
 
+.menu-badge {
+    margin-left: auto;
+    background: linear-gradient(135deg, #c47070 0%, #b05858 100%);
+    color: white;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
 .dashboard-main {
     flex: 1;
     margin-left: 280px;
@@ -163,25 +173,40 @@
                 <i class="fas fa-home"></i>
                 <span>Beranda</span>
             </a>
-            <a href="{{ route('admin.products') }}" class="menu-item">
-                <i class="fas fa-cube"></i>
-                <span>Produk</span>
+            <a href="{{ route('seller.dashboard') }}" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dasbor</span>
             </a>
-            <a href="{{ route('admin.orders') }}" class="menu-item">
+            <a href="{{ route('seller.products.index') }}" class="menu-item">
+                <i class="fas fa-cube"></i>
+                <span>Produk Saya</span>
+            </a>
+            <a href="{{ route('seller.orders.index') }}" class="menu-item">
                 <i class="fas fa-shopping-bag"></i>
                 <span>Pesanan</span>
             </a>
             
             <div class="menu-label">Manajemen</div>
-            <a href="{{ route('admin.wallet.index') }}" class="menu-item">
+            <a href="{{ route('seller.products.create') }}" class="menu-item">
+                <i class="fas fa-plus-circle"></i>
+                <span>Tambah Produk</span>
+            </a>
+            <a href="{{ route('seller.wallet') }}" class="menu-item">
                 <i class="fas fa-wallet"></i>
-                <span>Dompet</span>
+                <span>Pendapatan</span>
             </a>
             <a href="{{ route('seller.reports.index') }}" class="menu-item active">
                 <i class="fas fa-exclamation-circle"></i>
                 <span>Laporan Saya</span>
+                @if($pendingReports > 0)
+                    <span class="menu-badge">{{ $pendingReports }}</span>
+                @endif
             </a>
-            <a href="{{ route('admin.profile') }}" class="menu-item">
+            <a href="{{ route('seller.transactions') }}" class="menu-item">
+                <i class="fas fa-receipt"></i>
+                <span>Detail Transaksi</span>
+            </a>
+            <a href="{{ route('seller.profile') }}" class="menu-item">
                 <i class="fas fa-cog"></i>
                 <span>Pengaturan</span>
             </a>

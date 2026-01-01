@@ -16,6 +16,9 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProductReportController;
 use App\Http\Controllers\SellerReportController;
+use App\Models\User;
+use App\Models\Transaction;
+use App\Models\Rating;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -28,9 +31,8 @@ Route::get('/products/{product}', [HomeController::class, 'showProduct'])->name(
 Route::post('/product/{product}/report', [ProductReportController::class, 'store'])->middleware('auth')->name('product.report');
 Route::get('/product/{product}/report-check', [ProductReportController::class, 'check'])->middleware('auth')->name('product.report.check');
 
-// Seller Profile routes (public)
+// Seller Profile routes (public) - moved to avoid conflict with seller dashboard
 Route::get('/sellers', [SellerProfileController::class, 'index'])->name('sellers.index');
-Route::get('/seller/{sellerId}', [SellerProfileController::class, 'show'])->name('seller.profile');
 
 // Authentication routes
 Route::middleware('guest')->group(function () {
@@ -134,7 +136,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Users management (Admin only)
     Route::middleware('admin')->group(function () {
         Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
         Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
+        Route::get('/transactions/export', [AdminController::class, 'exportTransactions'])->name('transactions.export');
         
         // Admin Wallet routes
         Route::get('/wallet', [\App\Http\Controllers\Admin\AdminWalletController::class, 'index'])->name('wallet.index');
@@ -150,12 +154,37 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::post('/reports/seller/{seller}/remove-blacklist', [\App\Http\Controllers\Admin\ReportController::class, 'removeBlacklist'])->name('reports.remove-blacklist');
         Route::get('/reports/export', [\App\Http\Controllers\Admin\ReportController::class, 'export'])->name('reports.export');
     });
-
-    // Seller Report routes
-    Route::middleware('seller')->group(function () {
-        Route::get('/seller/reports', [SellerReportController::class, 'index'])->name('seller.reports.index');
-        Route::get('/seller/reports/{report}', [SellerReportController::class, 'show'])->name('seller.reports.show');
-        Route::post('/seller/reports/{report}/respond', [SellerReportController::class, 'respond'])->name('seller.reports.respond');
-    });
 });
+
+// Seller Report routes (inside auth middleware)
+Route::middleware('auth')->group(function () {
+    Route::get('/seller/reports', [SellerReportController::class, 'index'])->name('seller.reports.index');
+    Route::get('/seller/reports/{report}', [SellerReportController::class, 'show'])->name('seller.reports.show');
+    Route::post('/seller/reports/{report}/respond', [SellerReportController::class, 'respond'])->name('seller.reports.respond');
+});
+
+// Seller routes (separate from admin) - must be before /seller/{sellerId} route
+Route::middleware('auth')->prefix('seller')->name('seller.')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\SellerController::class, 'dashboard'])->name('dashboard');
+    Route::get('/orders', [\App\Http\Controllers\SellerController::class, 'orders'])->name('orders.index');
+    Route::get('/transactions', [\App\Http\Controllers\SellerController::class, 'transactions'])->name('transactions');
+    Route::get('/wallet', [\App\Http\Controllers\SellerController::class, 'wallet'])->name('wallet');
+    Route::get('/profile', [\App\Http\Controllers\SellerController::class, 'profile'])->name('profile');
+    Route::put('/profile', [\App\Http\Controllers\SellerController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/password', [\App\Http\Controllers\SellerController::class, 'changePassword'])->name('profile.password');
+    
+    Route::resource('products', \App\Http\Controllers\SellerProductController::class);
+});
+
+// Seller Profile public route (must be after seller routes to avoid conflict)
+Route::get('/seller/{sellerId}', [SellerProfileController::class, 'show'])->name('seller.profile');
+
+// API routes for auth pages
+Route::get('/api/stats', function () {
+    return response()->json([
+        'users' => User::count(),
+        'transactions' => Transaction::count(),
+        'avgRating' => Rating::avg('rating') ?? 0,
+    ]);
+})->name('api.stats');
 

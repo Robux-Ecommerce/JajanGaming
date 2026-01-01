@@ -583,7 +583,10 @@
                                 @foreach($order->orderItems as $item)
                                     <div class="order-item">
                                         <div class="item-image" style="margin-right: 1rem;">
-                                            <img src="{{ asset('img/' . $item->product->image) }}" alt="{{ $item->product->name }}" 
+                                            @php
+                                                $orderImageUrl = file_exists(public_path('storage/' . $item->product->image)) ? asset('storage/' . $item->product->image) : asset('img/' . $item->product->image);
+                                            @endphp
+                                            <img src="{{ $orderImageUrl }}" alt="{{ $item->product->name }}" 
                                                  style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
                                         </div>
                                         <div class="item-info">

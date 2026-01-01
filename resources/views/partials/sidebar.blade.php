@@ -292,21 +292,21 @@
             @elseif(auth()->user()->isSeller())
                 <!-- Menu Penjual -->
                 <div class="menu-label">Menu Utama</div>
-                <a href="{{ route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('seller.dashboard') }}" class="menu-item {{ request()->routeIs('seller.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dasbor</span>
                 </a>
-                <a href="{{ route('admin.products') }}" class="menu-item {{ request()->routeIs('admin.products*') ? 'active' : '' }}">
+                <a href="{{ route('seller.products.index') }}" class="menu-item {{ request()->routeIs('seller.products*') ? 'active' : '' }}">
                     <i class="fas fa-cube"></i>
                     <span>Produk Saya</span>
                 </a>
-                <a href="{{ route('admin.orders') }}" class="menu-item {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
+                <a href="{{ route('seller.orders.index') }}" class="menu-item {{ request()->routeIs('seller.orders*') ? 'active' : '' }}">
                     <i class="fas fa-shopping-bag"></i>
                     <span>Pesanan</span>
                 </a>
                 
                 <div class="menu-label">Manajemen</div>
-                <a href="{{ route('admin.products.create') }}" class="menu-item">
+                <a href="{{ route('seller.products.create') }}" class="menu-item">
                     <i class="fas fa-plus-circle"></i>
                     <span>Tambah Produk</span>
                 </a>
@@ -314,11 +314,11 @@
                     <i class="fas fa-bell"></i>
                     <span>Laporan Saya</span>
                 </a>
-                <a href="{{ route('wallet.index') }}" class="menu-item {{ request()->routeIs('wallet.index') ? 'active' : '' }}">
+                <a href="{{ route('seller.wallet') }}" class="menu-item {{ request()->routeIs('seller.wallet') ? 'active' : '' }}">
                     <i class="fas fa-chart-line"></i>
                     <span>Pendapatan</span>
                 </a>
-                <a href="{{ route('admin.profile') }}" class="menu-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
+                <a href="{{ route('seller.profile') }}" class="menu-item {{ request()->routeIs('seller.profile*') ? 'active' : '' }}">
                     <i class="fas fa-cog"></i>
                     <span>Pengaturan</span>
                 </a>

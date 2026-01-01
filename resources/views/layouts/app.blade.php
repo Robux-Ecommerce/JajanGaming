@@ -46,6 +46,12 @@
             color: var(--text-color);
             padding-top: 76px;
         }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 0;
+            }
+        }
 
         .navbar {
             background: #1e2a3a !important;
@@ -59,6 +65,77 @@
             padding: 0.9rem 0;
             overflow: visible;
             width: 100% !important;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        body.user-page .navbar {
+            left: 280px !important;
+            width: calc(100% - 280px) !important;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                display: none !important;
+            }
+            
+            /* Dashboard always show navbar */
+            body.dashboard-page .navbar {
+                display: block !important;
+                padding: 0.6rem 0;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .navbar {
+                display: block !important;
+            }
+        }
+
+        .navbar .container {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            gap: 0.5rem;
+        }
+
+        .navbar .navbar-brand {
+            flex-shrink: 0;
+            margin-right: 1rem;
+            margin-bottom: 0;
+        }
+
+        .navbar .navbar-collapse {
+            flex: 1;
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.5rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navbar .navbar-nav.mx-auto {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+            margin: 0 !important;
+            gap: 0.25rem;
+        }
+
+        .navbar .navbar-nav.align-items-center {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: auto;
+            margin-bottom: 0;
         }
 
         .navbar.scrolled {
@@ -95,9 +172,44 @@
             background: var(--bg-dark);
             transition: all 0.3s ease;
             z-index: 1050;
-            overflow-y: auto;
+            overflow-y: auto !important;
+            overflow-x: hidden;
             box-shadow: 2px 0 20px rgba(0, 0, 0, 0.15);
             border-right: 1px solid rgba(100, 160, 180, 0.1);
+            display: block !important;
+            flex-direction: column;
+        }
+        
+        @media (max-width: 576px) {
+            .sidebar {
+                display: flex !important;
+                flex-direction: column;
+                left: -280px;
+                width: 280px;
+                height: 100vh;
+                overflow-y: auto !important;
+            }
+        }
+        
+        @media (min-width: 577px) {
+            .sidebar {
+                display: none !important;
+            }
+
+            /* Show sidebar for user pages on desktop */
+            body.user-page .sidebar {
+                display: flex !important;
+                left: 0 !important;
+                width: 280px !important;
+                top: 70px !important;
+                height: calc(100vh - 70px) !important;
+                z-index: 1020;
+            }
+
+            body.user-page main {
+                margin-left: 280px;
+                padding-top: 70px;
+            }
         }
 
         .sidebar.show {
@@ -115,11 +227,18 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
+            display: block;
         }
 
         .sidebar-overlay.show {
             opacity: 1;
             visibility: visible;
+        }
+        
+        @media (min-width: 577px) {
+            .sidebar-overlay {
+                display: none !important;
+            }
         }
 
         .sidebar-header {
@@ -149,10 +268,45 @@
 
         .sidebar-nav {
             padding: 1rem 0;
+            display: flex !important;
+            flex-direction: column;
+            gap: 0;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .sidebar-nav .sidebar-section {
+            padding: 1rem 1.5rem 0.5rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 1rem;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .sidebar-nav .sidebar-section:first-child {
+            margin-top: 0;
+        }
+
+        .sidebar-nav .nav {
+            display: flex !important;
+            flex-direction: column;
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
         .sidebar-nav .nav-item {
             margin-bottom: 0.25rem;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
         .sidebar-nav .nav-link {
@@ -342,13 +496,23 @@
         }
 
         #notificationBadge {
-            font-size: 0.7rem;
-            animation: pulse 2s infinite;
-            min-width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute !important;
+            top: -5px !important;
+            right: -5px !important;
+            font-size: 0.65rem !important;
+            min-width: 20px !important;
+            height: 20px !important;
+            padding: 0 4px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: linear-gradient(135deg, #c47070 0%, #b05858 100%) !important;
+            border: 2px solid #1e2a3a !important;
+            border-radius: 10px !important;
+            z-index: 1001 !important;
+            font-weight: 600 !important;
+            color: #fff !important;
+            line-height: 1 !important;
         }
 
 
@@ -406,16 +570,6 @@
             /* Sama dengan icon lainnya */
         }
 
-
-        .sidebar-section {
-            padding: 1rem 1.5rem 0.5rem;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
         .sidebar-footer {
             position: absolute;
             bottom: 0;
@@ -464,6 +618,25 @@
             color: #6c757d;
         }
 
+        /* Navbar brand center */
+        .navbar-brand-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none !important;
+        }
+        
+        @media (max-width: 576px) {
+            .navbar-brand-center {
+                display: block !important;
+                position: fixed;
+                top: 12px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 1052;
+            }
+        }
+
         .sidebar-toggle {
             background: none;
             border: none;
@@ -472,11 +645,41 @@
             padding: 0.5rem;
             border-radius: 8px;
             transition: all 0.3s ease;
+            display: none;
+            cursor: pointer;
         }
 
         .sidebar-toggle:hover {
             background: rgba(255, 255, 255, 0.1);
             color: #ffffff;
+        }
+        
+        @media (max-width: 576px) {
+            .sidebar-toggle {
+                display: flex !important;
+                position: fixed;
+                top: 12px;
+                left: 12px;
+                width: 44px;
+                height: 44px;
+                background: #1e2a3a;
+                border: 1px solid rgba(100, 160, 180, 0.2) !important;
+                z-index: 1051;
+                align-items: center;
+                justify-content: center;
+                padding: 0 !important;
+                font-size: 1.4rem;
+            }
+            
+            .sidebar-toggle:hover {
+                background: #253040;
+                border-color: rgba(100, 160, 180, 0.4) !important;
+                color: var(--primary-color);
+            }
+            
+            .sidebar-toggle:active {
+                transform: scale(0.95);
+            }
         }
 
         .navbar-toggler {
@@ -485,6 +688,219 @@
 
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .navbar-collapse {
+            background: transparent;
+            border-radius: 0;
+            margin-top: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        /* Tablet Responsive (769px - 1024px) */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .navbar {
+                padding: 0.75rem 0;
+            }
+
+            .navbar .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .navbar-brand {
+                font-size: 1.1rem;
+                margin-right: 1rem;
+            }
+
+            .logo-g {
+                font-size: 1.3rem;
+            }
+
+            .navbar-collapse {
+                background: transparent;
+                padding: 0;
+                display: flex !important;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .navbar-nav {
+                margin-right: 0;
+                display: flex !important;
+                align-items: center;
+                gap: 0.25rem;
+            }
+
+            .navbar-nav .nav-item {
+                margin: 0 0.25rem;
+                width: auto;
+            }
+
+            .nav-link {
+                padding: 0.55rem 0.8rem !important;
+                font-size: 0.85rem;
+                border-radius: 6px;
+                display: inline-flex !important;
+                align-items: center;
+                white-space: nowrap;
+                background: transparent;
+                border: none;
+                gap: 0.4rem;
+            }
+
+            .nav-link:hover {
+                background: rgba(100, 160, 180, 0.12) !important;
+                color: #ffffff !important;
+            }
+
+            .nav-link.active {
+                background: rgba(100, 160, 180, 0.2) !important;
+                color: #ffffff !important;
+            }
+
+            .nav-link i {
+                margin-right: 0.3rem;
+                min-width: auto;
+            }
+
+            .navbar-nav.mx-auto {
+                flex: 1;
+                justify-content: center;
+                margin: 0 !important;
+            }
+
+            .navbar-nav.align-items-center {
+                flex: 0;
+                margin-left: auto;
+                gap: 0.5rem;
+            }
+
+            .navbar-nav.align-items-center .nav-item {
+                margin: 0 0.3rem;
+            }
+
+            .wallet-balance {
+                max-width: 140px;
+                font-size: 0.8rem;
+                padding: 0.45rem 0.9rem;
+                display: inline-flex;
+                align-items: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .btn-login,
+            .btn-register {
+                padding: 0.45rem 0.9rem !important;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .nav-item.dropdown .nav-link.dropdown-toggle {
+                padding: 0.55rem 0.8rem !important;
+                gap: 0.4rem;
+                display: inline-flex !important;
+                align-items: center;
+            }
+
+            .nav-item.dropdown .nav-link.dropdown-toggle img {
+                width: 22px;
+                height: 22px;
+            }
+
+            .dropdown-menu {
+                min-width: 200px;
+            }
+
+            #notificationBell {
+                padding: 0.5rem 0.7rem !important;
+            }
+        }
+
+        /* Extra Small Mobile (max-width: 480px) */
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 0.5rem 0;
+            }
+
+            .navbar .container {
+                padding-left: 6px;
+                padding-right: 6px;
+            }
+
+            .navbar-brand {
+                font-size: 1rem;
+                margin-right: 0.3rem;
+            }
+
+            .logo-g {
+                font-size: 1.2rem;
+            }
+
+            .navbar-toggler {
+                padding: 0.15rem 0.3rem;
+                font-size: 1rem;
+            }
+
+            .navbar-collapse {
+                margin-left: 6px;
+                margin-right: 6px;
+                width: calc(100% - 12px);
+            }
+
+            .navbar-nav.mx-auto {
+                width: auto;
+                gap: 0.2rem !important;
+            }
+
+            .nav-link {
+                padding: 0.4rem 0.6rem !important;
+                font-size: 0.75rem;
+                gap: 0.3rem;
+            }
+
+            .nav-link i {
+                min-width: 14px;
+                margin-right: 0.2rem;
+            }
+
+            .navbar-nav.align-items-center {
+                gap: 0.3rem;
+                width: auto;
+            }
+
+            .wallet-balance {
+                max-width: 100px;
+                font-size: 0.7rem;
+                padding: 0.35rem 0.6rem;
+            }
+
+            .btn-login,
+            .btn-register {
+                padding: 0.35rem 0.6rem !important;
+                font-size: 0.75rem;
+            }
+
+            .nav-item.dropdown .nav-link.dropdown-toggle {
+                padding: 0.4rem 0.6rem !important;
+                gap: 0.25rem;
+            }
+
+            .nav-item.dropdown .nav-link.dropdown-toggle img {
+                width: 18px;
+                height: 18px;
+            }
+
+            #notificationBell {
+                padding: 0.4rem 0.5rem !important;
+            }
+
+            #notificationBell i {
+                font-size: 0.95rem;
+            }
         }
 
         .main-content {
@@ -674,6 +1090,12 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             letter-spacing: 0.02em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
         }
 
         .nav-link:hover {
@@ -695,6 +1117,7 @@
 
         .nav-link i {
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         .nav-link:hover i {
@@ -761,26 +1184,6 @@
 
         #notificationBell:hover i {
             color: #ffffff;
-        }
-
-        /* Notification Badge - Red Pill */
-        #notificationBadge {
-            font-size: 0.65rem !important;
-            min-width: 18px !important;
-            height: 18px !important;
-            padding: 0 5px !important;
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
-            border: 2px solid #1a2535 !important;
-            font-weight: 700 !important;
-            box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4) !important;
-            animation: badgePulse 2s infinite !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            top: -2px !important;
-            right: -8px !important;
-            transform: none !important;
-            left: auto !important;
         }
 
         @keyframes badgePulse {
@@ -2233,6 +2636,8 @@
             border-radius: 20px;
             position: relative;
             overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         /* Animated background particles */
@@ -2315,6 +2720,7 @@
                 0 0 30px rgba(100, 160, 180, 0.08);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1;
+            width: 100%;
         }
         
         .hero-slider-card:hover {
@@ -2330,6 +2736,8 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            background-size: cover;
+            background-position: center;
         }
         
         .hero-slider-card .dark-overlay {
@@ -2580,7 +2988,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%);
+            background: transparent;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -2668,6 +3076,8 @@
             .hero-wrapper {
                 flex-direction: column;
                 padding: 20px;
+                gap: 20px;
+                margin-top: 75px;
             }
             
             .hero-thumbnails-list {
@@ -2677,6 +3087,8 @@
                 gap: 12px;
                 padding: 10px 0;
                 scrollbar-width: none;
+                background: transparent;
+                border: none;
             }
             
             .hero-thumbnails-list::-webkit-scrollbar {
@@ -2730,12 +3142,109 @@
             }
         }
         
+        @media (max-width: 768px) {
+            .hero-wrapper {
+                flex-direction: column;
+                padding: 16px;
+                gap: 16px;
+                margin-top: 70px;
+                margin-left: auto;
+                margin-right: auto;
+                width: calc(100% - 32px);
+                border-radius: 16px;
+            }
+            
+            .hero-slider-card {
+                min-height: 380px;
+                border-radius: 16px;
+            }
+            
+            .hero-slider-card .hero-content {
+                padding: 24px;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+            
+            .hero-badge {
+                padding: 6px 12px;
+                font-size: 0.65rem;
+                margin-bottom: 12px;
+            }
+            
+            .hero-slider-card .hero-title {
+                font-size: 1.6rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .hero-features {
+                gap: 8px;
+                margin-bottom: 14px;
+                flex-wrap: wrap;
+            }
+            
+            .hero-features .feature-item {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+                gap: 4px;
+            }
+            
+            .hero-slider-card .hero-description {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-slider-card .btn-hero-primary,
+            .hero-slider-card .btn-hero-secondary {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+                width: auto;
+            }
+            
+            .hero-thumbnails-list {
+                width: 100%;
+                flex-direction: row;
+                overflow-x: auto;
+                overflow-y: hidden;
+                gap: 10px;
+                padding: 8px 0;
+                scrollbar-width: thin;
+                border-radius: 12px;
+                background: rgba(255,255,255,0.05);
+            }
+            
+            .hero-thumbnails-list::before {
+                content: none;
+            }
+            
+            .hero-thumb-item {
+                flex-direction: column;
+                padding: 12px;
+                min-width: 110px;
+                text-align: center;
+                border-radius: 12px;
+                background: rgba(255,255,255,0.03);
+            }
+            
+            .hero-thumb-item img {
+                width: 85px;
+                height: 110px;
+                border-radius: 10px;
+            }
+            
+            .hero-thumb-item .thumb-title {
+                font-size: 0.75rem;
+                margin-top: 8px;
+            }
+        }
+        
         @media (max-width: 576px) {
             .hero-wrapper {
-                padding: 16px;
-                margin-top: 70px;
-                border-radius: 20px;
-                gap: 16px;
+                padding: 12px;
+                margin-top: 65px;
+                border-radius: 16px;
+                gap: 12px;
+                width: calc(100% - 24px);
             }
             
             .hero-slider-card {
@@ -2799,6 +3308,142 @@
             
             .hero-thumb-item .thumb-title {
                 font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-wrapper {
+                padding: 10px;
+                margin-top: 60px;
+                border-radius: 14px;
+                gap: 10px;
+                width: calc(100% - 20px);
+            }
+            
+            .hero-slider-card {
+                min-height: 320px;
+                border-radius: 14px;
+            }
+            
+            .hero-slider-card .hero-content {
+                padding: 16px;
+            }
+            
+            .hero-badge {
+                padding: 4px 10px;
+                font-size: 0.6rem;
+                margin-bottom: 8px;
+            }
+            
+            .hero-slider-card .hero-title {
+                font-size: 1.3rem;
+                margin-bottom: 0.6rem;
+            }
+            
+            .hero-slider-card .hero-description {
+                font-size: 0.8rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .hero-features {
+                gap: 6px;
+                margin-bottom: 10px;
+            }
+            
+            .hero-features .feature-item {
+                padding: 4px 8px;
+                font-size: 0.65rem;
+            }
+            
+            .hero-slider-card .btn-hero-primary,
+            .hero-slider-card .btn-hero-secondary {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+            
+            .hero-thumbnails-list {
+                gap: 8px;
+                padding: 6px 0;
+            }
+            
+            .hero-thumb-item {
+                min-width: 90px;
+                padding: 8px;
+                border-radius: 8px;
+            }
+            
+            .hero-thumb-item img {
+                width: 70px;
+                height: 90px;
+                border-radius: 8px;
+            }
+            
+            .hero-thumb-item .thumb-title {
+                font-size: 0.65rem;
+                margin-top: 4px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .hero-wrapper {
+                padding: 8px;
+                margin-top: 55px;
+                width: calc(100% - 16px);
+            }
+            
+            .hero-slider-card {
+                min-height: 280px;
+            }
+            
+            .hero-slider-card .hero-content {
+                padding: 12px;
+            }
+            
+            .hero-badge {
+                padding: 3px 8px;
+                font-size: 0.55rem;
+                margin-bottom: 6px;
+            }
+            
+            .hero-slider-card .hero-title {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .hero-slider-card .hero-description {
+                font-size: 0.75rem;
+                margin-bottom: 0.6rem;
+            }
+            
+            .hero-features {
+                gap: 4px;
+                margin-bottom: 8px;
+            }
+            
+            .hero-features .feature-item {
+                padding: 3px 6px;
+                font-size: 0.6rem;
+            }
+            
+            .hero-slider-card .btn-hero-primary,
+            .hero-slider-card .btn-hero-secondary {
+                padding: 8px 12px;
+                font-size: 0.75rem;
+            }
+            
+            .hero-thumb-item {
+                min-width: 75px;
+                padding: 6px;
+            }
+            
+            .hero-thumb-item img {
+                width: 60px;
+                height: 80px;
+            }
+            
+            .hero-thumb-item .thumb-title {
+                font-size: 0.6rem;
+                margin-top: 3px;
             }
         }
 
@@ -3429,7 +4074,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(0, 212, 170, 0) 0%, rgba(0, 212, 170, 0.1) 100%);
+            background: transparent;
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 2;
@@ -4533,50 +5178,234 @@
 
         /* Mobile Responsive (max-width: 768px) */
         @media (max-width: 768px) {
+            .navbar {
+                padding: 0.6rem 0;
+            }
+
+            .navbar .container {
+                flex-wrap: nowrap;
+                padding-left: 8px;
+                padding-right: 8px;
+                gap: 0.5rem;
+            }
+
             .navbar-brand {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
+                margin-right: auto;
+                margin-left: 0;
+                flex-shrink: 0;
             }
 
             .logo-g {
-                font-size: 1.5rem;
-            }
-
-            .navbar-search {
-                max-width: 100%;
-                margin: 0.5rem 0;
-                order: 3;
-                width: 100%;
-            }
-
-            .navbar-nav {
-                flex-direction: column;
-            }
-
-            .nav-link {
-                padding: 0.4rem 0.8rem !important;
-                font-size: 0.9rem;
+                font-size: 1.4rem;
             }
 
             .navbar-toggler {
                 border: 1px solid rgba(255, 255, 255, 0.3);
-                padding: 0.25rem 0.5rem;
-                border-radius: 8px;
+                padding: 0.2rem 0.4rem;
+                border-radius: 6px;
                 transition: all 0.3s ease;
+                width: auto;
+                height: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                order: 2;
+                flex-shrink: 0;
             }
 
             .navbar-toggler:focus {
-                box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+                box-shadow: 0 0 0 0.2rem rgba(100, 160, 180, 0.25);
+                outline: none;
+                border-color: rgba(100, 160, 180, 0.4);
             }
 
             .navbar-toggler:hover {
-                background: rgba(255, 255, 255, 0.1);
+                background: rgba(255, 255, 255, 0.08);
+                border-color: rgba(255, 255, 255, 0.5);
             }
 
-            .btn-login,
-            .btn-register {
-                width: 100%;
-                margin: 0.25rem 0;
+            .navbar-collapse {
+                width: calc(100% - 16px) !important;
+                order: 3;
+                display: none !important;
+                background: #1a2535;
+                border-top: 1px solid rgba(100, 160, 180, 0.15);
+                margin-top: 0.5rem;
+                margin-left: 8px;
+                margin-right: 8px;
+                padding: 0.5rem 0;
+                position: relative;
+                max-height: calc(100vh - 76px);
+                overflow-y: auto;
+                border-radius: 8px;
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                align-items: center !important;
+                gap: 0.5rem !important;
             }
+
+            .navbar-collapse.show {
+                display: flex !important;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .navbar-nav.mx-auto {
+                width: auto !important;
+                margin: 0 !important;
+                flex-direction: row;
+                gap: 0.25rem !important;
+                justify-content: flex-start;
+                flex: 1;
+                display: flex !important;
+            }
+
+            .navbar-nav .nav-item {
+                width: auto;
+                padding: 0;
+                margin: 0 0.25rem;
+            }
+
+            .nav-link {
+                padding: 0.5rem 0.8rem !important;
+                font-size: 0.85rem;
+                border-radius: 6px;
+                margin-bottom: 0;
+                border-left: none;
+                gap: 0.4rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: inline-flex;
+                align-items: center;
+                background: transparent;
+                transition: all 0.3s ease;
+            }
+
+            .nav-link:hover {
+                background: rgba(100, 160, 180, 0.15) !important;
+                color: #ffffff !important;
+                border-left: none;
+            }
+
+            .nav-link.active {
+                background: rgba(100, 160, 180, 0.25) !important;
+                color: #ffffff !important;
+                border-left: none;
+                box-shadow: none;
+            }
+
+            .nav-link i {
+                min-width: auto;
+                margin-right: 0.3rem;
+            }
+
+            .navbar-nav.align-items-center {
+                width: auto !important;
+                flex-direction: row;
+                gap: 0.5rem;
+                padding: 0;
+                border-top: none;
+                display: flex !important;
+                flex: 1;
+                justify-content: flex-end;
+                margin-left: auto;
+            }
+
+            .navbar-nav.align-items-center .nav-item {
+                width: auto;
+                padding: 0;
+                margin: 0 0.25rem;
+            }
+
+            .wallet-balance {
+                width: auto !important;
+                margin: 0 !important;
+                max-width: 140px !important;
+                font-size: 0.75rem;
+                padding: 0.45rem 0.8rem !important;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                flex-shrink: 0;
+            }
+
+            .btn-login {
+                width: auto !important;
+                margin: 0 !important;
+                padding: 0.45rem 0.9rem !important;
+                font-size: 0.8rem;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            .btn-register {
+                width: auto !important;
+                margin: 0 !important;
+                padding: 0.45rem 0.9rem !important;
+                font-size: 0.8rem;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            .nav-item.dropdown .nav-link.dropdown-toggle {
+                padding: 0.5rem 0.8rem !important;
+                gap: 0.3rem;
+                border: none;
+                background: transparent;
+                margin-bottom: 0;
+                display: inline-flex;
+                align-items: center;
+                white-space: nowrap;
+            }
+
+            .nav-item.dropdown .nav-link.dropdown-toggle img {
+                width: 20px;
+                height: 20px;
+                margin: 0;
+            }
+
+            .dropdown-menu {
+                position: absolute;
+                float: none;
+                width: auto;
+                margin-top: 0.5rem;
+                border: 1px solid rgba(100, 160, 180, 0.2);
+                background: linear-gradient(135deg, #1e2a38 0%, #1a2535 100%);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+                padding: 0.5rem;
+                margin-left: 0;
+                margin-right: 0;
+                border-radius: 10px;
+                min-width: 200px;
+            }
+
+            .dropdown-item {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                border-radius: 6px;
+                transition: all 0.3s ease;
+            }
+
+            .dropdown-item:hover {
+                background: rgba(100, 160, 180, 0.15);
+            }
+
+            #notificationBell {
+                padding: 0.5rem 0.7rem !important;
+                margin: 0 !important;
+                display: inline-flex;
+                align-items: center;
+                flex-shrink: 0;
+            }
+        }
 
             .hero-section {
                 height: 100vh;
@@ -5046,273 +5875,98 @@
 
         /* Extra Small Mobile (max-width: 480px) */
         @media (max-width: 480px) {
-            .hero-content-left {
-                padding-left: 0.5rem;
+            .navbar {
+                padding: 0.5rem 0;
             }
 
-            .hero-content-right {
-                padding-right: 0.5rem;
+            .navbar .container {
+                padding-left: 6px;
+                padding-right: 6px;
             }
 
-            .hero-section {
-                padding: 2rem 0;
+            .navbar-brand {
+                font-size: 1rem;
+                margin-right: 0.5rem;
             }
 
-            .hero-section::before {
-                height: 120px;
+            .logo-g {
+                font-size: 1.2rem;
             }
 
-            .hero-section .container {
-                margin-top: 140px;
+            .navbar-toggler {
+                padding: 0.15rem 0.3rem;
             }
 
-            .hero-title {
-                font-size: 1.8rem;
-            }
-
-            .hero-description {
-                font-size: 0.8rem;
-                margin-bottom: 1rem;
-            }
-
-            .hero-price {
-                font-size: 1.5rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .btn-hero-buy,
-            .btn-hero-wishlist {
-                padding: 10px 20px;
+            .nav-link {
+                padding: 0.5rem 0.75rem !important;
                 font-size: 0.85rem;
             }
 
-            .hero-section .hero-buttons {
-                max-width: 220px;
-            }
-
-            .robux-calculator {
-                padding: 1rem;
-            }
-
-            .calculator-title {
-                font-size: 1.1rem;
-            }
-
-            .calculator-subtitle {
-                font-size: 0.8rem;
-                margin-bottom: 1rem;
-            }
-
-            .calculator-input {
-                padding: 8px 10px;
-                font-size: 0.85rem;
-            }
-
-            .calculator-result {
-                padding: 0.75rem 1rem;
-            }
-
-            .result-label {
-                font-size: 0.75rem;
-            }
-
-            .result-price {
-                font-size: 1.1rem;
-            }
-
-            .btn-calculator-search {
-                padding: 10px 16px;
-                font-size: 0.85rem;
-            }
-
-            .hero-nav {
-                width: 35px;
-                height: 35px;
-                font-size: 0.9rem;
-            }
-
-            .hero-nav-prev {
-                left: 8px;
-            }
-
-            .hero-nav-next {
-                right: 8px;
-            }
-
-            .hero-subtitle {
-                font-size: 0.85rem;
+            .nav-link i {
+                min-width: 16px;
+                margin-right: 0.4rem;
             }
 
             .wallet-balance {
-                max-width: 90px;
-                font-size: 0.65rem;
-                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem !important;
             }
 
-            .search-section {
-                padding: 0.5rem 0.6rem;
-            }
-
-            .search-section .form-control,
-            .search-section .form-select {
-                padding: 0.35rem 0.5rem;
-                font-size: 0.7rem;
-            }
-
-            .search-section .btn {
-                padding: 0.35rem 0.6rem;
-                font-size: 0.7rem;
-            }
-
-            .product-image {
-                height: 100px;
-            }
-
-            .product-image img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: center;
-            }
-
-            .card-body {
-                padding: 0.6rem;
-            }
-
-            .card-title {
-                font-size: 0.85rem;
-            }
-
-            .price-display {
-                font-size: 0.9rem;
-            }
-
-            .card-text {
-                font-size: 0.7rem;
-            }
-
-            .seller-info {
-                padding: 0.25rem;
-            }
-
-            .seller-label {
-                font-size: 0.6rem;
-            }
-
-            .robux-icon {
-                width: 14px !important;
-                height: 14px !important;
-            }
-
-            .badge {
-                font-size: 0.65rem;
-                padding: 3px 6px;
-            }
-
-            .btn-primary {
+            .btn-login,
+            .btn-register {
                 font-size: 0.8rem;
-                padding: 6px 12px;
+                padding: 0.5rem 0.8rem !important;
+                margin: 0.3rem 0.5rem !important;
+                width: calc(100% - 1rem) !important;
             }
 
-            .product-icon {
-                font-size: 2rem;
-            }
-
-            .card-body {
-                padding: 0.8rem;
-            }
-
-            .card-title {
-                font-size: 0.9rem;
-            }
-
-            .card-text {
+            .dropdown-item {
+                padding: 0.5rem 1rem;
                 font-size: 0.8rem;
+            }
+
+            .nav-item.dropdown .nav-link.dropdown-toggle img {
+                width: 20px;
+                height: 20px;
             }
         }
 
         /* Very Small Mobile (max-width: 375px) */
         @media (max-width: 375px) {
-            .hero-content-left {
-                padding-left: 0.25rem;
+            .navbar {
+                padding: 0.4rem 0;
             }
 
-            .hero-content-right {
-                padding-right: 0.25rem;
+            .navbar-brand {
+                font-size: 0.95rem;
+                margin-right: 0.25rem;
             }
 
-            .hero-title {
-                font-size: 1.5rem;
-                margin-bottom: 0.8rem;
+            .logo-g {
+                font-size: 1.1rem;
             }
 
-            .hero-description {
-                font-size: 0.75rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .hero-price {
-                font-size: 1.2rem;
-                margin-bottom: 0.6rem;
-            }
-
-            .btn-hero-buy,
-            .btn-hero-wishlist {
-                padding: 8px 16px;
+            .nav-link {
+                padding: 0.45rem 0.6rem !important;
                 font-size: 0.8rem;
             }
 
-            .hero-section .hero-buttons {
-                max-width: 200px;
+            .nav-link i {
+                min-width: 14px;
+                margin-right: 0.3rem;
             }
 
-            .robux-calculator {
-                padding: 0.875rem;
-            }
-
-            .calculator-title {
-                font-size: 1rem;
-            }
-
-            .calculator-subtitle {
-                font-size: 0.75rem;
-                margin-bottom: 0.875rem;
-            }
-
-            .calculator-input {
-                padding: 8px;
-                font-size: 0.8rem;
-            }
-
-            .calculator-result {
-                padding: 0.625rem 0.875rem;
-            }
-
-            .result-label {
+            .wallet-balance {
                 font-size: 0.7rem;
+                padding: 0.3rem 0.6rem !important;
             }
 
-            .result-price {
-                font-size: 1rem;
-            }
-
-            .btn-calculator-search {
-                padding: 8px 14px;
-                font-size: 0.8rem;
-            }
-
-            .hero-nav {
-                width: 32px;
-                height: 32px;
-                font-size: 0.85rem;
-            }
-
-            .hero-nav-prev {
-                left: 5px;
-            }
-
-            .hero-nav-next {
-                right: 5px;
+            .btn-login,
+            .btn-register {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.6rem !important;
+                margin: 0.25rem 0.4rem !important;
+                width: calc(100% - 0.8rem) !important;
             }
         }
 
@@ -5690,15 +6344,8 @@
             }
         }
         
-        /* Hide default sidebar on dashboard pages (keep navbar) */
-        body.dashboard-page .sidebar,
-        body.dashboard-page #sidebarOverlay {
-            display: none !important;
-        }
-        
-        body.dashboard-page .sidebar-toggle {
-            display: none !important;
-        }
+        /* Sidebar visible on all pages for mobile */
+        /* No hiding of sidebar on dashboard anymore */
     </style>
     @yield('styles')
 </head>
@@ -5766,8 +6413,7 @@
                             <a class="nav-link sidebar-notification" href="{{ route('notifications.index') }}">
                                 <i class="fas fa-bell"></i>
                                 Notifications
-                                <span class="badge sidebar-notification-badge notification-count-badge"
-                                    style="display: none;">0</span>
+                                <span class="badge sidebar-notification-badge notification-count-badge">0</span>
                             </a>
                         </li>
                     </ul>
@@ -5845,8 +6491,7 @@
                             <a class="nav-link sidebar-notification" href="{{ route('notifications.index') }}">
                                 <i class="fas fa-bell"></i>
                                 Notifications
-                                <span class="badge sidebar-notification-badge notification-count-badge"
-                                    style="display: none;">0</span>
+                                <span class="badge sidebar-notification-badge notification-count-badge">0</span>
                             </a>
                         </li>
                     </ul>
@@ -5864,7 +6509,7 @@
                     <div class="sidebar-section">Seller Dashboard</div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                            <a class="nav-link" href="{{ route('seller.dashboard') }}">
                                 <i class="fas fa-tachometer-alt"></i>
                                 Dashboard
                             </a>
@@ -5874,25 +6519,25 @@
                     <div class="sidebar-section">Quick Actions</div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link sidebar-quick-action" href="{{ route('admin.products.create') }}">
+                            <a class="nav-link sidebar-quick-action" href="{{ route('seller.products.create') }}">
                                 <i class="fas fa-plus"></i>
                                 Add Product
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sidebar-quick-action" href="{{ route('admin.products') }}">
+                            <a class="nav-link sidebar-quick-action" href="{{ route('seller.products.index') }}">
                                 <i class="fas fa-cube"></i>
                                 Manage Products
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sidebar-quick-action" href="{{ route('admin.orders') }}">
+                            <a class="nav-link sidebar-quick-action" href="{{ route('seller.orders.index') }}">
                                 <i class="fas fa-shopping-cart"></i>
                                 View Orders
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link sidebar-quick-action" href="{{ route('wallet.index') }}">
+                            <a class="nav-link sidebar-quick-action" href="{{ route('seller.wallet') }}">
                                 <i class="fas fa-wallet"></i>
                                 My Wallet
                             </a>
@@ -5905,8 +6550,7 @@
                             <a class="nav-link sidebar-notification" href="{{ route('notifications.index') }}">
                                 <i class="fas fa-bell"></i>
                                 Notifications
-                                <span class="badge sidebar-notification-badge notification-count-badge"
-                                    style="display: none;">0</span>
+                                <span class="badge sidebar-notification-badge notification-count-badge">0</span>
                             </a>
                         </li>
                     </ul>
@@ -5914,7 +6558,7 @@
                     <div class="sidebar-section">Account</div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.profile') }}">
+                            <a class="nav-link" href="{{ route('seller.profile') }}">
                                 <i class="fas fa-user-cog"></i>
                                 Profile
                             </a>
@@ -5952,12 +6596,24 @@
         @endauth
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
+    <!-- Sidebar Toggle Button (Mobile Only) -->
+    <button class="sidebar-toggle" id="sidebarToggle" type="button">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <div class="container d-flex">
             <!-- Logo G -->
             <a class="navbar-brand" href="{{ route('home') }}">
                 <span class="logo-g">G</span>
             </a>
+            
+            <!-- Center Brand Name -->
+            <div class="navbar-brand-center">
+                <a href="{{ route('home') }}" style="text-decoration: none; color: #64a0b4; font-weight: 600; font-size: 1.2rem;">
+                    JajanGaming
+                </a>
+            </div>
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
@@ -5995,17 +6651,17 @@
                             </li>
                         @elseif (auth()->user()->isSeller())
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.products') }}">
+                                <a class="nav-link" href="{{ route('seller.products.index') }}">
                                     <i class="fas fa-cube me-1"></i>Products
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.orders') }}">
+                                <a class="nav-link" href="{{ route('seller.orders.index') }}">
                                     <i class="fas fa-shopping-bag me-1"></i>Orders
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                                <a class="nav-link" href="{{ route('seller.dashboard') }}">
                                     <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                                 </a>
                             </li>
@@ -6027,7 +6683,7 @@
                                 <i class="fas fa-bell"></i>
                                 <span
                                     class="position-absolute badge rounded-pill notification-count-badge"
-                                    id="notificationBadge" style="display: none;">
+                                    id="notificationBadge">
                                     0
                                 </span>
                             </a>
@@ -6041,7 +6697,7 @@
                             </li>
                         @elseif (auth()->user()->isSeller())
                             <li class="nav-item me-3">
-                                <a href="{{ route('wallet.index') }}" class="wallet-balance">
+                                <a href="{{ route('seller.wallet') }}" class="wallet-balance">
                                     <i class="fas fa-chart-line"></i>
                                     Pendapatan: Rp {{ number_format(auth()->user()->wallet_balance, 0, ',', '.') }}
                                 </a>
@@ -6074,12 +6730,12 @@
                                         <hr class="dropdown-divider">
                                     </li>
                                 @elseif (auth()->user()->isSeller())
-                                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="fas fa-user me-2"></i>Profil Saya</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('wallet.index') }}"><i class="fas fa-chart-line me-2"></i>Pendapatan</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.products') }}"><i class="fas fa-cube me-2"></i>Produk Saya</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.orders') }}"><i class="fas fa-shopping-bag me-2"></i>Pesanan</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dasbor</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('seller.profile') }}"><i class="fas fa-user me-2"></i>Profil Saya</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('seller.wallet') }}"><i class="fas fa-chart-line me-2"></i>Pendapatan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('seller.products.index') }}"><i class="fas fa-cube me-2"></i>Produk Saya</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('seller.orders.index') }}"><i class="fas fa-shopping-bag me-2"></i>Pesanan</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('seller.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dasbor</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('seller.profile') }}"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -6958,6 +7614,130 @@
                 }
             });
         })
+    </script>
+
+    <!-- Global Loader -->
+    <div id="globalLoader" class="global-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p class="loader-text">Memuat...</p>
+        </div>
+    </div>
+
+    <style>
+    /* Global Loader */
+    .global-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(10, 18, 24, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .global-loader.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .loader-content {
+        text-align: center;
+    }
+
+    .loader-spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(100, 160, 180, 0.2);
+        border-top-color: #64a0b4;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    .loader-text {
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 0;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+    }
+    </style>
+
+    <script>
+    // Global Loader Handler
+    document.addEventListener('DOMContentLoaded', function() {
+        const loader = document.getElementById('globalLoader');
+        
+        // Show loader on form submissions and link clicks
+        document.addEventListener('submit', function(e) {
+            const form = e.target;
+            if (form.tagName === 'FORM' && !form.classList.contains('no-loader')) {
+                loader.classList.add('show');
+            }
+        });
+
+        // Show loader on link clicks (except external links and hash links)
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.href && !link.href.includes('#') && 
+                !link.href.startsWith('http') && 
+                !link.href.startsWith('mailto:') &&
+                !link.href.startsWith('tel:') &&
+                !link.classList.contains('no-loader')) {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+                    loader.classList.add('show');
+                }
+            }
+        });
+
+        // Hide loader when page is fully loaded
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                loader.classList.remove('show');
+            }, 300);
+        });
+
+        // Hide loader on AJAX requests completion
+        if (window.axios) {
+            axios.interceptors.request.use(function(config) {
+                loader.classList.add('show');
+                return config;
+            });
+
+            axios.interceptors.response.use(
+                function(response) {
+                    setTimeout(function() {
+                        loader.classList.remove('show');
+                    }, 300);
+                    return response;
+                },
+                function(error) {
+                    setTimeout(function() {
+                        loader.classList.remove('show');
+                    }, 300);
+                    return Promise.reject(error);
+                }
+            );
+        }
+    });
     </script>
 
     @yield('scripts')

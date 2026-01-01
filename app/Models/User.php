@@ -116,7 +116,25 @@ class User extends Authenticatable
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'seller_id');
+        // Use seller_id if column exists, otherwise relationship won't work
+        // For fallback, use getSellerProducts() method instead
+        if (\Illuminate\Support\Facades\Schema::hasColumn('products', 'seller_id')) {
+            return $this->hasMany(Product::class, 'seller_id');
+        } else {
+            // Return empty relationship if seller_id doesn't exist
+            // Use getSellerProducts() method for querying
+            return $this->hasMany(Product::class, 'seller_id')->whereRaw('1 = 0');
+        }
+    }
+    
+    // Helper method to get seller products (works with or without seller_id column)
+    public function getSellerProducts()
+    {
+        if (\Illuminate\Support\Facades\Schema::hasColumn('products', 'seller_id')) {
+            return Product::where('seller_id', $this->id);
+        } else {
+            return Product::where('seller_name', $this->name);
+        }
     }
 
     // Report relationships
