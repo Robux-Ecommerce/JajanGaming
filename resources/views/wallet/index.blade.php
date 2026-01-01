@@ -484,7 +484,25 @@
                     </div>
                     <div class="balance-amount">
                         @if(auth()->user()->isSeller())
-                            Rp {{ number_format(\App\Models\Order::whereHas('orderItems.product', function($q){ $q->where('seller_name', auth()->user()->name); })->where('status','completed')->sum('total_amount'), 0, ',', '.') }}
+                            @if(isset($totalRevenue))
+                                Rp {{ number_format($totalRevenue, 0, ',', '.') }}
+                            @else
+                                @php
+                                    $sellerProductIds = \App\Models\Product::where(function($query) use ($user) {
+                                        if (\Illuminate\Support\Facades\Schema::hasColumn('products', 'seller_id')) {
+                                            $query->where('seller_id', $user->id);
+                                        } else {
+                                            $query->where('seller_name', $user->name);
+                                        }
+                                    })->pluck('id');
+                                    $totalRevenue = \App\Models\OrderItem::whereIn('product_id', $sellerProductIds)
+                                        ->whereHas('order', function($q) {
+                                            $q->where('status', 'completed');
+                                        })
+                                        ->sum(\Illuminate\Support\Facades\DB::raw('quantity * price'));
+                                @endphp
+                                Rp {{ number_format($totalRevenue, 0, ',', '.') }}
+                            @endif
                         @else
                             Rp {{ number_format($user->wallet_balance, 0, ',', '.') }}
                         @endif
@@ -575,7 +593,64 @@
                 <h3>{{ auth()->user()->isSeller() ? 'Ringkasan Order Selesai' : 'Riwayat Transaksi' }}</h3>
             </div>
             <div class="history-body">
-                @if(auth()->user()->isSeller())
+                @if(auth()->user()->isSeller() && isset($recentTransactions))
+                    @if($recentTransactions->count() > 0)
+                        <div class="transaction-list">
+                            @foreach($recentTransactions as $order)
+                                @php
+                                    $sellerProductIds = \App\Models\Product::where(function($query) use ($user) {
+                                        if (\Illuminate\Support\Facades\Schema::hasColumn('products', 'seller_id')) {
+                                            $query->where('seller_id', $user->id);
+                                        } else {
+                                            $query->where('seller_name', $user->name);
+                                        }
+                                    })->pluck('id');
+                                    $sellerOrderItems = $order->orderItems->filter(function($item) use ($sellerProductIds) {
+                                        return $sellerProductIds->contains($item->product_id);
+                                    });
+                                    $sellerOrderTotal = $sellerOrderItems->sum(function($item) {
+                                        return $item->quantity * $item->price;
+                                    });
+                                @endphp
+                                <div class="transaction-item">
+                                    <div class="transaction-icon purchase">
+                                        <i class="fas fa-shopping-bag"></i>
+                                    </div>
+                                    <div class="transaction-details">
+                                        <div class="transaction-type">
+                                            Pesanan #{{ $order->id }} dari {{ $order->user->name }}
+                                        </div>
+                                        <div class="transaction-desc">
+                                            {{ $sellerOrderItems->sum('quantity') }} item - {{ $order->created_at->format('d M Y H:i') }}
+                                        </div>
+                                    </div>
+                                    <div class="transaction-meta">
+                                        <div class="transaction-amount positive">
+                                            +Rp {{ number_format($sellerOrderTotal, 0, ',', '.') }}
+                                        </div>
+                                        <div class="transaction-date">{{ $order->created_at->format('M d, H:i') }}</div>
+                                        <span class="transaction-status success">Selesai</span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        
+                        @if($recentTransactions->hasPages())
+                        <div class="pagination-wrapper">
+                            <div class="pagination-info">
+                                Menampilkan {{ $recentTransactions->firstItem() }} hingga {{ $recentTransactions->lastItem() }} dari {{ $recentTransactions->total() }} hasil
+                            </div>
+                            {{ $recentTransactions->links('pagination.bootstrap-5') }}
+                        </div>
+                        @endif
+                    @else
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h4>Belum Ada Transaksi</h4>
+                            <p>Pendapatan akan muncul di sini setelah pesanan selesai</p>
+                        </div>
+                    @endif
+                @elseif(auth()->user()->isSeller())
                 <div class="empty-state">
                     <i class="fas fa-clipboard-list"></i>
                     <h4>View Orders Menu</h4>

@@ -275,18 +275,54 @@ class AdminController extends Controller
     }
 
 
-    public function users()
+    public function users(Request $request)
     {
         // Check if user is admin only
         if (!auth()->user()->isAdmin()) {
             abort(403, 'Unauthorized access. Admin privileges required.');
         }
 
-        $users = User::where('role', 'user')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $role = $request->get('role', 'all'); // Default to 'all' to show all users
 
-        return view('admin.users.index', compact('users'));
+        $query = User::query();
+        
+        // Filter by role if specified
+        if ($role !== 'all') {
+            $query->where('role', $role);
+        }
+
+        $users = $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
+
+        return view('admin.users.index', compact('users', 'role'));
+    }
+
+    public function deleteUser(User $user)
+    {
+        // Check if user is admin only
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized access. Admin privileges required.');
+        }
+
+        // Prevent deleting yourself
+        if ($user->id === auth()->id()) {
+            return redirect()->route('admin.users')
+                ->with('error', 'You cannot delete your own account!');
+        }
+
+        // Prevent deleting other admins (optional safety check)
+        if ($user->isAdmin() && $user->id !== auth()->id()) {
+            return redirect()->route('admin.users')
+                ->with('error', 'Cannot delete admin accounts!');
+        }
+
+        $userRole = $user->role;
+        $userName = $user->name;
+
+        // Delete user (cascade will handle related records if foreign keys are set up)
+        $user->delete();
+
+        return redirect()->route('admin.users', ['role' => $userRole])
+            ->with('success', "User {$userName} has been deleted successfully!");
     }
 
     public function transactions()

@@ -210,7 +210,39 @@ class SellerController extends Controller
     public function wallet()
     {
         $seller = auth()->user();
-        return view('seller.wallet', compact('seller'));
+        
+        // Get seller's product IDs
+        $sellerProductIds = Product::where(function($query) use ($seller) {
+            if (Schema::hasColumn('products', 'seller_id')) {
+                $query->where('seller_id', $seller->id);
+            } else {
+                $query->where('seller_name', $seller->name);
+            }
+        })->pluck('id');
+        
+        // Get orders that contain seller's products
+        $sellerOrderIds = OrderItem::whereIn('product_id', $sellerProductIds)
+            ->pluck('order_id')
+            ->unique();
+        
+        // Calculate total revenue from completed orders
+        $totalRevenue = OrderItem::whereIn('product_id', $sellerProductIds)
+            ->whereHas('order', function($query) {
+                $query->where('status', 'completed');
+            })
+            ->sum(DB::raw('quantity * price'));
+        
+        // Get recent completed orders for transaction history
+        $recentTransactions = Order::whereIn('id', $sellerOrderIds)
+            ->where('status', 'completed')
+            ->with(['user', 'orderItems.product'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        
+        // Pass as user so view recognizes it
+        $user = $seller;
+        
+        return view('wallet.index', compact('user', 'recentTransactions', 'totalRevenue'));
     }
 
     // Profile seller

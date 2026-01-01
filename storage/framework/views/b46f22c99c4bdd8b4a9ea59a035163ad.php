@@ -125,6 +125,16 @@
     font-weight: 500;
 }
 
+.menu-badge {
+    margin-left: auto;
+    background: linear-gradient(135deg, #c47070 0%, #b05858 100%);
+    color: white;
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
 .dashboard-main {
     flex: 1;
     margin-left: 280px;
@@ -188,6 +198,13 @@
             <a href="<?php echo e(route('seller.reports.index')); ?>" class="menu-item active">
                 <i class="fas fa-exclamation-circle"></i>
                 <span>Laporan Saya</span>
+                <?php if($pendingReports > 0): ?>
+                    <span class="menu-badge"><?php echo e($pendingReports); ?></span>
+                <?php endif; ?>
+            </a>
+            <a href="<?php echo e(route('seller.transactions')); ?>" class="menu-item">
+                <i class="fas fa-receipt"></i>
+                <span>Detail Transaksi</span>
             </a>
             <a href="<?php echo e(route('seller.profile')); ?>" class="menu-item">
                 <i class="fas fa-cog"></i>

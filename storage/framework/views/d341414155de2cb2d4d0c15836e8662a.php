@@ -231,7 +231,10 @@
                             <div class="card-landscape h-100"
                                 onclick="window.location='<?php echo e(route('products.show', $product)); ?>'">
                                 <div class="card-landscape-image">
-                                    <img src="<?php echo e(asset('img/' . $product->image)); ?>" alt="<?php echo e($product->name); ?>">
+                                    <?php
+                                        $imageUrl = $product->image_url ?? (file_exists(public_path('storage/' . $product->image)) ? asset('storage/' . $product->image) : asset('img/' . $product->image));
+                                    ?>
+                                    <img src="<?php echo e($imageUrl); ?>" alt="<?php echo e($product->name); ?>">
                                     <button class="favorite-btn-landscape"
                                         onclick="event.stopPropagation(); toggleFavorite(this, <?php echo e($product->id); ?>)">
                                         <i class="far fa-heart"></i>

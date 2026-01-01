@@ -203,7 +203,10 @@
                     <?php $__empty_1 = true; $__currentLoopData = $topSellingProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $topProduct): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <div class="upcoming-game-card">
                             <div class="upcoming-game-image">
-                                <img src="<?php echo e(asset('img/' . $topProduct->image)); ?>" alt="<?php echo e($topProduct->name); ?>">
+                                <?php
+                                    $topImageUrl = file_exists(public_path('storage/' . $topProduct->image)) ? asset('storage/' . $topProduct->image) : asset('img/' . $topProduct->image);
+                                ?>
+                                <img src="<?php echo e($topImageUrl); ?>" alt="<?php echo e($topProduct->name); ?>">
                                 <button class="favorite-btn" onclick="toggleFavorite(this, <?php echo e($topProduct->id); ?>)">
                                     <i class="far fa-heart"></i>
                                 </button>
@@ -326,7 +329,10 @@
                         <div class="card-landscape h-100"
                             onclick="window.location='<?php echo e(route('products.show', $product)); ?>'">
                             <div class="card-landscape-image">
-                                <img src="<?php echo e(asset('img/' . $product->image)); ?>" alt="<?php echo e($product->name); ?>">
+                                <?php
+                                    $imageUrl = $product->image_url ?? (file_exists(public_path('storage/' . $product->image)) ? asset('storage/' . $product->image) : asset('img/' . $product->image));
+                                ?>
+                                <img src="<?php echo e($imageUrl); ?>" alt="<?php echo e($product->name); ?>">
                                 <button class="favorite-btn-landscape"
                                     onclick="event.stopPropagation(); toggleFavorite(this, <?php echo e($product->id); ?>)">
                                     <i class="far fa-heart"></i>

@@ -18,9 +18,14 @@
                             </h1>
                             <p class="mb-0" style="font-size: 0.9rem; color: #a0b5c5;">Pantau dan kelola semua transaksi sistem</p>
                         </div>
-                        <a href="<?php echo e(route('admin.dashboard')); ?>" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-arrow-left me-1"></i>Kembali
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="<?php echo e(route('admin.transactions.export')); ?>" class="btn btn-success btn-sm">
+                                <i class="fas fa-download me-1"></i>Export CSV
+                            </a>
+                            <a href="<?php echo e(route('admin.dashboard')); ?>" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-arrow-left me-1"></i>Kembali
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,22 +92,22 @@
                     <?php if($transactions->count() > 0): ?>
                         <div class="table-responsive">
                             <table class="table table-sm table-hover mb-0">
-                                <thead class="table-light">
+                                <thead>
                                     <tr>
-                                        <th style="width: 5%; font-size: 0.85rem;">No</th>
-                                        <th style="width: 20%; font-size: 0.85rem;">Pengguna</th>
-                                        <th style="width: 10%; font-size: 0.85rem;">Tipe</th>
-                                        <th style="width: 12%; font-size: 0.85rem;">Metode</th>
-                                        <th style="width: 15%; font-size: 0.85rem;">Jumlah</th>
-                                        <th style="width: 15%; font-size: 0.85rem;">Tanggal</th>
-                                        <th style="width: 12%; font-size: 0.85rem; text-align: center;">Status</th>
+                                        <th style="width: 5%;">No</th>
+                                        <th style="width: 20%;">Pengguna</th>
+                                        <th style="width: 10%;">Tipe</th>
+                                        <th style="width: 12%;">Metode</th>
+                                        <th style="width: 15%;">Jumlah</th>
+                                        <th style="width: 15%;">Tanggal</th>
+                                        <th style="width: 12%; text-align: center;">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $__empty_1 = true; $__currentLoopData = $transactions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                         <tr class="transaction-row">
                                             <td>
-                                                <span class="fw-600" style="font-size: 0.9rem; color: #1a2332;">
+                                                <span class="fw-600">
                                                     <?php echo e(($transactions->currentPage() - 1) * $transactions->perPage() + $loop->iteration); ?>
 
                                                 </span>
@@ -114,51 +119,51 @@
 
                                                     </div>
                                                     <div>
-                                                        <div class="fw-600" style="font-size: 0.9rem; color: #1a2332;"><?php echo e($transaction->user->name); ?></div>
-                                                        <small style="color: #7a8a9a; font-size: 0.8rem;"><?php echo e($transaction->user->email); ?></small>
+                                                        <div class="fw-600"><?php echo e($transaction->user->name); ?></div>
+                                                        <small class="text-muted"><?php echo e($transaction->user->email); ?></small>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <div style="font-size: 0.85rem;">
+                                                <div>
                                                     <?php if($transaction->type === 'topup'): ?>
-                                                        <span style="color: #64a0b4; font-weight: 600;">
+                                                        <span class="transaction-type-topup">
                                                             <i class="fas fa-arrow-up me-1"></i>Top Up Wallet
                                                         </span>
-                                                        <br><small style="color: #7a8a9a;">Dari: <?php echo e($transaction->payment_method === 'wallet' ? 'Dompet Internal' : 'Payment Gateway'); ?></small>
+                                                        <br><small class="text-muted">Dari: <?php echo e($transaction->payment_method === 'wallet' ? 'Dompet Internal' : 'Payment Gateway'); ?></small>
                                                     <?php elseif($transaction->type === 'purchase'): ?>
-                                                        <span style="color: #6ebe96; font-weight: 600;">
+                                                        <span class="transaction-type-purchase">
                                                             <i class="fas fa-shopping-cart me-1"></i>Pembelian Produk
                                                         </span>
-                                                        <br><small style="color: #7a8a9a;">Order: <?php echo e($transaction->order->id ?? 'N/A'); ?></small>
+                                                        <br><small class="text-muted">Order: <?php echo e($transaction->order->id ?? 'N/A'); ?></small>
                                                     <?php elseif($transaction->type === 'withdrawal'): ?>
-                                                        <span style="color: #e07856; font-weight: 600;">
+                                                        <span class="transaction-type-withdrawal">
                                                             <i class="fas fa-arrow-down me-1"></i>Penarikan Dana
                                                         </span>
                                                     <?php else: ?>
-                                                        <span style="color: #a0b5c5; font-weight: 600;"><?php echo e(ucfirst($transaction->type)); ?></span>
+                                                        <span class="transaction-type-other"><?php echo e(ucfirst($transaction->type)); ?></span>
                                                     <?php endif; ?>
                                                 </div>
                                             </td>
                                             <td>
                                                 <?php if($transaction->payment_method === 'wallet'): ?>
-                                                    <span class="badge bg-light text-dark" style="font-size: 0.75rem;">
+                                                    <span class="badge badge-wallet">
                                                         <i class="fas fa-wallet me-1"></i>DompetKu
                                                     </span>
                                                 <?php else: ?>
-                                                    <span class="badge bg-info" style="font-size: 0.75rem;">
+                                                    <span class="badge badge-gateway">
                                                         <i class="fas fa-credit-card me-1"></i>Gateway
                                                     </span>
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <span class="fw-700" style="color: #64a0b4; font-size: 0.9rem;">
+                                                <span class="fw-700 transaction-amount">
                                                     Rp <?php echo e(number_format($transaction->amount, 0, ',', '.')); ?>
 
                                                 </span>
                                             </td>
                                             <td>
-                                                <small style="color: #7a8a9a; font-size: 0.8rem;">
+                                                <small class="text-muted">
                                                     <?php echo e($transaction->created_at->format('d M Y H:i')); ?>
 
                                                 </small>
@@ -217,11 +222,11 @@
 <style>
 /* Statistics Cards - Compact Design */
 .stats-card {
-    padding: 1rem;
+    padding: 0.85rem;
     border-radius: 10px;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
     color: white;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -270,7 +275,7 @@
 }
 
 .stats-icon {
-    font-size: 2rem;
+    font-size: 1.6rem;
     opacity: 1;
     position: relative;
     z-index: 1;
@@ -284,64 +289,133 @@
 }
 
 .stats-content h6 {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
     opacity: 1;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
 .stats-content h3 {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: 800;
     margin: 0;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Table Styling */
+/* Table Styling - Transparent */
 .table-responsive {
-    background: linear-gradient(135deg, #1a2a38 0%, #243645 100%);
+    background: rgba(37, 48, 64, 0.4);
     border-radius: 12px;
-    border: 1px solid rgba(100, 160, 180, 0.2);
+    border: 1px solid rgba(100, 160, 180, 0.15);
+    backdrop-filter: blur(10px);
 }
 
 .table {
-    font-size: 0.9rem;
-    color: #e0e0e0;
+    font-size: 0.95rem;
+    color: #ffffff;
     margin-bottom: 0;
+    background: transparent;
 }
 
 .table thead {
-    background-color: rgba(100, 160, 180, 0.15);
-    border-bottom: 2px solid rgba(100, 160, 180, 0.3);
+    background-color: rgba(100, 160, 180, 0.1);
+    border-bottom: 2px solid rgba(100, 160, 180, 0.2);
 }
 
 .table thead th {
-    color: #a0c5d5;
+    color: #b8d4e0;
     font-weight: 700;
-    padding: 0.85rem 0.85rem;
+    padding: 1rem 0.85rem;
     border: none;
     letter-spacing: 0.3px;
+    font-size: 0.9rem;
+}
+
+.table tbody {
+    background: transparent;
 }
 
 .table tbody td {
-    padding: 0.75rem 0.85rem;
+    padding: 1rem 0.85rem;
     vertical-align: middle;
-    border-bottom: 1px solid rgba(100, 160, 180, 0.1);
-    color: #e0e0e0;
+    border-bottom: 1px solid rgba(100, 160, 180, 0.08);
+    color: #e8f0f5;
+    background: transparent;
 }
 
 .transaction-row {
     transition: background-color 0.2s ease;
+    background: transparent;
 }
 
 .transaction-row:hover {
-    background-color: rgba(100, 160, 180, 0.1) !important;
+    background-color: rgba(100, 160, 180, 0.12) !important;
 }
 
 .transaction-row td {
     transition: background-color 0.2s ease;
+}
+
+.fw-600 {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.85rem;
+}
+
+.transaction-type-topup {
+    color: #7ab8c8;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.transaction-type-purchase {
+    color: #6ebe96;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.transaction-type-withdrawal {
+    color: #e07856;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.transaction-type-other {
+    color: #a0b5c5;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.transaction-amount {
+    color: #64a0b4;
+    font-size: 0.95rem;
+}
+
+.badge-wallet {
+    background: rgba(100, 160, 180, 0.2);
+    color: #7ab8c8;
+    border: 1px solid rgba(100, 160, 180, 0.3);
+    font-size: 0.8rem;
+    padding: 0.35rem 0.6rem;
+}
+
+.badge-gateway {
+    background: rgba(100, 160, 180, 0.2);
+    color: #64a0b4;
+    border: 1px solid rgba(100, 160, 180, 0.3);
+    font-size: 0.8rem;
+    padding: 0.35rem 0.6rem;
 }
 
 /* Avatar Mini */

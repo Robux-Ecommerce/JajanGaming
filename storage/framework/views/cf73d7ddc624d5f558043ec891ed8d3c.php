@@ -69,19 +69,22 @@
     .stat-card {
         background: linear-gradient(145deg, rgba(37, 48, 64, 0.85) 0%, rgba(30, 42, 54, 0.9) 100%);
         border-radius: 12px;
-        padding: 0.85rem;
+        padding: 0.7rem;
         border: 1px solid rgba(100, 160, 180, 0.1);
         text-align: center;
         transition: all 0.3s ease;
+        cursor: pointer;
+        display: block;
     }
 
     .stat-card:hover {
         transform: translateY(-2px);
-        border-color: rgba(100, 160, 180, 0.25);
+        border-color: rgba(100, 160, 180, 0.4);
+        background: linear-gradient(145deg, rgba(37, 48, 64, 0.95) 0%, rgba(30, 42, 54, 1) 100%);
     }
 
     .stat-value {
-        font-size: 1.35rem;
+        font-size: 1.15rem;
         font-weight: 700;
         margin-bottom: 0.15rem;
     }
@@ -215,6 +218,39 @@
     .role-badge.seller { background: rgba(245, 192, 106, 0.2); color: #f5c06a; }
     .role-badge.user { background: rgba(100, 160, 180, 0.2); color: #7ab8c8; }
 
+    .role-badge i {
+        margin-right: 0.25rem;
+        font-size: 0.6rem;
+    }
+
+    .btn-delete-user {
+        background: linear-gradient(135deg, rgba(232, 122, 118, 0.2) 0%, rgba(201, 90, 86, 0.2) 100%);
+        border: 1px solid rgba(232, 122, 118, 0.3);
+        color: #e87a76;
+        padding: 0.5rem;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+    }
+
+    .btn-delete-user:hover {
+        background: linear-gradient(135deg, rgba(232, 122, 118, 0.3) 0%, rgba(201, 90, 86, 0.3) 100%);
+        border-color: rgba(232, 122, 118, 0.5);
+        color: #ffffff;
+        transform: translateY(-1px);
+    }
+
+    .btn-delete-user:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
     .status-badge {
         padding: 0.2rem 0.5rem;
         border-radius: 8px;
@@ -280,24 +316,53 @@
             </a>
         </div>
 
+        <?php if(session('success')): ?>
+        <div style="margin-bottom: 1rem; padding: 0.75rem 1rem; background: rgba(111, 207, 111, 0.15); border-left: 4px solid #6fcf6f; border-radius: 8px; color: #6fcf6f;">
+            <i class="fas fa-check-circle"></i> <?php echo e(session('success')); ?>
+
+        </div>
+        <?php endif; ?>
+
+        <?php if(session('error')): ?>
+        <div style="margin-bottom: 1rem; padding: 0.75rem 1rem; background: rgba(232, 122, 118, 0.15); border-left: 4px solid #e87a76; border-radius: 8px; color: #e87a76;">
+            <i class="fas fa-exclamation-circle"></i> <?php echo e(session('error')); ?>
+
+        </div>
+        <?php endif; ?>
+
         <div class="stats-row">
-            <div class="stat-card">
-                <div class="stat-value total"><?php echo e($users->total()); ?></div>
+            <a href="<?php echo e(route('admin.users', ['role' => 'all'])); ?>" class="stat-card" style="text-decoration: none; color: inherit;">
+                <div class="stat-value total"><?php echo e(\App\Models\User::count()); ?></div>
                 <div class="stat-label">Total Users</div>
-            </div>
-            <div class="stat-card">
+            </a>
+            <a href="<?php echo e(route('admin.users', ['role' => 'admin'])); ?>" class="stat-card" style="text-decoration: none; color: inherit;">
                 <div class="stat-value admin"><?php echo e(\App\Models\User::where('role', 'admin')->count()); ?></div>
                 <div class="stat-label">Admins</div>
-            </div>
-            <div class="stat-card">
+            </a>
+            <a href="<?php echo e(route('admin.users', ['role' => 'seller'])); ?>" class="stat-card" style="text-decoration: none; color: inherit;">
                 <div class="stat-value seller"><?php echo e(\App\Models\User::where('role', 'seller')->count()); ?></div>
                 <div class="stat-label">Sellers</div>
-            </div>
-            <div class="stat-card">
+            </a>
+            <a href="<?php echo e(route('admin.users', ['role' => 'user'])); ?>" class="stat-card" style="text-decoration: none; color: inherit;">
                 <div class="stat-value user"><?php echo e(\App\Models\User::where('role', 'user')->count()); ?></div>
                 <div class="stat-label">Customers</div>
-            </div>
+            </a>
         </div>
+
+        <?php
+            $currentRole = $role ?? 'all';
+        ?>
+
+        <?php if($currentRole !== 'all'): ?>
+        <div style="margin-bottom: 1rem; padding: 0.75rem 1rem; background: rgba(100, 160, 180, 0.1); border-radius: 10px; border: 1px solid rgba(100, 160, 180, 0.2);">
+            <span style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem;">
+                <i class="fas fa-filter"></i> Filtering by: <strong style="color: #64a0b4; text-transform: capitalize;"><?php echo e($currentRole); ?></strong>
+                <a href="<?php echo e(route('admin.users')); ?>" style="margin-left: 0.5rem; color: #64a0b4; text-decoration: none;">
+                    <i class="fas fa-times"></i> Clear filter
+                </a>
+            </span>
+        </div>
+        <?php endif; ?>
 
         <div class="users-grid">
             <?php $__empty_1 = true; $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
@@ -325,7 +390,15 @@
                 </div>
 
                 <div class="user-footer">
-                    <span class="role-badge <?php echo e($user->role); ?>"><?php echo e(ucfirst($user->role)); ?></span>
+                    <span class="role-badge <?php echo e($user->role); ?>">
+                        <?php if($user->role === 'admin'): ?>
+                            <i class="fas fa-shield-alt"></i> Admin
+                        <?php elseif($user->role === 'seller'): ?>
+                            <i class="fas fa-store"></i> Seller
+                        <?php else: ?>
+                            <i class="fas fa-user"></i> User
+                        <?php endif; ?>
+                    </span>
                     <span class="status-badge">Active</span>
                 </div>
 
@@ -333,6 +406,24 @@
                     <i class="fas fa-calendar-alt me-1"></i>
                     Joined <?php echo e($user->created_at->format('M d, Y')); ?>
 
+                </div>
+
+                <div style="padding: 0.65rem 0.85rem; border-top: 1px solid rgba(100, 160, 180, 0.08); background: rgba(0, 0, 0, 0.1);">
+                    <?php if($user->id !== auth()->id()): ?>
+                    <form action="<?php echo e(route('admin.users.delete', $user)); ?>" method="POST" 
+                          onsubmit="return confirm('Are you sure you want to delete <?php echo e($user->name); ?>? This action cannot be undone!');" 
+                          style="margin: 0;">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('DELETE'); ?>
+                        <button type="submit" class="btn-delete-user" style="width: 100%;">
+                            <i class="fas fa-trash-alt"></i> Delete User
+                        </button>
+                    </form>
+                    <?php else: ?>
+                    <button type="button" disabled style="width: 100%; opacity: 0.5; cursor: not-allowed;" class="btn-delete-user">
+                        <i class="fas fa-ban"></i> Cannot Delete Own Account
+                    </button>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>

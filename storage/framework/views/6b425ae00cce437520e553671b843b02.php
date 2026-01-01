@@ -27,7 +27,7 @@
                     <thead>
                         <tr style="background: rgba(100, 160, 180, 0.1); border-bottom: 1px solid rgba(100, 160, 180, 0.15);">
                             <th style="padding: 1rem; text-align: left; color: #64a0b4; font-weight: 600;">Produk</th>
-                            <th style="padding: 1rem; text-align: left; color: #64a0b4; font-weight: 600;">Kategori</th>
+                            <th style="padding: 1rem; text-align: left; color: #64a0b4; font-weight: 600;">Game</th>
                             <th style="padding: 1rem; text-align: center; color: #64a0b4; font-weight: 600;">Harga</th>
                             <th style="padding: 1rem; text-align: center; color: #64a0b4; font-weight: 600;">Stok</th>
                             <th style="padding: 1rem; text-align: center; color: #64a0b4; font-weight: 600;">Aksi</th>
@@ -51,11 +51,15 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td style="padding: 1rem;"><?php echo e($product->category); ?></td>
+                                <td style="padding: 1rem;">
+                                    <span style="color: #64a0b4;"><?php echo e($product->game_name); ?></span>
+                                    <br>
+                                    <small style="color: #999; text-transform: capitalize;"><?php echo e($product->game_type); ?></small>
+                                </td>
                                 <td style="padding: 1rem; text-align: center;">Rp <?php echo e(number_format($product->price, 0, ',', '.')); ?></td>
                                 <td style="padding: 1rem; text-align: center;">
-                                    <span style="background: <?php echo e($product->stock > 0 ? 'rgba(76, 175, 80, 0.2)' : 'rgba(244, 67, 54, 0.2)'); ?>; color: <?php echo e($product->stock > 0 ? '#4caf50' : '#f44336'); ?>; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
-                                        <?php echo e($product->stock); ?> unit
+                                    <span style="background: <?php echo e($product->quantity > 0 ? 'rgba(76, 175, 80, 0.2)' : 'rgba(244, 67, 54, 0.2)'); ?>; color: <?php echo e($product->quantity > 0 ? '#4caf50' : '#f44336'); ?>; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
+                                        <?php echo e($product->quantity); ?> unit
                                     </span>
                                 </td>
                                 <td style="padding: 1rem; text-align: center;">

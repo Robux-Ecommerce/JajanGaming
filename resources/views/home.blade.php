@@ -205,7 +205,10 @@
                     @forelse($topSellingProducts as $index => $topProduct)
                         <div class="upcoming-game-card">
                             <div class="upcoming-game-image">
-                                <img src="{{ asset('img/' . $topProduct->image) }}" alt="{{ $topProduct->name }}">
+                                @php
+                                    $topImageUrl = file_exists(public_path('storage/' . $topProduct->image)) ? asset('storage/' . $topProduct->image) : asset('img/' . $topProduct->image);
+                                @endphp
+                                <img src="{{ $topImageUrl }}" alt="{{ $topProduct->name }}">
                                 <button class="favorite-btn" onclick="toggleFavorite(this, {{ $topProduct->id }})">
                                     <i class="far fa-heart"></i>
                                 </button>
@@ -326,7 +329,10 @@
                         <div class="card-landscape h-100"
                             onclick="window.location='{{ route('products.show', $product) }}'">
                             <div class="card-landscape-image">
-                                <img src="{{ asset('img/' . $product->image) }}" alt="{{ $product->name }}">
+                                @php
+                                    $imageUrl = $product->image_url ?? (file_exists(public_path('storage/' . $product->image)) ? asset('storage/' . $product->image) : asset('img/' . $product->image));
+                                @endphp
+                                <img src="{{ $imageUrl }}" alt="{{ $product->name }}">
                                 <button class="favorite-btn-landscape"
                                     onclick="event.stopPropagation(); toggleFavorite(this, {{ $product->id }})">
                                     <i class="far fa-heart"></i>

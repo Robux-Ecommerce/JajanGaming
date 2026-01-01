@@ -136,6 +136,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Users management (Admin only)
     Route::middleware('admin')->group(function () {
         Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
         Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
         Route::get('/transactions/export', [AdminController::class, 'exportTransactions'])->name('transactions.export');
         

@@ -64,4 +64,28 @@ class Product extends Model
     {
         return $this->ratings()->count();
     }
+
+    /**
+     * Get the image URL for the product
+     * Handles both storage paths and legacy public/img paths
+     */
+    public function getImageUrlAttribute()
+    {
+        if (!$this->image) {
+            return null;
+        }
+
+        // Check if image exists in storage
+        if (file_exists(public_path('storage/' . $this->image))) {
+            return asset('storage/' . $this->image);
+        }
+
+        // Check if image exists in public/img (legacy)
+        if (file_exists(public_path('img/' . $this->image))) {
+            return asset('img/' . $this->image);
+        }
+
+        // Return storage path anyway (might be accessible)
+        return asset('storage/' . $this->image);
+    }
 }

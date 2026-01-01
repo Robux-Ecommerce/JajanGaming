@@ -223,7 +223,10 @@
                             <div class="card-landscape h-100"
                                 onclick="window.location='{{ route('products.show', $product) }}'">
                                 <div class="card-landscape-image">
-                                    <img src="{{ asset('img/' . $product->image) }}" alt="{{ $product->name }}">
+                                    @php
+                                        $imageUrl = $product->image_url ?? (file_exists(public_path('storage/' . $product->image)) ? asset('storage/' . $product->image) : asset('img/' . $product->image));
+                                    @endphp
+                                    <img src="{{ $imageUrl }}" alt="{{ $product->name }}">
                                     <button class="favorite-btn-landscape"
                                         onclick="event.stopPropagation(); toggleFavorite(this, {{ $product->id }})">
                                         <i class="far fa-heart"></i>
